@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rifa Apartamento</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f4f0;
+    --bg3: #eeede9;
+    --text: #1a1a18;
+    --text2: #6b6b67;
+    --border: rgba(0,0,0,0.12);
+    --border2: rgba(0,0,0,0.22);
+    --blue: #185FA5;
+    --blue-bg: #E6F1FB;
+    --green: #3B6D11;
+    --green-bg: #EAF3DE;
+    --amber: #854F0B;
+    --amber-bg: #FAEEDA;
+    --red: #A32D2D;
+    --red-bg: #FCEBEB;
+    --radius: 10px;
+    --radius-sm: 7px;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg2); color: var(--text); min-height: 100vh; }
+  header { background: var(--bg); border-bottom: 0.5px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; }
+  header h1 { font-size: 17px; font-weight: 600; }
+  header span { font-size: 12px; color: var(--text2); background: var(--amber-bg); color: var(--amber); padding: 3px 10px; border-radius: 99px; font-weight: 500; }
+  .container { max-width: 780px; margin: 0 auto; padding: 1.5rem 1rem; }
+  .tabs { display: flex; gap: 4px; margin-bottom: 1.5rem; border-bottom: 0.5px solid var(--border); }
+  .tab { padding: 9px 18px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; background: none; color: var(--text2); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s; }
+  .tab.active { color: var(--text); border-bottom-color: var(--text); }
+  .section { display: none; }
+  .section.active { display: block; }
+  .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 12px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .metric { background: var(--bg2); border-radius: var(--radius-sm); padding: 0.9rem 1rem; }
+  .metric-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .metric-value { font-size: 20px; font-weight: 600; }
+  select, input[type=text] { width: 100%; padding: 9px 12px; border: 0.5px solid var(--border2); border-radius: var(--radius-sm); font-size: 14px; background: var(--bg); color: var(--text); outline: none; transition: border-color 0.15s; }
+  select:focus, input:focus { border-color: var(--blue); }
+  label { font-size: 12px; color: var(--text2); display: block; margin-bottom: 5px; margin-top: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+  .btn { padding: 9px 18px; border: 0.5px solid var(--border2); border-radius: var(--radius-sm); background: var(--bg); color: var(--text); cursor: pointer; font-size: 13px; font-weight: 500; transition: background 0.12s; }
+  .btn:hover { background: var(--bg2); }
+  .btn-primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .btn-primary:hover { opacity: 0.82; }
+  .btn-danger { background: var(--red-bg); color: var(--red); border-color: transparent; }
+  .btn-danger:hover { opacity: 0.8; }
+  .badge { display: inline-block; font-size: 11px; padding: 3px 9px; border-radius: 99px; font-weight: 600; }
+  .badge-green { background: var(--green-bg); color: var(--green); }
+  .badge-amber { background: var(--amber-bg); color: var(--amber); }
+  .badge-red { background: var(--red-bg); color: var(--red); }
+  .divider { border: none; border-top: 0.5px solid var(--border); margin: 14px 0; }
+  .row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; font-size: 13px; border-bottom: 0.5px solid var(--border); }
+  .row:last-child { border-bottom: none; }
+  .muted { color: var(--text2); }
+  .month-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; padding: 5px 12px; border-radius: 99px; border: 0.5px solid var(--border2); cursor: pointer; margin: 3px; user-select: none; transition: background 0.1s; font-weight: 500; }
+  .month-chip.selected { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .month-chip.paid { opacity: 0.4; cursor: not-allowed; text-decoration: line-through; }
+  .summary-box { background: var(--bg2); border-radius: var(--radius-sm); padding: 1rem 1.1rem; margin-top: 1rem; }
+  .total-line { display: flex; justify-content: space-between; font-size: 13px; padding: 4px 0; }
+  .total-line.big { font-size: 17px; font-weight: 600; margin-top: 10px; border-top: 0.5px solid var(--border); padding-top: 10px; }
+  .num-chip { font-size: 11px; padding: 3px 8px; border-radius: 5px; border: 0.5px solid var(--border); background: var(--bg2); display: inline-block; margin: 2px; }
+  .num-grid { display: flex; flex-wrap: wrap; margin-top: 6px; }
+  .vendedor-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 0.5px solid var(--border); font-size: 13px; cursor: pointer; transition: color 0.1s; }
+  .vendedor-row:hover { color: var(--blue); }
+  .vendedor-row:last-child { border-bottom: none; }
+  .search-box { margin-bottom: 14px; }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 10px 22px; border-radius: 99px; font-size: 13px; font-weight: 500; opacity: 0; transition: opacity 0.3s; z-index: 999; pointer-events: none; }
+  .toast.show { opacity: 1; }
+  .progress-bar { height: 6px; background: var(--bg3); border-radius: 99px; overflow: hidden; margin-top: 8px; }
+  .progress-fill { height: 100%; border-radius: 99px; background: var(--blue); transition: width 0.3s; }
+  .empty { text-align: center; color: var(--text2); font-size: 13px; padding: 2rem 0; }
+  @media(max-width:500px){
+    .grid3 { grid-template-columns: 1fr 1fr; }
+    .metric-value { font-size: 16px; }
+    header h1 { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div style="font-size:22px;">🏠</div>
+  <h1>Rifa Apartamentos</h1>
+  <span>12 cuotas · $100.000/núm</span>
+</header>
+
+<div class="container">
+<div class="tabs">
+  <button class="tab active" onclick="showTab('cobrar',this)">Cobrar cuota</button>
+  <button class="tab" onclick="showTab('vendedores',this)">Vendedores</button>
+  <button class="tab" onclick="showTab('numeros',this)">Mapa</button>
+  <button class="tab" onclick="showTab('resumen',this)">Resumen</button>
+</div>
+
+<!-- TAB: COBRAR -->
+<div id="tab-cobrar" class="section active">
+  <div class="card">
+    <label>Vendedor</label>
+    <select id="sel-vendedor" onchange="onVendedorChange()">
+      <option value="">-- Seleccionar vendedor --</option>
+    </select>
+    <div id="info-vendedor" style="display:none;margin-top:14px;">
+      <div class="grid3">
+        <div class="metric"><div class="metric-label">Números</div><div class="metric-value" id="v-nums">0</div></div>
+        <div class="metric"><div class="metric-label">Abonado</div><div class="metric-value" id="v-abo" style="font-size:14px;color:var(--green);">$0</div></div>
+        <div class="metric"><div class="metric-label">Pendiente</div><div class="metric-value" id="v-pend" style="font-size:14px;color:var(--red);">$0</div></div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="v-prog" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <div class="card" id="card-meses" style="display:none;">
+    <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Meses a pagar</div>
+    <div id="meses-container"></div>
+
+    <!-- MODO DE PAGO -->
+    <div id="bloque-modo-pago" style="display:none;">
+      <hr class="divider">
+
+      <!-- Valor y método por número individual -->
+      <div style="margin-bottom:14px;">
+        <div style="font-size:12px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;">Detalle por número</div>
+        <div style="font-size:11px;color:var(--text2);margin-bottom:10px;">Cada número tiene su propio valor y método de pago.</div>
+        <div id="numeros-pago-container"></div>
+      </div>
+
+      <!-- Resumen -->
+      <div class="summary-box" id="resumen-cobro" style="display:none;">
+        <div class="total-line"><span class="muted">Números del vendedor</span><span id="r-nums">0</span></div>
+        <div class="total-line"><span class="muted">Meses seleccionados</span><span id="r-meses">0</span></div>
+        <div class="total-line" id="r-line-efectivo"><span class="muted">💵 Efectivo</span><span id="r-efectivo" style="color:var(--green);font-weight:600;">$0</span></div>
+        <div class="total-line" id="r-line-consig"><span class="muted">🏦 Consignación</span><span id="r-consig" style="color:var(--blue);font-weight:600;">$0</span></div>
+        <div class="total-line" id="r-line-nopagan"><span class="muted">Sin pago</span><span id="r-nopagan" style="color:var(--red);">0 números</span></div>
+        <div class="total-line big"><span>Total a recibir</span><span style="color:var(--blue);" id="r-total">$0</span></div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;margin-top:14px;" onclick="registrarPago()">✓ Registrar pago</button>
+    </div>
+  </div>
+
+  <div id="historial-cobrar"></div>
+</div>
+
+<!-- TAB: VENDEDORES -->
+<div id="tab-vendedores" class="section">
+  <div class="search-box">
+    <input type="text" placeholder="Buscar vendedor..." id="search-v" oninput="renderVendedores()">
+  </div>
+  <div class="card" id="lista-vendedores-card">
+    <div id="lista-vendedores"></div>
+  </div>
+  <div id="detalle-vendedor" style="display:none;"></div>
+</div>
+
+<!-- TAB: MAPA -->
+<div id="tab-numeros" class="section">
+  <div class="card" style="margin-bottom:1rem;">
+    <div class="grid3">
+      <div class="metric"><div class="metric-label">Asignados</div><div class="metric-value" id="map-a">0</div></div>
+      <div class="metric"><div class="metric-label">Libres</div><div class="metric-value" id="map-l">0</div></div>
+      <div class="metric"><div class="metric-label">Con pagos</div><div class="metric-value" id="map-p">0</div></div>
+    </div>
+  </div>
+  <div style="font-size:11px;color:var(--text2);margin-bottom:10px;display:flex;gap:14px;flex-wrap:wrap;">
+    <span><span style="display:inline-block;width:12px;height:12px;background:#D3D1C7;border-radius:3px;margin-right:4px;vertical-align:middle;"></span>Libre</span>
+    <span><span style="display:inline-block;width:12px;height:12px;background:#FAEEDA;border-radius:3px;margin-right:4px;vertical-align:middle;"></span>Asignado</span>
+    <span><span style="display:inline-block;width:12px;height:12px;background:#D9ECFF;border-radius:3px;margin-right:4px;vertical-align:middle;"></span>Pago parcial</span>
+    <span><span style="display:inline-block;width:12px;height:12px;background:#C0DD97;border-radius:3px;margin-right:4px;vertical-align:middle;"></span>Cancelado total</span>
+  </div>
+  <div id="mapa-numeros" style="display:flex;flex-wrap:wrap;gap:3px;"></div>
+</div>
+
+<!-- TAB: RESUMEN -->
+<div id="tab-resumen" class="section">
+  <div class="card" id="resumen-global"></div>
+  <div class="card" style="margin-top:12px;">
+    <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Por vendedor</div>
+    <div id="resumen-tabla"></div>
+  </div>
+  <div style="margin-top:14px;text-align:right;">
+    <button class="btn btn-danger" onclick="confirmarBorrar()">Borrar todos los pagos</button>
+  </div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const VENDEDORES = {"ALEJA":["915"],"ANTONIO":["735"],"BOTIJA":["264","336","547","583","724","819","905"],"BUÑUELO":["038","155","159","250","362","479","539","699","784","855","903"],"CHAPARRO":["698","811","830"],"CHENTE":["061","270","359","402","454","467","519","534","561","579","620","645","706","745","751","815","817","884"],"CHIQUI":["213","415","563","569","842","978","043"],"CONEJO":["010","144","182","201","206","219","227","237","256","330","379","428","439","449","477","520","560","582","595","621","634","721","759","802","860","887","891","904","962","040","121","134","672","837","933"],"D":["001","002","006","007","008","046","073","099","100","120","129","160","166","173","176","188","209","212","232","302","333","335","338","352","380","381","400","448","451","456","465","487","489","509","521","549","603","663","666","690","708","742","747","754","769","779","797","863","882","901","919","944","955","991","995","030"],"DANIELA":["425","515","649"],"DIEGO":["128","137","221","319","434","538","546","618","707","709","836","956"],"DON ANTONIO":["278","086"],"DOÑA NELFY":["673"],"EFRÉN":["280","809"],"ELKIN R9":["238","251","291","088","306","326","364","478","495","525","559","573","575","600","632","659","720","787","805","940","942","979","993"],"ENI":["035","056","117","125","142","236","241","247","257","275","312","339","345","387","395","403","412","422","459","472","531","536","542","576","607","613","615","622","636","670","697","723","728","772","777","790","825","826","846","907","922","927","950","976","980","997","037","076","090"],"EVE":["012","051","455","781","800"],"GALLINA":["133","297","349","368","436","731","761","776","820","851","066"],"INSTAGRAM":["893"],"J PABLO":["156","207","308","378","466","556","578","651","843","859","909","089","877","910"],"JUAN":["000","003","004","009","016","017","018","019","022","024","025","027","028","029","036","053","054","057","059","060","062","070","074","078","085","091","094","107","110","131","135","139","141","145","147","148","150","151","152","157","158","162","163","165","167","168","169","170","171","175","179","181","183","184","185","186","189","190","192","193","194","195","196","197","202","210","211","214","215","216","217","218","220","222","223","225","228","230","235","239","242","243","244","245","246","252","253","255","259","260","261","263","265","266","267","268","271","272","276","282","284","285","288","289","290","293","294","296","298","303","304","305","309","310","311","314","315","316","318","320","324","327","331","332","340","342","344","346","348","350","351","353","354","355","356","357","361","365","367","369","376","377","388","392","394","404","405","406","407","408","409","413","414","416","421","423","426","430","431","432","440","442","443","447","452","453","458","461","463","469","471","476","482","483","484","485","486","490","491","493","498","499","500","502","503","504","505","506","507","511","512","513","516","518","522","526","527","528","529","532","533","537","541","543","544","548","552","553","564","568","570","571","574","581","585","589","590","591","592","593","601","602","605","609","612","614","617","619","625","627","628","629","639","640","641","642","643","644","646","650","652","653","654","655","656","658","661","667","676","679","681","682","683","685","686","689","691","692","693","694","695","702","705","711","712","713","714","717","719","722","732","733","734","736","743","746","748","752","755","760","763","768","771","774","780","783","786","789","792","793","794","795","798","801","803","807","812","814","816","821","828","831","834","840","844","845","847","850","854","857","861","864","867","870","871","872","873","878","892","894","895","896","897","898","902","906","911","912","914","916","918","920","921","923","924","925","926","928","929","931","934","935","936","939","945","947","949","951","954","957","958","961","963","965","966","968","969","971","972","974","977","981","982","985","986","987","988","989","994","998","026","032","033","034","039","042","045","047","052","063","064","067","068","069","072","079","080","081","084","093","095","098","101","102","108","112","114","115","116","123","124","130","140","143","177","198","203","321","328","389","397","398","410","437","444","445","480","567","577","586","678","730","740","788","813","932"],"JUAN JOSE":["580","594","930"],"JUAN P":["307","550","104","105","566","701","739","758","773","953","992","700"],"KIKO":["020","058","178","283","390","450","555","630","675","696","727","765","881"],"MARCELA":["753"],"MARCELA GANA":["323"],"MARY":["829"],"MARY HERBALIFE":["756"],"MAURICIO":["011","021","065","119","199","249","329","341","375","438","501","523","562","587","648","664","665","668","744","766","937","970"],"MILADY":["092","180","677","767","908","938"],"MILENA":["964"],"MILENA CEL":["015","109","132","286"],"MONA":["262","274","366","372","420","441","470","475","517","524","598","608","624","638","680","703","749","762","782","799","839","865","866","875","952","959","967","983","013","075","153","492"],"NATALIA":["005","023","031","049","050","055","071","082","087","097","103","106","113","136","138","146","149","154","161","164","174","187","191","204","205","208","224","229","234","240","254","269","273","279","281","295","300","317","322","334","337","343","360","363","373","374","382","386","396","401","417","429","433","446","460","462","464","488","497","530","540","545","554","557","565","572","588","596","599","606","635","647","657","660","671","684","704","726","729","738","750","757","770","775","791","808","823","832","849","856","868","880","888","890","900","946","960","973","118","370","473","474","494","508","514","633","917","975"],"NURY":["083","096","200","226","277","299","383","393","419","427","610","616","778","806","818","838","853","996","111","126"],"PAULA B 611":["077","424","862"],"PIRULO":["481"],"PROFE JORDAN":["044","874"],"PROFE SANDRA":["999"],"YESENIA":["014","041","172","231","233","248","258","287","292","301","313","325","347","358","371","384","385","391","399","411","418","435","457","468","496","510","535","551","584","597","604","611","623","626","631","637","662","669","674","687","688","710","715","716","718","725","737","741","764","785","796","804","810","822","824","827","835","841","848","852","858","869","876","879","883","889","899","913","941","948","984","990","048","122","127","833","943"],"YIRIS":["558","885","886"]};
+
+const MESES = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+const CUOTA = 100000;
+
+let pagos = JSON.parse(localStorage.getItem('rifa_pagos') || '{}');
+let selectedMeses = [];
+let valoresPorNumero = {};   // { "001": 100000 }
+let metodoPorNumero = {};    // { "001": "efectivo" | "consignacion" | "nopaga" }
+
+function save(){ localStorage.setItem('rifa_pagos', JSON.stringify(pagos)); }
+function fmt(n){ return '$' + Math.round(n).toLocaleString('es-CO'); }
+function parseCOP(s){ return parseInt((s||'0').replace(/\D/g,'')) || 0; }
+
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+function calcV(v){
+  const nums = VENDEDORES[v]||[];
+  const total = nums.length * 12 * CUOTA;
+  const pagado = (pagos[v]||[]).reduce((s,p)=>s+p.monto,0);
+  return { total, pagado, pendiente: total-pagado, nums: nums.length };
+}
+
+function showTab(t, el){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+  if(el) el.classList.add('active');
+  document.getElementById('tab-'+t).classList.add('active');
+  if(t==='vendedores') renderVendedores();
+  if(t==='numeros') renderMapa();
+  if(t==='resumen') renderResumen();
+}
+
+function onVendedorChange(){
+  const v = document.getElementById('sel-vendedor').value;
+  selectedMeses = [];
+  valoresPorNumero = {};
+  metodoPorNumero = {};
+  if(!v){
+    document.getElementById('info-vendedor').style.display='none';
+    document.getElementById('card-meses').style.display='none';
+    document.getElementById('historial-cobrar').innerHTML='';
+    return;
+  }
+  const {total,pagado,pendiente,nums} = calcV(v);
+  document.getElementById('v-nums').textContent = nums;
+  document.getElementById('v-abo').textContent = fmt(pagado);
+  document.getElementById('v-pend').textContent = fmt(pendiente);
+  const pct = total>0 ? Math.round(pagado/total*100) : 0;
+  document.getElementById('v-prog').style.width = pct+'%';
+  document.getElementById('info-vendedor').style.display='block';
+  document.getElementById('card-meses').style.display='block';
+  renderMeses(v);
+  renderHistorialCobrar(v);
+}
+
+function renderMeses(v){
+  const pagosMes = new Set((pagos[v]||[]).flatMap(p=>p.meses));
+  let html = '<div style="display:flex;flex-wrap:wrap;margin-bottom:4px;">';
+  MESES.forEach((m,i)=>{
+    const paid = pagosMes.has(i);
+    const sel = selectedMeses.includes(i);
+    html += `<span class="month-chip${sel?' selected':''}${paid?' paid':''}" onclick="toggleMes(${i})">${paid?'✓ ':''}${m}</span>`;
+  });
+  html += '</div>';
+  document.getElementById('meses-container').innerHTML = html;
+  const show = selectedMeses.length > 0;
+  document.getElementById('bloque-modo-pago').style.display = show ? 'block' : 'none';
+  if(show) renderNumerosPago(v);
+  updateResumen(v);
+}
+
+function toggleMes(i){
+  const v = document.getElementById('sel-vendedor').value;
+  const pagosMes = new Set((pagos[v]||[]).flatMap(p=>p.meses));
+  if(pagosMes.has(i)) return;
+  const idx = selectedMeses.indexOf(i);
+  if(idx>=0) selectedMeses.splice(idx,1); else selectedMeses.push(i);
+  renderMeses(v);
+}
+
+function renderNumerosPago(v){
+  const nums = VENDEDORES[v]||[];
+  const n = selectedMeses.length;
+  nums.forEach(num => {
+    if(valoresPorNumero[num] === undefined) valoresPorNumero[num] = CUOTA * n;
+    if(!metodoPorNumero[num]) metodoPorNumero[num] = 'efectivo';
+  });
+
+  // Botones rápidos globales
+  let html = `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+    <button class="btn" style="font-size:11px;padding:5px 10px;" onclick="setTodos('efectivo',${CUOTA*n})">💵 Todos efectivo</button>
+    <button class="btn" style="font-size:11px;padding:5px 10px;" onclick="setTodos('consignacion',${CUOTA*n})">🏦 Todos consignación</button>
+    <button class="btn btn-danger" style="font-size:11px;padding:5px 10px;" onclick="setTodos('nopaga',0)">✕ Todos sin pago</button>
+  </div>`;
+
+  html += `<div style="display:flex;flex-direction:column;gap:8px;">`;
+  nums.forEach(num => {
+    const metodo = metodoPorNumero[num] || 'efectivo';
+    const val = valoresPorNumero[num] !== undefined ? valoresPorNumero[num] : CUOTA*n;
+    const noPaga = metodo === 'nopaga';
+    const isEfectivo = metodo === 'efectivo';
+    const isConsig = metodo === 'consignacion';
+
+    const cardBg = noPaga ? 'var(--red-bg)' : 'var(--bg2)';
+    const cardBorder = noPaga ? 'var(--red)' : isEfectivo ? 'var(--green)' : 'var(--blue)';
+
+    html += `<div id="card-num-${num}" style="background:${cardBg};border:1px solid ${cardBorder};border-radius:var(--radius-sm);padding:10px 12px;transition:all 0.15s;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+        <!-- Número -->
+        <div style="font-size:13px;font-weight:700;min-width:48px;color:${noPaga?'var(--red)':'var(--text)'};">Nº ${num}</div>
+
+        <!-- Método 3 botones -->
+        <div style="display:flex;gap:4px;flex:1;min-width:180px;">
+          <button onclick="setNumMetodo('${num}','efectivo')"
+            style="flex:1;padding:5px 6px;font-size:11px;font-weight:600;border-radius:5px;border:1px solid ${isEfectivo?'var(--green)':'var(--border)'};background:${isEfectivo?'var(--green-bg)':'var(--bg)'};color:${isEfectivo?'var(--green)':'var(--text2)'};cursor:pointer;transition:all .12s;">
+            💵 Efectivo
+          </button>
+          <button onclick="setNumMetodo('${num}','consignacion')"
+            style="flex:1;padding:5px 6px;font-size:11px;font-weight:600;border-radius:5px;border:1px solid ${isConsig?'var(--blue)':'var(--border)'};background:${isConsig?'var(--blue-bg)':'var(--bg)'};color:${isConsig?'var(--blue)':'var(--text2)'};cursor:pointer;transition:all .12s;">
+            🏦 Consig.
+          </button>
+          <button onclick="setNumMetodo('${num}','nopaga')"
+            style="flex:1;padding:5px 6px;font-size:11px;font-weight:600;border-radius:5px;border:1px solid ${noPaga?'var(--red)':'var(--border)'};background:${noPaga?'var(--red-bg)':'var(--bg)'};color:${noPaga?'var(--red)':'var(--text2)'};cursor:pointer;transition:all .12s;">
+            ✕ No paga
+          </button>
+        </div>
+
+        <!-- Valor -->
+        <div style="display:flex;align-items:center;gap:4px;min-width:110px;background:var(--bg);border:0.5px solid ${noPaga?'var(--red)':'var(--border2)'};border-radius:5px;padding:5px 8px;${noPaga?'opacity:0.5;pointer-events:none;':''}">
+          <span style="font-size:12px;color:var(--text2);">$</span>
+          <input type="text" inputmode="numeric" id="inp-${num}"
+            value="${!noPaga && val > 0 ? val.toLocaleString('es-CO') : ''}"
+            placeholder="0"
+            style="border:none;background:transparent;font-size:13px;font-weight:600;width:80px;padding:0;outline:none;color:var(--text);"
+            oninput="onNumValChange(this,'${num}')"
+            onfocus="this.select()"
+            ${noPaga?'disabled':''}>
+        </div>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('numeros-pago-container').innerHTML = html;
+}
+
+function setNumMetodo(num, metodo){
+  const n = selectedMeses.length;
+  metodoPorNumero[num] = metodo;
+  if(metodo === 'nopaga'){
+    valoresPorNumero[num] = 0;
+  } else if(valoresPorNumero[num] === 0 || valoresPorNumero[num] === undefined){
+    valoresPorNumero[num] = CUOTA * n;
+  }
+  // Re-render just this card efficiently
+  const v = document.getElementById('sel-vendedor').value;
+  renderNumerosPago(v);
+  updateResumen(v);
+}
+
+function onNumValChange(el, num){
+  const raw = el.value.replace(/\D/g,'');
+  valoresPorNumero[num] = parseInt(raw)||0;
+  updateResumen(document.getElementById('sel-vendedor').value);
+}
+
+function setTodos(metodo, val){
+  const v = document.getElementById('sel-vendedor').value;
+  const nums = VENDEDORES[v]||[];
+  nums.forEach(num => {
+    metodoPorNumero[num] = metodo;
+    valoresPorNumero[num] = val;
+  });
+  renderNumerosPago(v);
+  updateResumen(v);
+}
+
+function updateResumen(v){
+  const nums = VENDEDORES[v]||[];
+  const n = selectedMeses.length;
+  const show = n > 0;
+  document.getElementById('resumen-cobro').style.display = show ? 'block' : 'none';
+  if(show){
+    let totalEfectivo = 0, totalConsig = 0, noPagan = 0;
+    nums.forEach(num => {
+      const m = metodoPorNumero[num] || 'efectivo';
+      const val = valoresPorNumero[num] || 0;
+      if(m === 'nopaga' || val === 0){ noPagan++; }
+      else if(m === 'efectivo'){ totalEfectivo += val; }
+      else if(m === 'consignacion'){ totalConsig += val; }
+    });
+    document.getElementById('r-nums').textContent = nums.length;
+    document.getElementById('r-meses').textContent = n + ' (' + selectedMeses.map(m=>MESES[m]).join(', ') + ')';
+    document.getElementById('r-efectivo').textContent = fmt(totalEfectivo);
+    document.getElementById('r-consig').textContent = fmt(totalConsig);
+    document.getElementById('r-nopagan').textContent = noPagan + ' número' + (noPagan!==1?'s':'');
+    document.getElementById('r-nopagan').style.color = noPagan > 0 ? 'var(--red)' : 'var(--text2)';
+    document.getElementById('r-total').textContent = fmt(totalEfectivo + totalConsig);
+  }
+}
+
+function registrarPago(){
+  const v = document.getElementById('sel-vendedor').value;
+  if(!v || selectedMeses.length===0) return;
+
+  const nums = VENDEDORES[v] || [];
+  const monto = nums.reduce((s, num) => s + (valoresPorNumero[num] || 0), 0);
+
+  if(monto === 0){
+    toast('⚠️ El total a recibir es $0');
+    return;
+  }
+
+  if(!pagos[v]) pagos[v] = [];
+
+  pagos[v].push({
+    meses: [...selectedMeses].sort((a,b) => a - b),
+    monto,
+    valoresPorNumero: { ...valoresPorNumero },
+    metodoPorNumero: { ...metodoPorNumero },
+    fecha: new Date().toLocaleDateString('es-CO')
+  });
+
+  save();
+
+  selectedMeses = [];
+  valoresPorNumero = {};
+  metodoPorNumero = {};
+
+  toast('✓ Pago registrado: ' + fmt(monto));
+  onVendedorChange();
+}
+
+
+function renderHistorialCobrar(v){
+  const ps = pagos[v] || [];
+
+  if(ps.length === 0){
+    document.getElementById('historial-cobrar').innerHTML = '';
+    return;
+  }
+
+  let html = '<div class="card"><div style="font-size:13px;font-weight:600;margin-bottom:10px;">Historial de pagos</div>';
+
+  ps.forEach((p, i) => {
+    const mesesStr = p.meses.map(m => MESES[m]).join(', ');
+
+    let detalleMetodo = '';
+
+    if(p.metodoPorNumero){
+      detalleMetodo = Object.entries(p.metodoPorNumero)
+        .map(([num, metodo]) => {
+          let icono = '';
+          let texto = '';
+
+          if(metodo === 'efectivo'){
+            icono = '💵';
+            texto = 'Efectivo';
+          } 
+          else if(metodo === 'consignacion'){
+            icono = '🏦';
+            texto = 'Consignación';
+          } 
+          else {
+            icono = '✕';
+            texto = 'No paga';
+          }
+
+          return `${num}: ${icono} ${texto}
+<button 
+  onclick="borrarNumeroPago('${v}', ${i}, '${num}')"
+  style="
+    margin-left:6px;
+    border:none;
+    background:transparent;
+    color:var(--red);
+    cursor:pointer;
+    font-size:11px;
+    font-weight:600;
+  "
+>
+✕
+</button>`;
+        })
+        .join(' · ');
+    }
+
+    html += `
+      <div class="row">
+        <div style="flex:1;">
+          <div style="font-weight:500;">${mesesStr}</div>
+
+          <div class="muted" style="font-size:11px;">
+            ${p.fecha}
+          </div>
+
+          <div class="muted" style="font-size:11px;margin-top:4px;line-height:1.5;">
+            ${detalleMetodo}
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-weight:600;">${fmt(p.monto)}</span>
+
+          <button 
+            class="btn btn-danger"
+            style="padding:4px 10px;font-size:11px;"
+            onclick="borrarPago('${v}', ${i})"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+    `;
+  });
+
+  html += '</div>';
+
+  document.getElementById('historial-cobrar').innerHTML = html;
+}
+
+function borrarPago(v,i){
+  if(!confirm('¿Borrar este pago?')) return;
+  pagos[v].splice(i,1);
+  if(pagos[v].length===0) delete pagos[v];
+  save();
+  onVendedorChange();
+  toast('Pago eliminado');
+}
+function borrarNumeroPago(v, indexPago, num){
+  if(!confirm(`¿Eliminar pago del número ${num}?`)) return;
+
+  if(!pagos[v] || !pagos[v][indexPago]) return;
+
+  const pago = pagos[v][indexPago];
+
+  const valorAnterior = pago.valoresPorNumero?.[num] || 0;
+
+  // Restar del total
+  pago.monto = Math.max(0, (pago.monto || 0) - valorAnterior);
+
+  // Marcar como no paga
+  if(!pago.metodoPorNumero) pago.metodoPorNumero = {};
+  pago.metodoPorNumero[num] = 'nopaga';
+
+  if(!pago.valoresPorNumero) pago.valoresPorNumero = {};
+  pago.valoresPorNumero[num] = 0;
+
+  // Si todo quedó en 0, eliminar el registro completo
+  const totalRestante = Object.values(pago.valoresPorNumero)
+    .reduce((s, v) => s + (v || 0), 0);
+
+  if(totalRestante === 0){
+    pagos[v].splice(indexPago, 1);
+
+    if(pagos[v].length === 0){
+      delete pagos[v];
+    }
+  }
+
+  save();
+  onVendedorChange();
+  toast(`Pago del número ${num} eliminado`);
+}
+function calcularDeudaPorNumero(v, num){
+  const totalNumero = 12 * CUOTA;
+  let pagadoNumero = 0;
+
+  (pagos[v] || []).forEach(p => {
+    if(p.valoresPorNumero && p.valoresPorNumero[num]){
+      pagadoNumero += p.valoresPorNumero[num] || 0;
+    }
+  });
+
+  return Math.max(0, totalNumero - pagadoNumero);
+}
+
+function renderVendedores(){
+  const q = (document.getElementById('search-v').value||'').toLowerCase();
+  const vs = Object.keys(VENDEDORES).filter(v=>v.toLowerCase().includes(q)).sort();
+  let html = '';
+  vs.forEach(v=>{
+    const {total,pagado,pendiente,nums} = calcV(v);
+    const pct = total>0?Math.round(pagado/total*100):0;
+    const badge = pct===0?'badge-red':pct>=100?'badge-green':'badge-amber';
+    const label = pct===0?'Sin pagos':pct>=100?'Al día':pct+'%';
+    html += `<div class="vendedor-row" onclick="verDetalle('${v}')">
+      <span><strong>${v}</strong> <span class="muted" style="font-size:11px;margin-left:6px;">${nums} núm.</span></span>
+      <span style="display:flex;align-items:center;gap:8px;">
+        <span class="muted">${fmt(pendiente)}</span>
+        <span class="badge ${badge}">${label}</span>
+        <span style="color:var(--text2);font-size:14px;">›</span>
+      </span>
+    </div>`;
+  });
+  document.getElementById('lista-vendedores').innerHTML = html || '<div class="empty">Sin resultados</div>';
+  document.getElementById('detalle-vendedor').style.display='none';
+}
+
+function verDetalle(v){
+  const nums = VENDEDORES[v]||[];
+  const {total,pagado,pendiente} = calcV(v);
+  const pct = total>0?Math.round(pagado/total*100):0;
+  const ps = pagos[v]||[];
+  const pagosMes = new Set(ps.flatMap(p=>p.meses));
+  let html = `<div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+      <span style="font-size:16px;font-weight:700;">${v}</span>
+      <button class="btn" onclick="document.getElementById('detalle-vendedor').style.display='none'">✕ Cerrar</button>
+    </div>
+    <div class="grid3" style="margin-bottom:10px;">
+      <div class="metric"><div class="metric-label">Números</div><div class="metric-value">${nums.length}</div></div>
+      <div class="metric"><div class="metric-label">Abonado</div><div class="metric-value" style="font-size:13px;color:var(--green);">${fmt(pagado)}</div></div>
+      <div class="metric"><div class="metric-label">Pendiente</div><div class="metric-value" style="font-size:13px;color:var(--red);">${fmt(pendiente)}</div></div>
+    </div>
+    <div class="progress-bar" style="margin-bottom:12px;"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Meses pagados</div>
+    <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;">`;
+  MESES.forEach((m,i)=>{
+    const ok = pagosMes.has(i);
+    html+=`<span style="font-size:11px;padding:3px 9px;border-radius:99px;border:0.5px solid ${ok?'var(--green)':'var(--border)'};background:${ok?'var(--green-bg)':'transparent'};color:${ok?'var(--green)':'var(--text2)'};">${ok?'✓ ':''}${m}</span>`;
+  });
+  html += `</div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Números asignados (${nums.length})</div>
+    <div class="num-grid">`;
+  nums.forEach(n => {
+  const deuda = calcularDeudaPorNumero(v, n);
+
+  html += `
+    <div style="
+      display:inline-block;
+      margin:4px;
+      padding:8px 10px;
+      border:0.5px solid var(--border);
+      border-radius:7px;
+      background:var(--bg2);
+      min-width:110px;
+    ">
+      <div style="
+        font-size:13px;
+        font-weight:700;
+        margin-bottom:4px;
+      ">
+        Nº ${n}
+      </div>
+
+      <div style="
+        font-size:11px;
+        color:${deuda > 0 ? 'var(--red)' : 'var(--green)'};
+        font-weight:600;
+      ">
+        ${deuda > 0 ? 'Debe: ' + fmt(deuda) : 'Al día ✓'}
+      </div>
+    </div>
+  `;
+});
+  html += '</div>';
+  if(ps.length>0){
+  html += '<hr class="divider"><div style="font-size:12px;color:var(--text2);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Historial de pagos</div>';
+
+  ps.forEach(p=>{
+
+    const detalleMetodo = p.metodoPorNumero
+      ? Object.entries(p.metodoPorNumero)
+          .map(([num, metodo]) => {
+            const icono = metodo === 'efectivo'
+              ? '💵'
+              : metodo === 'consignacion'
+              ? '🏦'
+              : '✕';
+
+            const texto = metodo === 'efectivo'
+              ? 'Efectivo'
+              : metodo === 'consignacion'
+              ? 'Consignación'
+              : 'No paga';
+
+            return `${num}: ${icono} ${texto}`;
+          })
+          .join(' · ')
+      : '';
+
+    html += `
+      <div class="row" style="align-items:flex-start;">
+        <div style="flex:1;">
+          <div style="font-weight:500;">
+            ${p.meses.map(m=>MESES[m]).join(', ')}
+          </div>
+
+          <div class="muted" style="font-size:11px;">
+            ${p.fecha}
+          </div>
+
+          <div class="muted" style="font-size:11px;margin-top:4px;line-height:1.5;">
+            ${detalleMetodo}
+          </div>
+        </div>
+
+        <span style="font-weight:600;">
+          ${fmt(p.monto)}
+        </span>
+      </div>
+    `;
+  });
+}
+  html += '</div>';
+  document.getElementById('detalle-vendedor').innerHTML = html;
+  document.getElementById('detalle-vendedor').style.display='block';
+  document.getElementById('detalle-vendedor').scrollIntoView({behavior:'smooth'});
+}
+
+function renderMapa(){
+  const asignados = new Set(Object.values(VENDEDORES).flat());
+
+  let html = '';
+
+  let cAsignados = 0;
+  let cLibres = 0;
+  let cParcial = 0;
+  let cCancelado = 0;
+
+  for(let i = 0; i < 1000; i++){
+    const n = String(i).padStart(3,'0');
+
+    let bg = '#D3D1C7';
+    let title = 'Libre';
+
+    if(asignados.has(n)){
+      cAsignados++;
+
+      let totalPagadoNumero = 0;
+
+      Object.entries(pagos).forEach(([v, ps]) => {
+        (ps || []).forEach(p => {
+          if(p.valoresPorNumero && p.valoresPorNumero[n]){
+            totalPagadoNumero += p.valoresPorNumero[n] || 0;
+          }
+        });
+      });
+
+      const totalCompleto = 12 * CUOTA;
+
+      if(totalPagadoNumero <= 0){
+        bg = '#FAEEDA';
+        title = 'Asignado';
+      }
+      else if(totalPagadoNumero < totalCompleto){
+        bg = '#D9ECFF';
+        title = 'Pago parcial';
+        cParcial++;
+      }
+      else{
+        bg = '#C0DD97';
+        title = 'Cancelado total';
+        cCancelado++;
+      }
+    }
+    else{
+      cLibres++;
+    }
+
+    html += `
+  <span
+    title="${n} — ${title}"
+    style="
+      display:inline-block;
+      width:28px;
+      height:20px;
+      background:${bg};
+      border-radius:3px;
+      font-size:8px;
+      line-height:20px;
+      text-align:center;
+      color:#555;
+      cursor:default;
+    "
+  >
+    ${n}
+  </span>
+`;
+  }
+
+  document.getElementById('mapa-numeros').innerHTML = html;
+
+  document.getElementById('map-a').textContent = cAsignados;
+  document.getElementById('map-l').textContent = cLibres;
+  document.getElementById('map-p').textContent = cParcial + cCancelado;
+}
+function renderResumen(){
+  const vs = Object.keys(VENDEDORES).sort();
+  let totalDeuda=0, totalPagado=0;
+  vs.forEach(v=>{ const c=calcV(v); totalDeuda+=c.total; totalPagado+=c.pagado; });
+  const pct = totalDeuda>0?Math.round(totalPagado/totalDeuda*100):0;
+  document.getElementById('resumen-global').innerHTML = `
+    <div style="font-size:13px;font-weight:600;margin-bottom:12px;">Resumen general</div>
+    <div class="grid3">
+      <div class="metric"><div class="metric-label">Vendedores</div><div class="metric-value">${vs.length}</div></div>
+      <div class="metric"><div class="metric-label">Total recaudado</div><div class="metric-value" style="font-size:13px;color:var(--green);">${fmt(totalPagado)}</div></div>
+      <div class="metric"><div class="metric-label">Total pendiente</div><div class="metric-value" style="font-size:13px;color:var(--red);">${fmt(totalDeuda-totalPagado)}</div></div>
+    </div>
+    <div class="progress-bar" style="margin-top:10px;"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div style="text-align:right;font-size:11px;color:var(--text2);margin-top:4px;">${pct}% recaudado del total</div>`;
+
+  let html = '';
+  vs.forEach(v=>{
+    const {total,pagado,pendiente,nums} = calcV(v);
+    const pctV = total>0?Math.round(pagado/total*100):0;
+    const badge = pctV===0?'badge-red':pctV>=100?'badge-green':'badge-amber';
+    const label = pctV===0?'Sin pagos':pctV>=100?'Al día':pctV+'%';
+    html+=`<div class="row">
+      <span><strong>${v}</strong> <span class="muted" style="font-size:11px;">${nums} núm.</span></span>
+      <span style="display:flex;align-items:center;gap:8px;"><span style="font-size:12px;">${fmt(pagado)} / ${fmt(total)}</span><span class="badge ${badge}">${label}</span></span>
+    </div>`;
+  });
+  document.getElementById('resumen-tabla').innerHTML = html;
+}
+
+function confirmarBorrar(){
+  if(confirm('¿Seguro que quieres borrar TODOS los pagos registrados? Esta acción no se puede deshacer.')){
+    pagos = {};
+    save();
+    toast('Todos los pagos fueron eliminados');
+    renderResumen();
+  }
+}
+
+(function init(){
+  const sel = document.getElementById('sel-vendedor');
+  Object.keys(VENDEDORES).sort().forEach(v=>{
+    const o = document.createElement('option');
+    o.value=v; o.textContent=v; sel.appendChild(o);
+  });
+  renderVendedores();
+  renderMapa();
+})();
+</script>
+</body>
+</html>
