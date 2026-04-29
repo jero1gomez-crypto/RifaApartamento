@@ -145,6 +145,16 @@
     .metric-value { font-size: 16px; }
     header h1 { font-size: 15px; }
   }
+
+  /* ─── PERMISOS ─── */
+  .perm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .perm-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--bg2); border-radius: 8px; border: 0.5px solid var(--border); cursor: pointer; transition: background 0.1s; user-select: none; }
+  .perm-item:hover { background: var(--bg3); }
+  .perm-item input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--blue); cursor: pointer; flex-shrink: 0; }
+  .perm-item label { font-size: 12px; font-weight: 500; cursor: pointer; }
+  .perm-item .perm-desc { font-size: 10px; color: var(--text2); }
+  .superadmin-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 3px 10px; border-radius: 99px; font-weight: 700; background: linear-gradient(135deg, #1a1a18 0%, #3a3a38 100%); color: #fff; }
+  .locked-row { opacity: 0.45; pointer-events: none; }
 </style>
 </head>
 <body>
@@ -169,10 +179,10 @@
     <div class="role-hints">
       <div style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;">Accesos rápidos</div>
       <div class="role-hint" onclick="quickLogin('admin','admin123')">
-        <span class="role-hint-icon">🛡️</span>
+        <span class="role-hint-icon">👑</span>
         <div class="role-hint-info">
-          <div class="role-hint-name">Administrador</div>
-          <div class="role-hint-desc">Acceso total · admin / admin123</div>
+          <div class="role-hint-name">Super Admin</div>
+          <div class="role-hint-desc">Control total · admin / admin123</div>
         </div>
         <span class="role-hint-arrow">›</span>
       </div>
@@ -300,7 +310,7 @@
         <div style="font-size:13px;font-weight:600;margin-bottom:14px;">Gestión de usuarios</div>
         <div id="lista-usuarios"></div>
       </div>
-      <div class="card" style="margin-top:12px;">
+      <div class="card" style="margin-top:12px;" id="card-agregar-usuario">
         <div style="font-size:13px;font-weight:600;margin-bottom:14px;">Agregar usuario</div>
         <label>Usuario</label>
         <input type="text" id="new-user" placeholder="Nombre de usuario">
@@ -354,6 +364,39 @@
 <div class="toast" id="toast"></div>
 
 <script>
+// ═══════════════════════════════════════════════
+// PERMISOS (Super Admin vs Admin limitado)
+// ═══════════════════════════════════════════════
+const SUPER_ADMIN_USER = 'admin'; // Solo este usuario tiene control total
+
+const PERMISOS_DEF = [
+  { key: 'cobrar',     label: 'Cobrar pagos',       desc: 'Registrar y gestionar pagos', icon: '💳' },
+  { key: 'vendedores', label: 'Ver vendedores',      desc: 'Consultar historial de vendedores', icon: '👥' },
+  { key: 'mapa',       label: 'Mapa de números',     desc: 'Ver mapa de 1000 números', icon: '🗺️' },
+  { key: 'resumen',    label: 'Resumen global',      desc: 'Ver estadísticas generales', icon: '📊' },
+  { key: 'usuarios',   label: 'Gestión usuarios',    desc: 'Ver y editar usuarios', icon: '⚙️' },
+  { key: 'saldos',     label: 'Editar saldos',       desc: 'Modificar saldos pendientes', icon: '💰' },
+  { key: 'borrar_pagos', label: 'Borrar pagos',      desc: 'Eliminar registros de pago', icon: '🗑️' },
+  { key: 'agregar_usuarios', label: 'Crear usuarios', desc: 'Agregar nuevos usuarios', icon: '➕' },
+];
+
+function isSuperAdmin() {
+  return currentUser && currentUser.user === SUPER_ADMIN_USER;
+}
+
+function hasPermiso(key) {
+  if (!currentUser) return false;
+  if (currentUser.rol !== 'admin') return false;
+  if (isSuperAdmin()) return true;
+  const permisos = currentUser.permisos || {};
+  return !!permisos[key];
+}
+
+function getPermisosAdminUsuario(u) {
+  if (u.user === SUPER_ADMIN_USER) return null; // Super admin no tiene restricciones
+  return u.permisos || {};
+}
+
 // ═══════════════════════════════════════════════
 // DATOS
 // ═══════════════════════════════════════════════
@@ -414,7 +457,7 @@ function saveUsuarios(lista) {
     const base = baseMap[u.user];
     if (base) {
       const diff = {};
-      ['user','pass','nombre','rol','vendedorAsoc','numerosCliente'].forEach(k => {
+      ['user','pass','nombre','rol','vendedorAsoc','numerosCliente','permisos'].forEach(k => {
         if (JSON.stringify(u[k]) !== JSON.stringify(base[k])) diff[k] = u[k];
       });
       if (Object.keys(diff).length > 0) edits[u.user] = diff;
@@ -461,7 +504,7 @@ function iniciarApp() {
 
   // Header
   const badge = document.getElementById('header-role-badge');
-  const rolLabels = { admin: '🛡️ Admin', vendedor: '🧾 Vendedor', cliente: '🎟️ Cliente' };
+  const rolLabels = { admin: isSuperAdmin() ? '👑 Super Admin' : '🛡️ Admin', vendedor: '🧾 Vendedor', cliente: '🎟️ Cliente' };
   const rolClasses = { admin: 'role-admin', vendedor: 'role-vendedor', cliente: 'role-cliente' };
   badge.textContent = rolLabels[currentUser.rol];
   badge.className = 'badge-role ' + rolClasses[currentUser.rol];
@@ -506,10 +549,14 @@ function iniciarApp() {
     renderVendedores();
     renderMisClientes();
   } else {
-    renderVendedores();
-    renderMapa();
-    renderResumen();
-    renderUsuarios();
+    // admin (super o limitado)
+    if (hasPermiso('vendedores')) renderVendedores();
+    if (hasPermiso('mapa')) renderMapa();
+    if (hasPermiso('resumen')) renderResumen();
+    if (hasPermiso('usuarios')) renderUsuarios();
+    // Mostrar u ocultar card de agregar usuarios
+    const cardAgregar = document.getElementById('card-agregar-usuario');
+    if (cardAgregar) cardAgregar.style.display = hasPermiso('agregar_usuarios') ? 'block' : 'none';
   }
 
   // Activar primer tab
@@ -521,15 +568,34 @@ function buildTabs() {
   const tabs = document.getElementById('main-tabs');
   tabs.innerHTML = '';
 
-  const tabsConfig = {
-    admin: [
+  let adminTabs = [];
+  if (isSuperAdmin()) {
+    adminTabs = [
       { id: 'cobrar',    label: 'Cobrar' },
       { id: 'vendedores',label: 'Vendedores' },
       { id: 'numeros',   label: 'Mapa' },
       { id: 'resumen',   label: 'Resumen' },
       { id: 'usuarios',  label: '⚙️ Usuarios' },
       { id: 'saldos',    label: '💰 Saldos' },
-    ],
+    ];
+  } else if (currentUser.rol === 'admin') {
+    // Admin con permisos limitados
+    const permMap = {
+      cobrar:     { id: 'cobrar',    label: 'Cobrar' },
+      vendedores: { id: 'vendedores',label: 'Vendedores' },
+      mapa:       { id: 'numeros',   label: 'Mapa' },
+      resumen:    { id: 'resumen',   label: 'Resumen' },
+      usuarios:   { id: 'usuarios',  label: '⚙️ Usuarios' },
+      saldos:     { id: 'saldos',    label: '💰 Saldos' },
+    };
+    const permisos = currentUser.permisos || {};
+    Object.entries(permMap).forEach(([key, tab]) => {
+      if (permisos[key]) adminTabs.push(tab);
+    });
+  }
+
+  const tabsConfig = {
+    admin: adminTabs,
     vendedor: [
       { id: 'cobrar',       label: 'Cobrar' },
       { id: 'vendedores',   label: 'Mi historial' },
@@ -673,9 +739,31 @@ function renderUsuarios() {
   let html = `<div style="font-size:11px;color:var(--text2);margin-bottom:8px;">${filtered.length} usuario${filtered.length!==1?'s':''} ${q?'encontrados':'totales'}</div>`;
   filtered.forEach((u, i) => {
     const realIdx = lista.indexOf(u);
+    const esSuperAdmin = u.user === SUPER_ADMIN_USER;
+    const esAdminLimitado = u.rol === 'admin' && !esSuperAdmin;
+    const canEdit = isSuperAdmin() || (!esSuperAdmin && hasPermiso('usuarios'));
+    const canDelete = isSuperAdmin() && !esSuperAdmin;
+    
+    // Resumen de permisos para admins limitados
+    let permisosInfo = '';
+    if (esAdminLimitado) {
+      const perms = u.permisos || {};
+      const activos = PERMISOS_DEF.filter(p => perms[p.key]);
+      if (activos.length === 0) {
+        permisosInfo = '<span style="font-size:10px;color:var(--red);margin-left:6px;">⚠️ Sin permisos</span>';
+      } else {
+        permisosInfo = `<span style="font-size:10px;color:var(--blue);margin-left:6px;">${activos.map(p=>p.icon).join('')} ${activos.length} perm.</span>`;
+      }
+    }
+
     html += `<div class="row" style="align-items:flex-start;padding:10px 0;">
       <div style="flex:1;">
-        <div style="font-weight:600;">${rolIcon[u.rol]} ${u.nombre} <span class="muted" style="font-size:11px;">(${u.user})</span></div>
+        <div style="font-weight:600;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+          ${rolIcon[u.rol]} ${u.nombre} 
+          <span class="muted" style="font-size:11px;">(${u.user})</span>
+          ${esSuperAdmin ? '<span class="superadmin-badge">👑 Super Admin</span>' : ''}
+          ${permisosInfo}
+        </div>
         <div class="muted" style="font-size:11px;margin-top:2px;">
           ${rolLabel[u.rol]}
           ${u.rol === 'vendedor' && u.vendedorAsoc ? ' · Vendedor: ' + u.vendedorAsoc : ''}
@@ -684,12 +772,17 @@ function renderUsuarios() {
         </div>
       </div>
       <div style="display:flex;gap:6px;align-items:center;">
-        <button class="btn" style="padding:4px 10px;font-size:11px;" onclick="editarUsuario(${realIdx})">✏️ Editar</button>
-        ${lista.length > 1 ? `<button class="btn btn-danger" style="padding:4px 10px;font-size:11px;" onclick="eliminarUsuario(${realIdx})">✕</button>` : ''}
+        ${canEdit ? `<button class="btn" style="padding:4px 10px;font-size:11px;" onclick="editarUsuario(${realIdx})">✏️ Editar</button>` : ''}
+        ${esAdminLimitado && isSuperAdmin() ? `<button class="btn" style="padding:4px 10px;font-size:11px;background:var(--blue-bg);color:var(--blue);border-color:transparent;" onclick="editarPermisos('${u.user}')">🔐 Permisos</button>` : ''}
+        ${canDelete && lista.length > 1 ? `<button class="btn btn-danger" style="padding:4px 10px;font-size:11px;" onclick="eliminarUsuario(${realIdx})">✕</button>` : ''}
       </div>
     </div>`;
   });
   document.getElementById('lista-usuarios').innerHTML = html;
+
+  // Mostrar/ocultar card agregar según permiso
+  const cardAgregar = document.getElementById('card-agregar-usuario');
+  if (cardAgregar) cardAgregar.style.display = hasPermiso('agregar_usuarios') ? 'block' : 'none';
 }
 
 function editarUsuario(i) {
@@ -697,18 +790,23 @@ function editarUsuario(i) {
   const u = lista[i];
   if (!u) return;
   
-  // Modal de edición inline
+  // Solo superadmin puede editar admins; admins limitados solo pueden editar vendedores/clientes
+  if (u.rol === 'admin' && !isSuperAdmin()) { toast('⚠️ Solo el Super Admin puede editar admins'); return; }
+  if (!isSuperAdmin() && !hasPermiso('usuarios')) { toast('⚠️ Sin permiso para editar usuarios'); return; }
+
+  const esSuperAdmin = u.user === SUPER_ADMIN_USER;
   const overlay = document.createElement('div');
   overlay.id = 'edit-modal-overlay';
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:500;display:flex;align-items:center;justify-content:center;padding:1rem;';
   
   overlay.innerHTML = `
     <div style="background:var(--bg);border-radius:14px;padding:1.5rem;width:100%;max-width:420px;box-shadow:0 8px 40px rgba(0,0,0,0.2);">
-      <div style="font-size:15px;font-weight:700;margin-bottom:1rem;">✏️ Editar usuario</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:8px;">✏️ Editar usuario ${esSuperAdmin ? '<span class="superadmin-badge">👑 Super Admin</span>' : ''}</div>
+      ${esSuperAdmin ? '<div style="font-size:12px;padding:8px 10px;background:var(--blue-bg);color:var(--blue);border-radius:7px;margin-bottom:12px;">Cuenta principal con control total. Solo puedes cambiar su contraseña.</div>' : ''}
       <label style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:4px;margin-top:12px;">Nombre</label>
-      <input id="edit-nombre" type="text" style="width:100%;padding:9px 12px;border:0.5px solid var(--border2);border-radius:7px;font-size:14px;background:var(--bg);color:var(--text);outline:none;" value="${u.nombre}">
+      <input id="edit-nombre" type="text" ${esSuperAdmin?'disabled style="opacity:0.5;"':''} style="width:100%;padding:9px 12px;border:0.5px solid var(--border2);border-radius:7px;font-size:14px;background:var(--bg);color:var(--text);outline:none;" value="${u.nombre}">
       <label style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:4px;margin-top:12px;">Usuario (login)</label>
-      <input id="edit-user" type="text" style="width:100%;padding:9px 12px;border:0.5px solid var(--border2);border-radius:7px;font-size:14px;background:var(--bg);color:var(--text);outline:none;" value="${u.user}">
+      <input id="edit-user" type="text" ${esSuperAdmin?'disabled style="opacity:0.5;"':''} style="width:100%;padding:9px 12px;border:0.5px solid var(--border2);border-radius:7px;font-size:14px;background:var(--bg);color:var(--text);outline:none;" value="${u.user}">
       <label style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:4px;margin-top:12px;">Contraseña / Teléfono</label>
       <input id="edit-pass" type="text" style="width:100%;padding:9px 12px;border:0.5px solid var(--border2);border-radius:7px;font-size:14px;background:var(--bg);color:var(--text);outline:none;" value="${u.pass}">
       ${u.rol === 'cliente' ? `
@@ -730,8 +828,9 @@ function guardarEdicionUsuario(i) {
   const u = lista[i];
   if (!u) return;
   
-  const nuevoNombre = document.getElementById('edit-nombre').value.trim();
-  const nuevoUser = document.getElementById('edit-user').value.trim();
+  const esSuperAdmin = u.user === SUPER_ADMIN_USER;
+  const nuevoNombre = esSuperAdmin ? u.nombre : (document.getElementById('edit-nombre').value.trim());
+  const nuevoUser = esSuperAdmin ? u.user : (document.getElementById('edit-user').value.trim());
   const nuevoPass = document.getElementById('edit-pass').value.trim();
   
   if (!nuevoNombre || !nuevoUser || !nuevoPass) { toast('⚠️ Completa todos los campos'); return; }
@@ -756,6 +855,7 @@ function guardarEdicionUsuario(i) {
 }
 
 function agregarUsuario() {
+  if (!hasPermiso('agregar_usuarios')) { toast('⚠️ Sin permiso para agregar usuarios'); return; }
   const user = document.getElementById('new-user').value.trim();
   const pass = document.getElementById('new-pass').value.trim();
   const rol = document.getElementById('new-rol').value;
@@ -785,12 +885,80 @@ function agregarUsuario() {
 }
 
 function eliminarUsuario(i) {
+  if (!isSuperAdmin()) { toast('⚠️ Solo el Super Admin puede eliminar usuarios'); return; }
   if (!confirm('¿Eliminar este usuario?')) return;
   const lista = getUsuarios();
+  if (lista[i]?.user === SUPER_ADMIN_USER) { toast('⚠️ No se puede eliminar el Super Admin'); return; }
   lista.splice(i, 1);
   saveUsuarios(lista);
   renderUsuarios();
   toast('Usuario eliminado');
+}
+
+function editarPermisos(userKey) {
+  if (!isSuperAdmin()) { toast('⚠️ Solo el Super Admin puede cambiar permisos'); return; }
+  const lista = getUsuarios();
+  const u = lista.find(x => x.user === userKey);
+  if (!u) return;
+
+  const permisos = u.permisos || {};
+
+  const overlay = document.createElement('div');
+  overlay.id = 'permisos-modal-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:500;display:flex;align-items:center;justify-content:center;padding:1rem;';
+
+  const checkboxes = PERMISOS_DEF.map(p => `
+    <div class="perm-item" onclick="this.querySelector('input').click()">
+      <input type="checkbox" id="perm-${p.key}" ${permisos[p.key] ? 'checked' : ''} onclick="event.stopPropagation()">
+      <div>
+        <label for="perm-${p.key}">${p.icon} ${p.label}</label>
+        <div class="perm-desc">${p.desc}</div>
+      </div>
+    </div>
+  `).join('');
+
+  overlay.innerHTML = `
+    <div style="background:var(--bg);border-radius:14px;padding:1.5rem;width:100%;max-width:480px;box-shadow:0 8px 40px rgba(0,0,0,0.2);max-height:90vh;overflow-y:auto;">
+      <div style="font-size:15px;font-weight:700;margin-bottom:4px;">🔐 Permisos — ${u.nombre}</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:4px;">Selecciona las funcionalidades a las que tiene acceso este administrador.</div>
+      <div style="font-size:11px;padding:8px 10px;background:var(--amber-bg);color:var(--amber);border-radius:7px;margin-bottom:12px;">
+        ⚠️ Los permisos se aplican inmediatamente. El admin verá solo las secciones que tengas habilitadas.
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <button onclick="toggleTodosPermisos(true)" class="btn" style="font-size:12px;padding:6px 12px;">✓ Todos</button>
+        <button onclick="toggleTodosPermisos(false)" class="btn" style="font-size:12px;padding:6px 12px;">✗ Ninguno</button>
+      </div>
+      <div class="perm-grid">${checkboxes}</div>
+      <div style="display:flex;gap:8px;margin-top:1.2rem;">
+        <button onclick="guardarPermisos('${userKey}')" style="flex:1;padding:10px;background:var(--text);color:var(--bg);border:none;border-radius:7px;font-size:14px;font-weight:600;cursor:pointer;">Guardar permisos</button>
+        <button onclick="document.getElementById('permisos-modal-overlay').remove()" style="padding:10px 16px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:7px;font-size:14px;cursor:pointer;">Cancelar</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+}
+
+function toggleTodosPermisos(estado) {
+  PERMISOS_DEF.forEach(p => {
+    const el = document.getElementById('perm-' + p.key);
+    if (el) el.checked = estado;
+  });
+}
+
+function guardarPermisos(userKey) {
+  const lista = getUsuarios();
+  const idx = lista.findIndex(x => x.user === userKey);
+  if (idx === -1) return;
+  const nuevosPermisos = {};
+  PERMISOS_DEF.forEach(p => {
+    const el = document.getElementById('perm-' + p.key);
+    if (el && el.checked) nuevosPermisos[p.key] = true;
+  });
+  lista[idx].permisos = nuevosPermisos;
+  saveUsuarios(lista);
+  document.getElementById('permisos-modal-overlay')?.remove();
+  renderUsuarios();
+  toast('✓ Permisos actualizados para ' + lista[idx].nombre);
 }
 
 // ═══════════════════════════════════════════════
@@ -835,7 +1003,11 @@ function showTab(t, el) {
   }
   if (t === 'numeros') renderMapa();
   if (t === 'resumen') renderResumen();
-  if (t === 'usuarios') renderUsuarios();
+  if (t === 'usuarios') {
+    renderUsuarios();
+    const cardAgregar = document.getElementById('card-agregar-usuario');
+    if (cardAgregar) cardAgregar.style.display = hasPermiso('agregar_usuarios') ? 'block' : 'none';
+  }
   if (t === 'mi-estado') renderClienteEstado();
   if (t === 'mis-clientes') renderMisClientes();
   if (t === 'saldos') renderSaldos();
@@ -1022,6 +1194,7 @@ function updateResumen(v) {
 }
 
 function registrarPago() {
+  if (currentUser.rol === 'admin' && !hasPermiso('cobrar')) { toast('⚠️ Sin permiso para registrar pagos'); return; }
   const v = document.getElementById('sel-vendedor').value;
   if (!v || selectedMeses.length === 0) return;
   const nums = VENDEDORES[v] || [];
@@ -1274,7 +1447,7 @@ function renderResumen() {
 }
 
 function confirmarBorrar() {
-  if (currentUser.rol !== 'admin') { toast('⚠️ Solo el administrador puede hacer esto'); return; }
+  if (!hasPermiso('borrar_pagos')) { toast('⚠️ Sin permiso para borrar pagos'); return; }
   if (confirm('¿Seguro que quieres borrar TODOS los pagos registrados? Esta acción no se puede deshacer.')) {
     pagos = {};
     save();
@@ -1356,6 +1529,7 @@ function renderSaldos() {
 }
 
 function editarSaldo(num) {
+  if (currentUser.rol === 'admin' && !hasPermiso('saldos')) { toast('⚠️ Sin permiso para editar saldos'); return; }
   const map = getNumClienteMap();
   const cliente = map[num] || 'Sin asignar';
   const actual = getSaldoBase(num);
@@ -1408,6 +1582,7 @@ function restaurarSaldo(num) {
 }
 
 function resetearOverrides() {
+  if (currentUser.rol === 'admin' && !hasPermiso('saldos')) { toast('⚠️ Sin permiso para editar saldos'); return; }
   if (Object.keys(saldosOverride).length === 0) { toast('No hay saldos modificados'); return; }
   if (!confirm('¿Restaurar TODOS los saldos al valor original del CSV?')) return;
   saldosOverride = {};
