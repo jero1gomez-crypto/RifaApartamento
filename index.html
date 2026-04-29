@@ -25,13 +25,73 @@
     --radius: 10px;
     --radius-sm: 7px;
   }
+
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg2); color: var(--text); min-height: 100vh; }
+
+  /* ─── LOGIN ─── */
+  #login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg2);
+    padding: 1.5rem;
+  }
+  .login-box {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    padding: 2.2rem 2rem;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  }
+  .login-logo { font-size: 36px; text-align: center; margin-bottom: 6px; }
+  .login-title { font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 4px; }
+  .login-sub { font-size: 13px; color: var(--text2); text-align: center; margin-bottom: 2rem; }
+  .login-label { font-size: 11px; color: var(--text2); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; display: block; margin-bottom: 6px; margin-top: 16px; }
+  .login-input {
+    width: 100%; padding: 10px 14px;
+    border: 0.5px solid var(--border2);
+    border-radius: var(--radius-sm);
+    font-size: 14px; background: var(--bg); color: var(--text);
+    outline: none; transition: border-color 0.15s;
+  }
+  .login-input:focus { border-color: var(--blue); }
+  .login-btn {
+    width: 100%; margin-top: 1.5rem;
+    padding: 11px; border: none;
+    border-radius: var(--radius-sm);
+    background: var(--text); color: var(--bg);
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .login-btn:hover { opacity: 0.82; }
+  .login-error { font-size: 12px; color: var(--red); text-align: center; margin-top: 12px; display: none; }
+  .role-hints { margin-top: 1.6rem; padding-top: 1.2rem; border-top: 0.5px solid var(--border); }
+  .role-hint { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 8px; cursor: pointer; transition: background 0.12s; margin-bottom: 4px; }
+  .role-hint:hover { background: var(--bg2); }
+  .role-hint-icon { font-size: 18px; width: 28px; text-align: center; }
+  .role-hint-info { flex: 1; }
+  .role-hint-name { font-size: 12px; font-weight: 600; }
+  .role-hint-desc { font-size: 11px; color: var(--text2); }
+  .role-hint-arrow { font-size: 13px; color: var(--text2); }
+
+  /* ─── APP ─── */
+  #app-screen { display: none; }
   header { background: var(--bg); border-bottom: 0.5px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; }
-  header h1 { font-size: 17px; font-weight: 600; }
-  header span { font-size: 12px; color: var(--text2); background: var(--amber-bg); color: var(--amber); padding: 3px 10px; border-radius: 99px; font-weight: 500; }
+  header h1 { font-size: 17px; font-weight: 600; flex: 1; }
+  header .badge-role { font-size: 11px; padding: 3px 10px; border-radius: 99px; font-weight: 600; }
+  .role-admin { background: var(--blue-bg); color: var(--blue); }
+  .role-vendedor { background: var(--green-bg); color: var(--green); }
+  .role-cliente { background: var(--amber-bg); color: var(--amber); }
+  .logout-btn { font-size: 12px; color: var(--text2); background: none; border: 0.5px solid var(--border2); border-radius: 6px; padding: 4px 10px; cursor: pointer; transition: background 0.12s; }
+  .logout-btn:hover { background: var(--bg2); }
+  .user-name { font-size: 12px; font-weight: 600; color: var(--text); }
+
   .container { max-width: 780px; margin: 0 auto; padding: 1.5rem 1rem; }
-  .tabs { display: flex; gap: 4px; margin-bottom: 1.5rem; border-bottom: 0.5px solid var(--border); }
-  .tab { padding: 9px 18px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; background: none; color: var(--text2); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s; }
+  .tabs { display: flex; gap: 4px; margin-bottom: 1.5rem; border-bottom: 0.5px solid var(--border); overflow-x: auto; }
+  .tab { padding: 9px 18px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; background: none; color: var(--text2); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s; white-space: nowrap; }
   .tab.active { color: var(--text); border-bottom-color: var(--text); }
   .section { display: none; }
   .section.active { display: block; }
@@ -75,6 +135,11 @@
   .progress-bar { height: 6px; background: var(--bg3); border-radius: 99px; overflow: hidden; margin-top: 8px; }
   .progress-fill { height: 100%; border-radius: 99px; background: var(--blue); transition: width 0.3s; }
   .empty { text-align: center; color: var(--text2); font-size: 13px; padding: 2rem 0; }
+
+  /* ─── Vista cliente ─── */
+  .mi-estado-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .info-banner { background: var(--blue-bg); border: 0.5px solid rgba(24,95,165,0.2); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 13px; color: var(--blue); margin-bottom: 16px; }
+
   @media(max-width:500px){
     .grid3 { grid-template-columns: 1fr 1fr; }
     .metric-value { font-size: 16px; }
@@ -84,178 +149,728 @@
 </head>
 <body>
 
-<header>
-  <div style="font-size:22px;">🏠</div>
-  <h1>Rifa Apartamentos</h1>
-  <span>12 cuotas · $100.000/núm</span>
-</header>
+<!-- ═══════════════════ PANTALLA DE LOGIN ═══════════════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">🏠</div>
+    <div class="login-title">Rifa Apartamentos</div>
+    <div class="login-sub">Inicia sesión para continuar</div>
 
-<div class="container">
-<div class="tabs">
-  <button class="tab active" onclick="showTab('cobrar',this)">Cobrar cuota</button>
-  <button class="tab" onclick="showTab('vendedores',this)">Vendedores</button>
-  <button class="tab" onclick="showTab('numeros',this)">Mapa</button>
-  <button class="tab" onclick="showTab('resumen',this)">Resumen</button>
-</div>
+    <label class="login-label">Usuario</label>
+    <input class="login-input" type="text" id="login-user" placeholder="Tu usuario" autocomplete="username" onkeydown="if(event.key==='Enter') doLogin()">
 
-<!-- TAB: COBRAR -->
-<div id="tab-cobrar" class="section active">
-  <div class="card">
-    <label>Vendedor</label>
-    <select id="sel-vendedor" onchange="onVendedorChange()">
-      <option value="">-- Seleccionar vendedor --</option>
-    </select>
-    <div id="info-vendedor" style="display:none;margin-top:14px;">
-      <div class="grid3">
-        <div class="metric"><div class="metric-label">Números</div><div class="metric-value" id="v-nums">0</div></div>
-        <div class="metric"><div class="metric-label">Abonado</div><div class="metric-value" id="v-abo" style="font-size:14px;color:var(--green);">$0</div></div>
-        <div class="metric"><div class="metric-label">Pendiente</div><div class="metric-value" id="v-pend" style="font-size:14px;color:var(--red);">$0</div></div>
+    <label class="login-label">Contraseña</label>
+    <input class="login-input" type="password" id="login-pass" placeholder="Tu contraseña" autocomplete="current-password" onkeydown="if(event.key==='Enter') doLogin()">
+
+    <button class="login-btn" onclick="doLogin()">Entrar</button>
+    <div class="login-error" id="login-error">Usuario o contraseña incorrectos</div>
+
+    <!-- Accesos rápidos de demo -->
+    <div class="role-hints">
+      <div style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;">Accesos rápidos</div>
+      <div class="role-hint" onclick="quickLogin('admin','admin123')">
+        <span class="role-hint-icon">🛡️</span>
+        <div class="role-hint-info">
+          <div class="role-hint-name">Administrador</div>
+          <div class="role-hint-desc">Acceso total · admin / admin123</div>
+        </div>
+        <span class="role-hint-arrow">›</span>
       </div>
-      <div class="progress-bar"><div class="progress-fill" id="v-prog" style="width:0%"></div></div>
+      <div class="role-hint" onclick="quickLogin('juan','juan123')">
+        <span class="role-hint-icon">🧾</span>
+        <div class="role-hint-info">
+          <div class="role-hint-name">Vendedor — Juan</div>
+          <div class="role-hint-desc">Ve sus propios números · juan / juan123</div>
+        </div>
+        <span class="role-hint-arrow">›</span>
+      </div>
+      <div class="role-hint" onclick="quickLogin('cliente1','cliente123')">
+        <span class="role-hint-icon">🎟️</span>
+        <div class="role-hint-info">
+          <div class="role-hint-name">Cliente — Comprador</div>
+          <div class="role-hint-desc">Ve su estado de pago · cliente1 / cliente123</div>
+        </div>
+        <span class="role-hint-arrow">›</span>
+      </div>
     </div>
   </div>
+</div>
 
-  <div class="card" id="card-meses" style="display:none;">
-    <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Meses a pagar</div>
-    <div id="meses-container"></div>
+<!-- ═══════════════════ APP PRINCIPAL ═══════════════════ -->
+<div id="app-screen">
+  <header>
+    <div style="font-size:22px;">🏠</div>
+    <h1>Rifa Apartamentos</h1>
+    <span id="header-role-badge" class="badge-role"></span>
+    <span class="user-name" id="header-username"></span>
+    <button class="logout-btn" onclick="doLogout()">Salir</button>
+  </header>
 
-    <!-- MODO DE PAGO -->
-    <div id="bloque-modo-pago" style="display:none;">
-      <hr class="divider">
+  <div class="container">
+    <div class="tabs" id="main-tabs"></div>
 
-      <!-- Valor y método por número individual -->
-      <div style="margin-bottom:14px;">
-        <div style="font-size:12px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;">Detalle por número</div>
-        <div style="font-size:11px;color:var(--text2);margin-bottom:10px;">Cada número tiene su propio valor y método de pago.</div>
-        <div id="numeros-pago-container"></div>
+    <!-- ──── ADMIN / VENDEDOR: TAB COBRAR ──── -->
+    <div id="tab-cobrar" class="section">
+      <div class="card">
+        <label>Vendedor</label>
+        <select id="sel-vendedor" onchange="onVendedorChange()">
+          <option value="">-- Seleccionar vendedor --</option>
+        </select>
+        <div id="info-vendedor" style="display:none;margin-top:14px;">
+          <div class="grid3">
+            <div class="metric"><div class="metric-label">Números</div><div class="metric-value" id="v-nums">0</div></div>
+            <div class="metric"><div class="metric-label">Abonado</div><div class="metric-value" id="v-abo" style="font-size:14px;color:var(--green);">$0</div></div>
+            <div class="metric"><div class="metric-label">Pendiente</div><div class="metric-value" id="v-pend" style="font-size:14px;color:var(--red);">$0</div></div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="v-prog" style="width:0%"></div></div>
+        </div>
       </div>
 
-      <!-- Resumen -->
-      <div class="summary-box" id="resumen-cobro" style="display:none;">
-        <div class="total-line"><span class="muted">Números del vendedor</span><span id="r-nums">0</span></div>
-        <div class="total-line"><span class="muted">Meses seleccionados</span><span id="r-meses">0</span></div>
-        <div class="total-line" id="r-line-efectivo"><span class="muted">💵 Efectivo</span><span id="r-efectivo" style="color:var(--green);font-weight:600;">$0</span></div>
-        <div class="total-line" id="r-line-consig"><span class="muted">🏦 Consignación</span><span id="r-consig" style="color:var(--blue);font-weight:600;">$0</span></div>
-        <div class="total-line" id="r-line-nopagan"><span class="muted">Sin pago</span><span id="r-nopagan" style="color:var(--red);">0 números</span></div>
-        <div class="total-line big"><span>Total a recibir</span><span style="color:var(--blue);" id="r-total">$0</span></div>
+      <div class="card" id="card-meses" style="display:none;">
+        <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Meses a pagar</div>
+        <div id="meses-container"></div>
+        <div id="bloque-modo-pago" style="display:none;">
+          <hr class="divider">
+          <div style="margin-bottom:14px;">
+            <div style="font-size:12px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;">Detalle por número</div>
+            <div style="font-size:11px;color:var(--text2);margin-bottom:10px;">Cada número tiene su propio valor y método de pago.</div>
+            <div id="numeros-pago-container"></div>
+          </div>
+          <div class="summary-box" id="resumen-cobro" style="display:none;">
+            <div class="total-line"><span class="muted">Números del vendedor</span><span id="r-nums">0</span></div>
+            <div class="total-line"><span class="muted">Meses seleccionados</span><span id="r-meses">0</span></div>
+            <div class="total-line" id="r-line-efectivo"><span class="muted">💵 Efectivo</span><span id="r-efectivo" style="color:var(--green);font-weight:600;">$0</span></div>
+            <div class="total-line" id="r-line-consig"><span class="muted">🏦 Consignación</span><span id="r-consig" style="color:var(--blue);font-weight:600;">$0</span></div>
+            <div class="total-line" id="r-line-nopagan"><span class="muted">Sin pago</span><span id="r-nopagan" style="color:var(--red);">0 números</span></div>
+            <div class="total-line big"><span>Total a recibir</span><span style="color:var(--blue);" id="r-total">$0</span></div>
+          </div>
+          <button class="btn btn-primary" style="width:100%;margin-top:14px;" onclick="registrarPago()">✓ Registrar pago</button>
+        </div>
       </div>
-      <button class="btn btn-primary" style="width:100%;margin-top:14px;" onclick="registrarPago()">✓ Registrar pago</button>
+      <div id="historial-cobrar"></div>
     </div>
-  </div>
 
-  <div id="historial-cobrar"></div>
-</div>
-
-<!-- TAB: VENDEDORES -->
-<div id="tab-vendedores" class="section">
-  <div class="search-box">
-    <input type="text" placeholder="Buscar vendedor..." id="search-v" oninput="renderVendedores()">
-  </div>
-  <div class="card" id="lista-vendedores-card">
-    <div id="lista-vendedores"></div>
-  </div>
-  <div id="detalle-vendedor" style="display:none;"></div>
-</div>
-
-<!-- TAB: MAPA -->
-<div id="tab-numeros" class="section">
-  <div class="card" style="margin-bottom:1rem;">
-    <div class="grid3">
-      <div class="metric"><div class="metric-label">Asignados</div><div class="metric-value" id="map-a">0</div></div>
-      <div class="metric"><div class="metric-label">Libres</div><div class="metric-value" id="map-l">0</div></div>
-      <div class="metric"><div class="metric-label">Con pagos</div><div class="metric-value" id="map-p">0</div></div>
+    <!-- ──── ADMIN / VENDEDOR: TAB VENDEDORES ──── -->
+    <div id="tab-vendedores" class="section">
+      <div class="search-box">
+        <input type="text" placeholder="Buscar vendedor..." id="search-v" oninput="renderVendedores()">
+      </div>
+      <div class="card" id="lista-vendedores-card">
+        <div id="lista-vendedores"></div>
+      </div>
+      <div id="detalle-vendedor" style="display:none;"></div>
     </div>
-  </div>
-  <div style="font-size:11px;color:var(--text2);margin-bottom:10px;display:flex;gap:14px;flex-wrap:wrap;">
-    <span><span style="display:inline-block;width:12px;height:12px;background:#D3D1C7;border-radius:3px;margin-right:4px;vertical-align:middle;"></span>Libre</span>
-    <span><span style="display:inline-block;width:12px;height:12px;background:#FAEEDA;border-radius:3px;margin-right:4px;vertical-align:middle;"></span>Asignado</span>
-    <span><span style="display:inline-block;width:12px;height:12px;background:#D9ECFF;border-radius:3px;margin-right:4px;vertical-align:middle;"></span>Pago parcial</span>
-    <span><span style="display:inline-block;width:12px;height:12px;background:#C0DD97;border-radius:3px;margin-right:4px;vertical-align:middle;"></span>Cancelado total</span>
-  </div>
-  <div id="mapa-numeros" style="display:flex;flex-wrap:wrap;gap:3px;"></div>
-</div>
 
-<!-- TAB: RESUMEN -->
-<div id="tab-resumen" class="section">
-  <div class="card" id="resumen-global"></div>
-  <div class="card" style="margin-top:12px;">
-    <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Por vendedor</div>
-    <div id="resumen-tabla"></div>
-  </div>
-  <div style="margin-top:14px;text-align:right;">
-    <button class="btn btn-danger" onclick="confirmarBorrar()">Borrar todos los pagos</button>
-  </div>
-</div>
-</div>
+    <!-- ──── ADMIN: TAB MAPA ──── -->
+    <div id="tab-numeros" class="section">
+      <div class="card" style="margin-bottom:1rem;">
+        <div class="grid3">
+          <div class="metric"><div class="metric-label">Asignados</div><div class="metric-value" id="map-a">0</div></div>
+          <div class="metric"><div class="metric-label">Libres</div><div class="metric-value" id="map-l">0</div></div>
+          <div class="metric"><div class="metric-label">Con pagos</div><div class="metric-value" id="map-p">0</div></div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:10px;display:flex;gap:14px;flex-wrap:wrap;">
+        <span><span style="display:inline-block;width:12px;height:12px;background:#D3D1C7;border-radius:3px;margin-right:4px;vertical-align:middle;"></span>Libre</span>
+        <span><span style="display:inline-block;width:12px;height:12px;background:#FAEEDA;border-radius:3px;margin-right:4px;vertical-align:middle;"></span>Asignado</span>
+        <span><span style="display:inline-block;width:12px;height:12px;background:#D9ECFF;border-radius:3px;margin-right:4px;vertical-align:middle;"></span>Pago parcial</span>
+        <span><span style="display:inline-block;width:12px;height:12px;background:#C0DD97;border-radius:3px;margin-right:4px;vertical-align:middle;"></span>Cancelado total</span>
+      </div>
+      <div id="mapa-numeros" style="display:flex;flex-wrap:wrap;gap:3px;"></div>
+    </div>
+
+    <!-- ──── ADMIN: TAB RESUMEN ──── -->
+    <div id="tab-resumen" class="section">
+      <div class="card" id="resumen-global"></div>
+      <div class="card" style="margin-top:12px;">
+        <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Por vendedor</div>
+        <div id="resumen-tabla"></div>
+      </div>
+      <div style="margin-top:14px;text-align:right;">
+        <button class="btn btn-danger" onclick="confirmarBorrar()">Borrar todos los pagos</button>
+      </div>
+    </div>
+
+    <!-- ──── ADMIN: TAB USUARIOS ──── -->
+    <div id="tab-usuarios" class="section">
+      <div class="search-box">
+        <input type="text" placeholder="Buscar usuario, nombre o teléfono..." id="search-usuarios" oninput="renderUsuarios()">
+      </div>
+      <div class="card">
+        <div style="font-size:13px;font-weight:600;margin-bottom:14px;">Gestión de usuarios</div>
+        <div id="lista-usuarios"></div>
+      </div>
+      <div class="card" style="margin-top:12px;">
+        <div style="font-size:13px;font-weight:600;margin-bottom:14px;">Agregar usuario</div>
+        <label>Usuario</label>
+        <input type="text" id="new-user" placeholder="Nombre de usuario">
+        <label>Contraseña</label>
+        <input type="text" id="new-pass" placeholder="Contraseña">
+        <label>Rol</label>
+        <select id="new-rol">
+          <option value="admin">🛡️ Administrador</option>
+          <option value="vendedor">🧾 Vendedor</option>
+          <option value="cliente">🎟️ Cliente</option>
+        </select>
+        <div id="new-vendedor-wrap" style="display:none;">
+          <label>Vendedor asociado</label>
+          <select id="new-vendedor-sel"></select>
+        </div>
+        <div id="new-numeros-wrap" style="display:none;">
+          <label>Números asignados (separados por coma)</label>
+          <input type="text" id="new-numeros" placeholder="Ej: 001, 055, 120">
+        </div>
+        <button class="btn btn-primary" style="margin-top:16px;" onclick="agregarUsuario()">+ Agregar usuario</button>
+      </div>
+    </div>
+
+    <!-- ──── CLIENTE: MI ESTADO ──── -->
+    <div id="tab-mi-estado" class="section">
+      <div class="info-banner" id="cliente-bienvenida"></div>
+      <div id="cliente-contenido"></div>
+    </div>
+
+    <!-- ──── ADMIN: TAB SALDOS ──── -->
+    <div id="tab-saldos" class="section">
+      <div class="card" style="margin-bottom:12px;">
+        <div style="font-size:13px;font-weight:600;margin-bottom:6px;">Editar saldo pendiente por número</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:14px;">Busca cualquier número y edita su saldo pendiente manualmente. Este valor tiene prioridad sobre el CSV original.</div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;">
+          <input type="text" id="saldo-search" placeholder="Buscar número (ej: 077) o cliente..." style="flex:1;" oninput="renderSaldos()">
+          <button class="btn btn-danger" onclick="resetearOverrides()" style="white-space:nowrap;">↺ Resetear todo</button>
+        </div>
+        <div id="saldos-lista"></div>
+      </div>
+    </div>
+
+    <!-- ──── VENDEDOR: MIS CLIENTES ──── -->
+    <div id="tab-mis-clientes" class="section">
+      <div class="card" id="mis-clientes-contenido"></div>
+    </div>
+
+  </div><!-- /container -->
+</div><!-- /app-screen -->
 
 <div class="toast" id="toast"></div>
 
 <script>
+// ═══════════════════════════════════════════════
+// DATOS
+// ═══════════════════════════════════════════════
 const VENDEDORES = {"ALEJA":["915"],"ANTONIO":["735"],"BOTIJA":["264","336","547","583","724","819","905"],"BUÑUELO":["038","155","159","250","362","479","539","699","784","855","903"],"CHAPARRO":["698","811","830"],"CHENTE":["061","270","359","402","454","467","519","534","561","579","620","645","706","745","751","815","817","884"],"CHIQUI":["213","415","563","569","842","978","043"],"CONEJO":["010","144","182","201","206","219","227","237","256","330","379","428","439","449","477","520","560","582","595","621","634","721","759","802","860","887","891","904","962","040","121","134","672","837","933"],"D":["001","002","006","007","008","046","073","099","100","120","129","160","166","173","176","188","209","212","232","302","333","335","338","352","380","381","400","448","451","456","465","487","489","509","521","549","603","663","666","690","708","742","747","754","769","779","797","863","882","901","919","944","955","991","995","030"],"DANIELA":["425","515","649"],"DIEGO":["128","137","221","319","434","538","546","618","707","709","836","956"],"DON ANTONIO":["278","086"],"DOÑA NELFY":["673"],"EFRÉN":["280","809"],"ELKIN R9":["238","251","291","088","306","326","364","478","495","525","559","573","575","600","632","659","720","787","805","940","942","979","993"],"ENI":["035","056","117","125","142","236","241","247","257","275","312","339","345","387","395","403","412","422","459","472","531","536","542","576","607","613","615","622","636","670","697","723","728","772","777","790","825","826","846","907","922","927","950","976","980","997","037","076","090"],"EVE":["012","051","455","781","800"],"GALLINA":["133","297","349","368","436","731","761","776","820","851","066"],"INSTAGRAM":["893"],"J PABLO":["156","207","308","378","466","556","578","651","843","859","909","089","877","910"],"JUAN":["000","003","004","009","016","017","018","019","022","024","025","027","028","029","036","053","054","057","059","060","062","070","074","078","085","091","094","107","110","131","135","139","141","145","147","148","150","151","152","157","158","162","163","165","167","168","169","170","171","175","179","181","183","184","185","186","189","190","192","193","194","195","196","197","202","210","211","214","215","216","217","218","220","222","223","225","228","230","235","239","242","243","244","245","246","252","253","255","259","260","261","263","265","266","267","268","271","272","276","282","284","285","288","289","290","293","294","296","298","303","304","305","309","310","311","314","315","316","318","320","324","327","331","332","340","342","344","346","348","350","351","353","354","355","356","357","361","365","367","369","376","377","388","392","394","404","405","406","407","408","409","413","414","416","421","423","426","430","431","432","440","442","443","447","452","453","458","461","463","469","471","476","482","483","484","485","486","490","491","493","498","499","500","502","503","504","505","506","507","511","512","513","516","518","522","526","527","528","529","532","533","537","541","543","544","548","552","553","564","568","570","571","574","581","585","589","590","591","592","593","601","602","605","609","612","614","617","619","625","627","628","629","639","640","641","642","643","644","646","650","652","653","654","655","656","658","661","667","676","679","681","682","683","685","686","689","691","692","693","694","695","702","705","711","712","713","714","717","719","722","732","733","734","736","743","746","748","752","755","760","763","768","771","774","780","783","786","789","792","793","794","795","798","801","803","807","812","814","816","821","828","831","834","840","844","845","847","850","854","857","861","864","867","870","871","872","873","878","892","894","895","896","897","898","902","906","911","912","914","916","918","920","921","923","924","925","926","928","929","931","934","935","936","939","945","947","949","951","954","957","958","961","963","965","966","968","969","971","972","974","977","981","982","985","986","987","988","989","994","998","026","032","033","034","039","042","045","047","052","063","064","067","068","069","072","079","080","081","084","093","095","098","101","102","108","112","114","115","116","123","124","130","140","143","177","198","203","321","328","389","397","398","410","437","444","445","480","567","577","586","678","730","740","788","813","932"],"JUAN JOSE":["580","594","930"],"JUAN P":["307","550","104","105","566","701","739","758","773","953","992","700"],"KIKO":["020","058","178","283","390","450","555","630","675","696","727","765","881"],"MARCELA":["753"],"MARCELA GANA":["323"],"MARY":["829"],"MARY HERBALIFE":["756"],"MAURICIO":["011","021","065","119","199","249","329","341","375","438","501","523","562","587","648","664","665","668","744","766","937","970"],"MILADY":["092","180","677","767","908","938"],"MILENA":["964"],"MILENA CEL":["015","109","132","286"],"MONA":["262","274","366","372","420","441","470","475","517","524","598","608","624","638","680","703","749","762","782","799","839","865","866","875","952","959","967","983","013","075","153","492"],"NATALIA":["005","023","031","049","050","055","071","082","087","097","103","106","113","136","138","146","149","154","161","164","174","187","191","204","205","208","224","229","234","240","254","269","273","279","281","295","300","317","322","334","337","343","360","363","373","374","382","386","396","401","417","429","433","446","460","462","464","488","497","530","540","545","554","557","565","572","588","596","599","606","635","647","657","660","671","684","704","726","729","738","750","757","770","775","791","808","823","832","849","856","868","880","888","890","900","946","960","973","118","370","473","474","494","508","514","633","917","975"],"NURY":["083","096","200","226","277","299","383","393","419","427","610","616","778","806","818","838","853","996","111","126"],"PAULA B 611":["077","424","862"],"PIRULO":["481"],"PROFE JORDAN":["044","874"],"PROFE SANDRA":["999"],"YESENIA":["014","041","172","231","233","248","258","287","292","301","313","325","347","358","371","384","385","391","399","411","418","435","457","468","496","510","535","551","584","597","604","611","623","626","631","637","662","669","674","687","688","710","715","716","718","725","737","741","764","785","796","804","810","822","824","827","835","841","848","852","858","869","876","879","883","889","899","913","941","948","984","990","048","122","127","833","943"],"YIRIS":["558","885","886"]};
 
 const MESES = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
 const CUOTA = 100000;
+const MESES_CORRIDOS = 3; // Meses transcurridos de la rifa
+// Saldo pendiente real por número (del CSV de relación)
+const SALDOS_CSV = {"000":800000,"001":800000,"002":800000,"003":1000000,"004":1000000,"005":800000,"006":800000,"007":800000,"008":800000,"009":800000,"010":700000,"011":700000,"012":800000,"013":0,"014":700000,"015":700000,"016":700000,"017":600000,"018":700000,"019":0,"020":700000,"021":700000,"022":700000,"023":600000,"024":700000,"025":700000,"026":700000,"027":700000,"028":0,"029":700000,"030":800000,"031":0,"032":700000,"033":600000,"034":700000,"035":700000,"036":800000,"037":0,"038":0,"039":0,"040":600000,"041":700000,"042":700000,"043":850000,"044":0,"045":800000,"046":800000,"047":600000,"048":700000,"049":800000,"050":800000,"051":800000,"052":0,"053":0,"054":700000,"055":600000,"056":800000,"057":700000,"058":700000,"059":0,"060":700000,"061":600000,"062":0,"063":700000,"064":900000,"065":700000,"066":700000,"067":700000,"068":700000,"069":700000,"070":700000,"071":800000,"072":700000,"073":800000,"074":700000,"075":0,"076":0,"077":700000,"078":700000,"079":800000,"080":700000,"081":700000,"082":600000,"083":900000,"084":700000,"085":700000,"086":600000,"087":1000000,"088":600000,"089":800000,"090":800000,"091":700000,"092":700000,"093":700000,"094":700000,"095":700000,"096":800000,"097":600000,"098":700000,"099":800000,"100":800000,"101":700000,"102":0,"103":600000,"104":700000,"105":800000,"106":600000,"107":600000,"108":700000,"109":700000,"110":800000,"111":700000,"112":700000,"113":600000,"114":0,"115":700000,"116":0,"117":700000,"118":0,"119":0,"120":800000,"121":600000,"122":700000,"123":700000,"124":900000,"125":700000,"126":700000,"127":700000,"128":700000,"129":800000,"130":900000,"131":800000,"132":800000,"133":700000,"134":600000,"135":700000,"136":600000,"137":800000,"138":600000,"139":800000,"140":0,"141":0,"142":700000,"143":700000,"144":750000,"145":700000,"146":700000,"147":0,"148":0,"149":800000,"150":700000,"151":0,"152":700000,"153":800000,"154":700000,"155":0,"156":700000,"157":700000,"158":700000,"159":700000,"160":800000,"161":600000,"162":700000,"163":700000,"164":800000,"165":800000,"166":800000,"167":700000,"168":1000000,"169":900000,"170":0,"171":700000,"172":700000,"173":800000,"174":0,"175":700000,"176":800000,"177":700000,"178":700000,"179":700000,"180":700000,"181":800000,"182":600000,"183":700000,"184":700000,"185":0,"186":800000,"187":700000,"188":800000,"189":1000000,"190":700000,"191":600000,"192":700000,"193":750000,"194":700000,"195":900000,"196":0,"197":700000,"198":0,"199":700000,"200":700000,"201":0,"202":700000,"203":800000,"204":800000,"205":0,"206":0,"207":700000,"208":800000,"209":800000,"210":900000,"211":700000,"212":800000,"213":800000,"214":700000,"215":500000,"216":700000,"217":700000,"218":700000,"219":600000,"220":700000,"221":700000,"222":700000,"223":700000,"224":600000,"225":700000,"226":700000,"227":600000,"228":0,"229":0,"230":700000,"231":0,"232":800000,"233":800000,"234":0,"235":0,"236":700000,"237":600000,"238":600000,"239":700000,"240":700000,"241":700000,"242":1000000,"243":0,"244":0,"245":700000,"246":700000,"247":700000,"248":700000,"249":700000,"250":700000,"251":600000,"252":0,"253":700000,"254":0,"255":0,"256":800000,"257":0,"258":700000,"259":0,"260":0,"261":700000,"262":800000,"263":0,"264":700000,"265":700000,"266":700000,"267":700000,"268":700000,"269":600000,"270":600000,"271":700000,"272":700000,"273":0,"274":0,"275":700000,"276":700000,"277":700000,"278":600000,"279":600000,"280":800000,"281":0,"282":800000,"283":700000,"284":800000,"285":600000,"286":700000,"287":0,"288":0,"289":700000,"290":700000,"291":600000,"292":700000,"293":700000,"294":700000,"295":0,"296":700000,"297":700000,"298":700000,"299":0,"300":800000,"301":700000,"302":800000,"303":700000,"304":700000,"305":600000,"306":600000,"307":800000,"308":700000,"309":700000,"310":0,"311":0,"312":700000,"313":700000,"314":900000,"315":0,"316":900000,"317":600000,"318":0,"319":700000,"320":700000,"321":700000,"322":800000,"323":800000,"324":0,"325":0,"326":600000,"327":700000,"328":700000,"329":700000,"330":0,"331":700000,"332":700000,"333":800000,"334":600000,"335":800000,"336":900000,"337":800000,"338":800000,"339":700000,"340":700000,"341":700000,"342":600000,"343":800000,"344":0,"345":700000,"346":700000,"347":700000,"348":700000,"349":800000,"350":900000,"351":0,"352":800000,"353":0,"354":0,"355":0,"356":700000,"357":700000,"358":700000,"359":600000,"360":800000,"361":900000,"362":0,"363":800000,"364":600000,"365":700000,"366":700000,"367":700000,"368":700000,"369":0,"370":800000,"371":700000,"372":900000,"373":0,"374":600000,"375":700000,"376":1000000,"377":1000000,"378":700000,"379":700000,"380":800000,"381":800000,"382":0,"383":700000,"384":700000,"385":0,"386":600000,"387":700000,"388":800000,"389":800000,"390":700000,"391":700000,"392":600000,"393":900000,"394":900000,"395":700000,"396":600000,"397":700000,"398":700000,"399":0,"400":800000,"401":600000,"402":600000,"403":700000,"404":700000,"405":0,"406":600000,"407":600000,"408":800000,"409":800000,"410":700000,"411":700000,"412":0,"413":700000,"414":700000,"415":800000,"416":700000,"417":700000,"418":700000,"419":700000,"420":700000,"421":700000,"422":700000,"423":380000,"424":700000,"425":900000,"426":700000,"427":700000,"428":600000,"429":800000,"430":800000,"431":700000,"432":700000,"433":600000,"434":800000,"435":700000,"436":700000,"437":700000,"438":700000,"439":0,"440":700000,"441":750000,"442":700000,"443":0,"444":700000,"445":700000,"446":800000,"447":700000,"448":800000,"449":900000,"450":700000,"451":800000,"452":900000,"453":0,"454":600000,"455":700000,"456":800000,"457":700000,"458":0,"459":700000,"460":0,"461":700000,"462":0,"463":700000,"464":800000,"465":800000,"466":700000,"467":600000,"468":700000,"469":610000,"470":700000,"471":700000,"472":1000000,"473":800000,"474":600000,"475":850000,"476":700000,"477":750000,"478":0,"479":0,"480":700000,"481":900000,"482":700000,"483":700000,"484":700000,"485":700000,"486":900000,"487":800000,"488":800000,"489":800000,"490":720000,"491":800000,"492":850000,"493":700000,"494":800000,"495":600000,"496":700000,"497":600000,"498":0,"499":0,"500":700000,"501":700000,"502":700000,"503":700000,"504":700000,"505":0,"506":700000,"507":700000,"508":800000,"509":800000,"510":800000,"511":700000,"512":700000,"513":700000,"514":600000,"515":700000,"516":800000,"517":700000,"518":700000,"519":600000,"520":750000,"521":800000,"522":600000,"523":700000,"524":700000,"525":0,"526":700000,"527":700000,"528":0,"529":700000,"530":800000,"531":700000,"532":700000,"533":1000000,"534":600000,"535":700000,"536":700000,"537":700000,"538":700000,"539":0,"540":700000,"541":0,"542":700000,"543":700000,"544":1000000,"545":0,"546":700000,"547":700000,"548":700000,"549":800000,"550":700000,"551":700000,"552":700000,"553":700000,"554":600000,"555":700000,"556":700000,"557":800000,"558":0,"559":0,"560":600000,"561":600000,"562":700000,"563":800000,"564":700000,"565":800000,"566":700000,"567":600000,"568":0,"569":800000,"570":0,"571":700000,"572":600000,"573":0,"574":700000,"575":600000,"576":700000,"577":700000,"578":700000,"579":600000,"580":0,"581":700000,"582":600000,"583":800000,"584":700000,"585":700000,"586":700000,"587":700000,"588":0,"589":700000,"590":700000,"591":1000000,"592":0,"593":200000,"594":0,"595":600000,"596":700000,"597":0,"598":0,"599":600000,"600":600000,"601":700000,"602":0,"603":800000,"604":700000,"605":700000,"606":600000,"607":700000,"608":0,"609":700000,"610":800000,"611":0,"612":0,"613":600000,"614":1000000,"615":0,"616":700000,"617":700000,"618":700000,"619":700000,"620":700000,"621":600000,"622":700000,"623":700000,"624":700000,"625":700000,"626":700000,"627":600000,"628":700000,"629":700000,"630":700000,"631":700000,"632":600000,"633":700000,"634":600000,"635":600000,"636":0,"637":700000,"638":800000,"639":0,"640":0,"641":700000,"642":700000,"643":700000,"644":600000,"645":600000,"646":700000,"647":700000,"648":700000,"649":900000,"650":800000,"651":700000,"652":700000,"653":0,"654":700000,"655":700000,"656":0,"657":600000,"658":0,"659":0,"660":800000,"661":700000,"662":0,"663":800000,"664":700000,"665":700000,"666":800000,"667":700000,"668":700000,"669":700000,"670":700000,"671":600000,"672":600000,"673":700000,"674":700000,"675":700000,"676":700000,"677":700000,"678":700000,"679":700000,"680":700000,"681":600000,"682":0,"683":800000,"684":600000,"685":900000,"686":700000,"687":0,"688":700000,"689":600000,"690":800000,"691":700000,"692":700000,"693":1000000,"694":0,"695":900000,"696":700000,"697":700000,"698":600000,"699":800000,"700":700000,"701":700000,"702":900000,"703":750000,"704":700000,"705":800000,"706":600000,"707":800000,"708":800000,"709":700000,"710":700000,"711":0,"712":700000,"713":900000,"714":700000,"715":700000,"716":0,"717":700000,"718":0,"719":0,"720":600000,"721":600000,"722":200000,"723":0,"724":800000,"725":700000,"726":0,"727":700000,"728":700000,"729":700000,"730":0,"731":700000,"732":700000,"733":800000,"734":0,"735":600000,"736":700000,"737":0,"738":0,"739":700000,"740":0,"741":700000,"742":800000,"743":700000,"744":700000,"745":600000,"746":700000,"747":800000,"748":600000,"749":700000,"750":600000,"751":600000,"752":610000,"753":700000,"754":800000,"755":700000,"756":700000,"757":600000,"758":700000,"759":600000,"760":700000,"761":700000,"762":700000,"763":700000,"764":0,"765":700000,"766":700000,"767":700000,"768":700000,"769":800000,"770":600000,"771":0,"772":700000,"773":700000,"774":700000,"775":800000,"776":1000000,"777":0,"778":800000,"779":800000,"780":700000,"781":700000,"782":700000,"783":700000,"784":700000,"785":700000,"786":800000,"787":0,"788":800000,"789":0,"790":700000,"791":600000,"792":700000,"793":700000,"794":700000,"795":700000,"796":750000,"797":800000,"798":800000,"799":850000,"800":800000,"801":700000,"802":800000,"803":700000,"804":1000000,"805":600000,"806":900000,"807":0,"808":1000000,"809":800000,"810":700000,"811":700000,"812":0,"813":700000,"814":700000,"815":600000,"816":700000,"817":600000,"818":700000,"819":800000,"820":700000,"821":0,"822":0,"823":600000,"824":700000,"825":700000,"826":700000,"827":700000,"828":700000,"829":700000,"830":600000,"831":600000,"832":600000,"833":0,"834":700000,"835":700000,"836":700000,"837":600000,"838":700000,"839":1000000,"840":700000,"841":700000,"842":800000,"843":1000000,"844":700000,"845":700000,"846":700000,"847":700000,"848":700000,"849":600000,"850":700000,"851":700000,"852":0,"853":700000,"854":700000,"855":0,"856":0,"857":1000000,"858":0,"859":700000,"860":0,"861":0,"862":700000,"863":800000,"864":600000,"865":700000,"866":700000,"867":700000,"868":600000,"869":700000,"870":700000,"871":700000,"872":700000,"873":700000,"874":0,"875":0,"876":700000,"877":700000,"878":700000,"879":600000,"880":400000,"881":800000,"882":800000,"883":700000,"884":600000,"885":700000,"886":0,"887":0,"888":600000,"889":700000,"890":0,"891":600000,"892":800000,"893":700000,"894":1000000,"895":800000,"896":0,"897":700000,"898":700000,"899":1000000,"900":600000,"901":800000,"902":0,"903":700000,"904":600000,"905":800000,"906":700000,"907":700000,"908":700000,"909":700000,"910":900000,"911":700000,"912":700000,"913":700000,"914":700000,"915":850000,"916":600000,"917":600000,"918":0,"919":800000,"920":700000,"921":600000,"922":700000,"923":500000,"924":700000,"925":900000,"926":700000,"927":700000,"928":700000,"929":0,"930":0,"931":700000,"932":0,"933":600000,"934":700000,"935":700000,"936":700000,"937":700000,"938":900000,"939":700000,"940":600000,"941":700000,"942":600000,"943":700000,"944":800000,"945":700000,"946":0,"947":800000,"948":200000,"949":700000,"950":700000,"951":700000,"952":800000,"953":700000,"954":800000,"955":800000,"956":700000,"957":700000,"958":700000,"959":850000,"960":600000,"961":700000,"962":600000,"963":700000,"964":800000,"965":0,"966":600000,"967":700000,"968":600000,"969":0,"970":0,"971":700000,"972":800000,"973":0,"974":700000,"975":0,"976":700000,"977":900000,"978":800000,"979":600000,"980":700000,"981":700000,"982":700000,"983":800000,"984":700000,"985":800000,"986":700000,"987":700000,"988":700000,"989":700000,"990":700000,"991":800000,"992":700000,"993":600000,"994":0,"995":800000,"996":900000,"997":700000,"998":700000,"999":0};
 
 let pagos = JSON.parse(localStorage.getItem('rifa_pagos') || '{}');
 let selectedMeses = [];
-let valoresPorNumero = {};   // { "001": 100000 }
-let metodoPorNumero = {};    // { "001": "efectivo" | "consignacion" | "nopaga" }
+let valoresPorNumero = {};
+let metodoPorNumero = {};
+let totalPersonalizado = JSON.parse(localStorage.getItem('rifa_totales') || '{}');
+let saldosOverride = JSON.parse(localStorage.getItem('rifa_saldos_override') || '{}');
 
-function save(){ localStorage.setItem('rifa_pagos', JSON.stringify(pagos)); }
-function fmt(n){ return '$' + Math.round(n).toLocaleString('es-CO'); }
-function parseCOP(s){ return parseInt((s||'0').replace(/\D/g,'')) || 0; }
+function saveTotales() {
+  localStorage.setItem('rifa_totales', JSON.stringify(totalPersonalizado));
+}
 
-function toast(msg){
+function saveSaldosOverride() {
+  localStorage.setItem('rifa_saldos_override', JSON.stringify(saldosOverride));
+}
+
+function getSaldoBase(num) {
+  // Override manual tiene prioridad sobre el CSV
+  if (saldosOverride.hasOwnProperty(num)) return saldosOverride[num];
+  if (SALDOS_CSV.hasOwnProperty(num)) return SALDOS_CSV[num];
+  const totalNum = totalPersonalizado[num] || (12 * CUOTA);
+  return MESES_CORRIDOS * (totalNum / 12);
+}
+
+// ═══════════════════════════════════════════════
+// SISTEMA DE USUARIOS Y ROLES
+// ═══════════════════════════════════════════════
+
+// Usuarios por defecto - se guardan en localStorage
+const USUARIOS_BASE = [{"user":"admin","pass":"admin123","rol":"admin","nombre":"Administrador","vendedorAsoc":null,"numerosCliente":[]},{"user":"aleja","pass":"aleja123","rol":"vendedor","nombre":"ALEJA","vendedorAsoc":"ALEJA","numerosCliente":[]},{"user":"antonio","pass":"antonio123","rol":"vendedor","nombre":"ANTONIO","vendedorAsoc":"ANTONIO","numerosCliente":[]},{"user":"botija","pass":"botija123","rol":"vendedor","nombre":"BOTIJA","vendedorAsoc":"BOTIJA","numerosCliente":[]},{"user":"bunuelo","pass":"bunuelo123","rol":"vendedor","nombre":"BUÑUELO","vendedorAsoc":"BUÑUELO","numerosCliente":[]},{"user":"chaparro","pass":"chaparro123","rol":"vendedor","nombre":"CHAPARRO","vendedorAsoc":"CHAPARRO","numerosCliente":[]},{"user":"chente","pass":"chente123","rol":"vendedor","nombre":"CHENTE","vendedorAsoc":"CHENTE","numerosCliente":[]},{"user":"chiqui","pass":"chiqui123","rol":"vendedor","nombre":"CHIQUI","vendedorAsoc":"CHIQUI","numerosCliente":[]},{"user":"conejo","pass":"conejo123","rol":"vendedor","nombre":"CONEJO","vendedorAsoc":"CONEJO","numerosCliente":[]},{"user":"daniela","pass":"daniela123","rol":"vendedor","nombre":"DANIELA","vendedorAsoc":"DANIELA","numerosCliente":[]},{"user":"diego","pass":"diego123","rol":"vendedor","nombre":"DIEGO","vendedorAsoc":"DIEGO","numerosCliente":[]},{"user":"don_antonio","pass":"don_antonio123","rol":"vendedor","nombre":"DON ANTONIO","vendedorAsoc":"DON ANTONIO","numerosCliente":[]},{"user":"dona_nelfy","pass":"dona_nelfy123","rol":"vendedor","nombre":"DOÑA NELFY","vendedorAsoc":"DOÑA NELFY","numerosCliente":[]},{"user":"efren","pass":"efren123","rol":"vendedor","nombre":"EFRÉN","vendedorAsoc":"EFRÉN","numerosCliente":[]},{"user":"elkin_r9","pass":"elkin_r9123","rol":"vendedor","nombre":"ELKIN R9","vendedorAsoc":"ELKIN R9","numerosCliente":[]},{"user":"eni","pass":"eni123","rol":"vendedor","nombre":"ENI","vendedorAsoc":"ENI","numerosCliente":[]},{"user":"eve","pass":"eve123","rol":"vendedor","nombre":"EVE","vendedorAsoc":"EVE","numerosCliente":[]},{"user":"gallina","pass":"gallina123","rol":"vendedor","nombre":"GALLINA","vendedorAsoc":"GALLINA","numerosCliente":[]},{"user":"instagram","pass":"instagram123","rol":"vendedor","nombre":"INSTAGRAM","vendedorAsoc":"INSTAGRAM","numerosCliente":[]},{"user":"j_pablo","pass":"j_pablo123","rol":"vendedor","nombre":"J PABLO","vendedorAsoc":"J PABLO","numerosCliente":[]},{"user":"juan","pass":"juan123","rol":"vendedor","nombre":"JUAN","vendedorAsoc":"JUAN","numerosCliente":[]},{"user":"juan_jose","pass":"juan_jose123","rol":"vendedor","nombre":"JUAN JOSE","vendedorAsoc":"JUAN JOSE","numerosCliente":[]},{"user":"juan_p","pass":"juan_p123","rol":"vendedor","nombre":"JUAN P","vendedorAsoc":"JUAN P","numerosCliente":[]},{"user":"kiko","pass":"kiko123","rol":"vendedor","nombre":"KIKO","vendedorAsoc":"KIKO","numerosCliente":[]},{"user":"marcela","pass":"marcela123","rol":"vendedor","nombre":"MARCELA","vendedorAsoc":"MARCELA","numerosCliente":[]},{"user":"marcela_gana","pass":"marcela_gana123","rol":"vendedor","nombre":"MARCELA GANA","vendedorAsoc":"MARCELA GANA","numerosCliente":[]},{"user":"mary","pass":"mary123","rol":"vendedor","nombre":"MARY","vendedorAsoc":"MARY","numerosCliente":[]},{"user":"mary_herbalife","pass":"mary_herbalife123","rol":"vendedor","nombre":"MARY HERBALIFE","vendedorAsoc":"MARY HERBALIFE","numerosCliente":[]},{"user":"mauricio","pass":"mauricio123","rol":"vendedor","nombre":"MAURICIO","vendedorAsoc":"MAURICIO","numerosCliente":[]},{"user":"milady","pass":"milady123","rol":"vendedor","nombre":"MILADY","vendedorAsoc":"MILADY","numerosCliente":[]},{"user":"milena","pass":"milena123","rol":"vendedor","nombre":"MILENA","vendedorAsoc":"MILENA","numerosCliente":[]},{"user":"milena_cel","pass":"milena_cel123","rol":"vendedor","nombre":"MILENA CEL","vendedorAsoc":"MILENA CEL","numerosCliente":[]},{"user":"mona","pass":"mona123","rol":"vendedor","nombre":"MONA","vendedorAsoc":"MONA","numerosCliente":[]},{"user":"natalia","pass":"nat123","rol":"vendedor","nombre":"NATALIA","vendedorAsoc":"NATALIA","numerosCliente":[]},{"user":"nury","pass":"nury123","rol":"vendedor","nombre":"NURY","vendedorAsoc":"NURY","numerosCliente":[]},{"user":"paula_b_611","pass":"paula_b_611123","rol":"vendedor","nombre":"PAULA B 611","vendedorAsoc":"PAULA B 611","numerosCliente":[]},{"user":"pirulo","pass":"pirulo123","rol":"vendedor","nombre":"PIRULO","vendedorAsoc":"PIRULO","numerosCliente":[]},{"user":"profe_jordan","pass":"profe_jordan123","rol":"vendedor","nombre":"PROFE JORDAN","vendedorAsoc":"PROFE JORDAN","numerosCliente":[]},{"user":"profe_sandra","pass":"profe_sandra123","rol":"vendedor","nombre":"PROFE SANDRA","vendedorAsoc":"PROFE SANDRA","numerosCliente":[]},{"user":"yesenia","pass":"yesenia123","rol":"vendedor","nombre":"YESENIA","vendedorAsoc":"YESENIA","numerosCliente":[]},{"user":"yiris","pass":"yiris123","rol":"vendedor","nombre":"YIRIS","vendedorAsoc":"YIRIS","numerosCliente":[]},{"user":"maria_fernanda","pass":"3001378701","rol":"cliente","nombre":"MARIA FERNANDA","vendedorAsoc":null,"numerosCliente":["027","340"]},{"user":"juan_esteban","pass":"3002083764","rol":"cliente","nombre":"JUAN ESTEBAN","vendedorAsoc":null,"numerosCliente":["671"]},{"user":"natalia_jaramillo","pass":"3002147786","rol":"cliente","nombre":"NATALIA JARAMILLO","vendedorAsoc":null,"numerosCliente":["757"]},{"user":"mama_de","pass":"3002944947","rol":"cliente","nombre":"MAMA DE LUIS TORO","vendedorAsoc":null,"numerosCliente":["271"]},{"user":"luis_toro","pass":"3002944997","rol":"cliente","nombre":"LUIS TORO","vendedorAsoc":null,"numerosCliente":["045","130","171","220","328","605"]},{"user":"santiago_tienda","pass":"3002991890","rol":"cliente","nombre":"SANTIAGO TIENDA PLAZA","vendedorAsoc":null,"numerosCliente":["265"]},{"user":"alejandra_alto","pass":"3003316729","rol":"cliente","nombre":"ALEJANDRA ALTO DE PEPE","vendedorAsoc":null,"numerosCliente":["246"]},{"user":"albeiro_asustado","pass":"3003899952","rol":"cliente","nombre":"ALBEIRO ASUSTADO","vendedorAsoc":null,"numerosCliente":["185","852"]},{"user":"carlos_mecanico","pass":"3004109442","rol":"cliente","nombre":"CARLOS MECANICO","vendedorAsoc":null,"numerosCliente":["169","316","452","486"]},{"user":"andres_ramirez","pass":"3004111099","rol":"cliente","nombre":"ANDRES RAMIREZ","vendedorAsoc":null,"numerosCliente":["686"]},{"user":"juliana_vallejo","pass":"3004935234","rol":"cliente","nombre":"JULIANA VALLEJO","vendedorAsoc":null,"numerosCliente":["424"]},{"user":"daniela_naidu","pass":"3005191309","rol":"cliente","nombre":"DANIELA NAIDU","vendedorAsoc":null,"numerosCliente":["515"]},{"user":"sergio_hijo","pass":"3006278982","rol":"cliente","nombre":"SERGIO HIJO DE DON HERNAN","vendedorAsoc":null,"numerosCliente":["656"]},{"user":"adriana_munoz","pass":"3006338899","rol":"cliente","nombre":"ADRIANA MUÑOZ","vendedorAsoc":null,"numerosCliente":["017"]},{"user":"luz_aurora","pass":"3006818562","rol":"cliente","nombre":"LUZ AURORA PEREZ","vendedorAsoc":null,"numerosCliente":["702"]},{"user":"patricia_sanchez","pass":"3007071010","rol":"cliente","nombre":"PATRICIA SANCHEZ","vendedorAsoc":null,"numerosCliente":["563"]},{"user":"edisney_herbalife","pass":"3007155457","rol":"cliente","nombre":"EDISNEY HERBALIFE","vendedorAsoc":null,"numerosCliente":["111"]},{"user":"nelson_esposo","pass":"3007174816","rol":"cliente","nombre":"NELSON ESPOSO DIANITA","vendedorAsoc":null,"numerosCliente":["461"]},{"user":"eder_manuel","pass":"3007350486","rol":"cliente","nombre":"EDER MANUEL","vendedorAsoc":null,"numerosCliente":["647"]},{"user":"cristina_arango","pass":"3007504217","rol":"cliente","nombre":"CRISTINA ARANGO- COLINO","vendedorAsoc":null,"numerosCliente":["239"]},{"user":"brayan","pass":"3007927146","rol":"cliente","nombre":"BRAYAN","vendedorAsoc":null,"numerosCliente":["733"]},{"user":"mary_quintero","pass":"3008154131","rol":"cliente","nombre":"MARY QUINTERO HIJA DOÑA LUCIA","vendedorAsoc":null,"numerosCliente":["198"]},{"user":"samantha_zuluaga","pass":"3008207646","rol":"cliente","nombre":"SAMANTHA ZULUAGA","vendedorAsoc":null,"numerosCliente":["673"]},{"user":"burro_la","pass":"3008347787","rol":"cliente","nombre":"BURRO LA JUDEA","vendedorAsoc":null,"numerosCliente":["210"]},{"user":"alirio_duque","pass":"3008577397","rol":"cliente","nombre":"ALIRIO DUQUE","vendedorAsoc":null,"numerosCliente":["283"]},{"user":"elkin_ramirez","pass":"3008590606","rol":"cliente","nombre":"ELKIN RAMIREZ","vendedorAsoc":null,"numerosCliente":["541"]},{"user":"german","pass":"3011304804","rol":"cliente","nombre":"GERMAN","vendedorAsoc":null,"numerosCliente":["267"]},{"user":"mary_luz","pass":"3011509816","rol":"cliente","nombre":"MARY LUZ HERBALIFE","vendedorAsoc":null,"numerosCliente":["427"]},{"user":"iban_baterias","pass":"3012072881","rol":"cliente","nombre":"IBAN BATERIAS","vendedorAsoc":null,"numerosCliente":["282","284"]},{"user":"alex_pintor","pass":"3012484694","rol":"cliente","nombre":"ALEX PINTOR","vendedorAsoc":null,"numerosCliente":["939"]},{"user":"juan_taxi","pass":"3012540238","rol":"cliente","nombre":"JUAN TAXI LA CEJA","vendedorAsoc":null,"numerosCliente":["695"]},{"user":"patricia_montoya","pass":"3012722691","rol":"cliente","nombre":"PATRICIA MONTOYA","vendedorAsoc":null,"numerosCliente":["607","622"]},{"user":"sebastian_la","pass":"3013121437","rol":"cliente","nombre":"SEBASTIAN LA CHAPA","vendedorAsoc":null,"numerosCliente":["596"]},{"user":"mauricio_hijo","pass":"3013457242","rol":"cliente","nombre":"MAURICIO HIJO DE DAMIAM","vendedorAsoc":null,"numerosCliente":["627"]},{"user":"andres_hijo","pass":"3013468936","rol":"cliente","nombre":"ANDRES HIJO DE DAMIAN","vendedorAsoc":null,"numerosCliente":["080"]},{"user":"jhonatan_ospina","pass":"3014173586","rol":"cliente","nombre":"JHONATAN OSPINA","vendedorAsoc":null,"numerosCliente":["849"]},{"user":"yeison_garcia","pass":"3014247330","rol":"cliente","nombre":"YEISON GARCIA","vendedorAsoc":null,"numerosCliente":["946"]},{"user":"transito_jhony","pass":"3014260302","rol":"cliente","nombre":"TRANSITO JHONY","vendedorAsoc":null,"numerosCliente":["923"]},{"user":"vanesa_gomez","pass":"3014348755","rol":"cliente","nombre":"VANESA GOMEZ","vendedorAsoc":null,"numerosCliente":["774"]},{"user":"jorge_hijo","pass":"3014541065","rol":"cliente","nombre":"JORGE HIJO DE DON PEDRO","vendedorAsoc":null,"numerosCliente":["216","410"]},{"user":"santiago_panecho","pass":"3014557392","rol":"cliente","nombre":"SANTIAGO PANECHO","vendedorAsoc":null,"numerosCliente":["069"]},{"user":"cesar_gomez","pass":"3014683053","rol":"cliente","nombre":"CESAR GOMEZ","vendedorAsoc":null,"numerosCliente":["368"]},{"user":"dario_oficial","pass":"3015000100","rol":"cliente","nombre":"DARIO OFICIAL","vendedorAsoc":null,"numerosCliente":["416"]},{"user":"ivan_sanchez","pass":"3015202245","rol":"cliente","nombre":"IVAN SANCHEZ","vendedorAsoc":null,"numerosCliente":["842"]},{"user":"angela_transito","pass":"3015297507","rol":"cliente","nombre":"ANGELA TRANSITO","vendedorAsoc":null,"numerosCliente":["752"]},{"user":"angel_calanchos","pass":"3015340700","rol":"cliente","nombre":"ANGEL CALANCHOS","vendedorAsoc":null,"numerosCliente":["522"]},{"user":"dairon_dilley","pass":"3015647402","rol":"cliente","nombre":"DAIRON DILLEY","vendedorAsoc":null,"numerosCliente":["798"]},{"user":"don_carlos","pass":"3015708335","rol":"cliente","nombre":"DON CARLOS SUEGRO CARLITOS","vendedorAsoc":null,"numerosCliente":["911"]},{"user":"duban_gallero","pass":"3015742087","rol":"cliente","nombre":"DUBAN GALLERO","vendedorAsoc":null,"numerosCliente":["582"]},{"user":"daniela_mejia","pass":"3016017642","rol":"cliente","nombre":"DANIELA MEJIA","vendedorAsoc":null,"numerosCliente":["523"]},{"user":"dahiana_ramirez","pass":"3016101144","rol":"cliente","nombre":"DAHIANA RAMIREZ","vendedorAsoc":null,"numerosCliente":["085"]},{"user":"juan_guillermo","pass":"3016634620","rol":"cliente","nombre":"JUAN GUILLERMO","vendedorAsoc":null,"numerosCliente":["065"]},{"user":"diana","pass":"3016749540","rol":"cliente","nombre":"DIANA","vendedorAsoc":null,"numerosCliente":["922"]},{"user":"ivan_gallego","pass":"3016950554","rol":"cliente","nombre":"IVAN GALLEGO","vendedorAsoc":null,"numerosCliente":["895"]},{"user":"profe","pass":"3016960506","rol":"cliente","nombre":"PROFE","vendedorAsoc":null,"numerosCliente":["020","555","630","696"]},{"user":"jorge_barrera","pass":"3017051274","rol":"cliente","nombre":"JORGE BARRERA","vendedorAsoc":null,"numerosCliente":["501"]},{"user":"walter_barranquilla","pass":"3017135963","rol":"cliente","nombre":"WALTER BARRANQUILLA","vendedorAsoc":null,"numerosCliente":["694"]},{"user":"apaito","pass":"3017539165","rol":"cliente","nombre":"APAITO","vendedorAsoc":null,"numerosCliente":["894"]},{"user":"gusano_hospital","pass":"3017998796","rol":"cliente","nombre":"GUSANO HOSPITAL","vendedorAsoc":null,"numerosCliente":["447"]},{"user":"carniseria_lina","pass":"3022559947","rol":"cliente","nombre":"CARNISERIA LINA SALDARRIAGA","vendedorAsoc":null,"numerosCliente":["445"]},{"user":"jonathan_cano","pass":"3022586917","rol":"cliente","nombre":"JONATHAN CANO","vendedorAsoc":null,"numerosCliente":["453"]},{"user":"juan_stiven","pass":"3022899292","rol":"cliente","nombre":"JUAN STIVEN","vendedorAsoc":null,"numerosCliente":["326"]},{"user":"juan_madrigal","pass":"3023284121","rol":"cliente","nombre":"JUAN MADRIGAL","vendedorAsoc":null,"numerosCliente":["113"]},{"user":"milton_quintin","pass":"3023300439","rol":"cliente","nombre":"MILTON QUINTIN","vendedorAsoc":null,"numerosCliente":["811"]},{"user":"diana_tienda","pass":"3023324981","rol":"cliente","nombre":"DIANA TIENDA LA 50 VERGEL","vendedorAsoc":null,"numerosCliente":["289"]},{"user":"daniel_monsalve","pass":"3023591156","rol":"cliente","nombre":"DANIEL MONSALVE CARTAGENA","vendedorAsoc":null,"numerosCliente":["025"]},{"user":"german2","pass":"3023747051","rol":"cliente","nombre":"GERMAN","vendedorAsoc":null,"numerosCliente":["731"]},{"user":"diego_finol","pass":"3024285420","rol":"cliente","nombre":"DIEGO FINOL","vendedorAsoc":null,"numerosCliente":["086","278"]},{"user":"yeraldyn","pass":"3024292845","rol":"cliente","nombre":"YERALDYN","vendedorAsoc":null,"numerosCliente":["568"]},{"user":"juan_camilo","pass":"3024361313","rol":"cliente","nombre":"JUAN CAMILO GIRALDO","vendedorAsoc":null,"numerosCliente":["012"]},{"user":"eduar_chata","pass":"3024437472","rol":"cliente","nombre":"EDUAR CHATA","vendedorAsoc":null,"numerosCliente":["213","978"]},{"user":"nelson_dahiatsu","pass":"3028464762","rol":"cliente","nombre":"NELSON DAHIATSU","vendedorAsoc":null,"numerosCliente":["409"]},{"user":"german_morales","pass":"3042485500","rol":"cliente","nombre":"GERMÁN MORALES","vendedorAsoc":null,"numerosCliente":["996"]},{"user":"andres_sanches","pass":"3042502222","rol":"cliente","nombre":"ANDRES SANCHES CHIQUI MEDELLIN","vendedorAsoc":null,"numerosCliente":["506"]},{"user":"don_hernan","pass":"3042570740","rol":"cliente","nombre":"DON HERNAN LA PRIMAVERA LAM","vendedorAsoc":null,"numerosCliente":["740"]},{"user":"yeison_rios","pass":"3043221358","rol":"cliente","nombre":"YEISON RIOS SUEGROS GANO MOTO","vendedorAsoc":null,"numerosCliente":["437"]},{"user":"edwin_jimenez","pass":"3043413259","rol":"cliente","nombre":"EDWIN JIMENEZ","vendedorAsoc":null,"numerosCliente":["819"]},{"user":"orfa_zuluaga","pass":"3043422720","rol":"cliente","nombre":"ORFA ZULUAGA","vendedorAsoc":null,"numerosCliente":["260"]},{"user":"gabriela","pass":"3043504306","rol":"cliente","nombre":"GABRIELA","vendedorAsoc":null,"numerosCliente":["784"]},{"user":"damian_finca","pass":"3043913741","rol":"cliente","nombre":"DAMIAN FINCA MORRITOS","vendedorAsoc":null,"numerosCliente":["321"]},{"user":"jhoana","pass":"3043936463","rol":"cliente","nombre":"JHOANA","vendedorAsoc":null,"numerosCliente":["223","503","760"]},{"user":"marsela_hija","pass":"3044407174","rol":"cliente","nombre":"MARSELA HIJA DE PAPAYON","vendedorAsoc":null,"numerosCliente":["834"]},{"user":"alba_duque","pass":"3045258826","rol":"cliente","nombre":"ALBA DUQUE","vendedorAsoc":null,"numerosCliente":["362"]},{"user":"carlos_ceballos","pass":"3045321391","rol":"cliente","nombre":"CARLOS CEBALLOS","vendedorAsoc":null,"numerosCliente":["672"]},{"user":"sandra_jimenez","pass":"3045416262","rol":"cliente","nombre":"SANDRA JIMENEZ","vendedorAsoc":null,"numerosCliente":["979"]},{"user":"claudia_henao","pass":"3045655314","rol":"cliente","nombre":"CLAUDIA HENAO MAMA BRAYAN","vendedorAsoc":null,"numerosCliente":["818"]},{"user":"jhony_stiven","pass":"3045657658","rol":"cliente","nombre":"JHONY STIVEN URREA","vendedorAsoc":null,"numerosCliente":["527"]},{"user":"yamid_lourdes","pass":"3045806418","rol":"cliente","nombre":"YAMID LOURDES","vendedorAsoc":null,"numerosCliente":["243","244"]},{"user":"leidy_hija","pass":"3046184697","rol":"cliente","nombre":"LEIDY HIJA DE PATRICIA","vendedorAsoc":null,"numerosCliente":["936"]},{"user":"olga_madrigal","pass":"3046571887","rol":"cliente","nombre":"OLGA MADRIGAL","vendedorAsoc":null,"numerosCliente":["823"]},{"user":"francisco_javier","pass":"3046744753","rol":"cliente","nombre":"FRANCISCO JAVIER GIRALDO M","vendedorAsoc":null,"numerosCliente":["431"]},{"user":"don_omar","pass":"3046808144","rol":"cliente","nombre":"DON OMAR CHAVERRA","vendedorAsoc":null,"numerosCliente":["505"]},{"user":"wiliam_gomez","pass":"3053032192","rol":"cliente","nombre":"WILIAM GOMEZ","vendedorAsoc":null,"numerosCliente":["738"]},{"user":"alejandro_madrigal","pass":"3053223057","rol":"cliente","nombre":"ALEJANDRO MADRIGAL","vendedorAsoc":null,"numerosCliente":["770"]},{"user":"eufemia_villadiego","pass":"3054455136","rol":"cliente","nombre":"EUFEMIA VILLADIEGO","vendedorAsoc":null,"numerosCliente":["415"]},{"user":"erika_ramirez","pass":"3102601420","rol":"cliente","nombre":"ERIKA RAMIREZ","vendedorAsoc":null,"numerosCliente":["121"]},{"user":"diego_el","pass":"3102857979","rol":"cliente","nombre":"DIEGO EL BORRACHO","vendedorAsoc":null,"numerosCliente":["392","644"]},{"user":"jhon_yerno","pass":"3102901637","rol":"cliente","nombre":"JHON YERNO BETO TIENDA","vendedorAsoc":null,"numerosCliente":["004","168","189","724"]},{"user":"edgar_el","pass":"3103114524","rol":"cliente","nombre":"EDGAR EL BOSITO","vendedorAsoc":null,"numerosCliente":["591"]},{"user":"elkin_mejia","pass":"3103117507","rol":"cliente","nombre":"ELKIN MEJIA","vendedorAsoc":null,"numerosCliente":["766"]},{"user":"wilder_gomez","pass":"3103294123","rol":"cliente","nombre":"WILDER GOMEZ","vendedorAsoc":null,"numerosCliente":["237"]},{"user":"adelaida_hermana","pass":"3103564198","rol":"cliente","nombre":"ADELAIDA HERMANA BORRACHO","vendedorAsoc":null,"numerosCliente":["107"]},{"user":"chente2","pass":"3103628755","rol":"cliente","nombre":"CHENTE","vendedorAsoc":null,"numerosCliente":["745"]},{"user":"maira_ospina","pass":"3103671882","rol":"cliente","nombre":"MAIRA OSPINA","vendedorAsoc":null,"numerosCliente":["323"]},{"user":"blanca_ines","pass":"3103690569","rol":"cliente","nombre":"BLANCA INES CASTAÑO","vendedorAsoc":null,"numerosCliente":["238"]},{"user":"luz_dary","pass":"3103750261","rol":"cliente","nombre":"LUZ DARY TIA KIKA","vendedorAsoc":null,"numerosCliente":["602"]},{"user":"luis_ospina","pass":"3103792976","rol":"cliente","nombre":"LUIS OSPINA YUDI CALLE SANTANDER","vendedorAsoc":null,"numerosCliente":["351"]},{"user":"daniel_hoyos","pass":"3103811565","rol":"cliente","nombre":"DANIEL HOYOS","vendedorAsoc":null,"numerosCliente":["966"]},{"user":"gabriel_aristizabal","pass":"3103850869","rol":"cliente","nombre":"GABRIEL ARISTIZABAL","vendedorAsoc":null,"numerosCliente":["599"]},{"user":"jhonatan_parqueadero","pass":"3103884167","rol":"cliente","nombre":"JHONATAN PARQUEADERO","vendedorAsoc":null,"numerosCliente":["572","888"]},{"user":"hermex_granada","pass":"3103997965","rol":"cliente","nombre":"HERMEX GRANADA","vendedorAsoc":null,"numerosCliente":["540"]},{"user":"gustavo_zuluaga","pass":"3103999847","rol":"cliente","nombre":"GUSTAVO ZULUAGA","vendedorAsoc":null,"numerosCliente":["201"]},{"user":"raul_aristizabal","pass":"3104001129","rol":"cliente","nombre":"RAUL ARISTIZABAL","vendedorAsoc":null,"numerosCliente":["493"]},{"user":"arruguete_legumbreria","pass":"3104022073","rol":"cliente","nombre":"ARRUGUETE LEGUMBRERIA","vendedorAsoc":null,"numerosCliente":["165"]},{"user":"ninfa_alvarez","pass":"3104135256","rol":"cliente","nombre":"NINFA ALVAREZ","vendedorAsoc":null,"numerosCliente":["312"]},{"user":"yuli_venitez","pass":"3104182745","rol":"cliente","nombre":"YULI VENITEZ","vendedorAsoc":null,"numerosCliente":["511","920"]},{"user":"patepuno_dario","pass":"3104410851","rol":"cliente","nombre":"PATEPUÑO DARIO GOMEZ","vendedorAsoc":null,"numerosCliente":["155"]},{"user":"claudia_hermana","pass":"3104443561","rol":"cliente","nombre":"CLAUDIA HERMANA FERNANDO","vendedorAsoc":null,"numerosCliente":["518"]},{"user":"elkin","pass":"3104503967","rol":"cliente","nombre":"ELKIN","vendedorAsoc":null,"numerosCliente":["885"]},{"user":"esteban_trabajador","pass":"3104519259","rol":"cliente","nombre":"ESTEBAN TRABAJADOR DE WALTER","vendedorAsoc":null,"numerosCliente":["476"]},{"user":"hector_echeverry","pass":"3104536719","rol":"cliente","nombre":"HECTOR ECHEVERRY","vendedorAsoc":null,"numerosCliente":["331"]},{"user":"yefer","pass":"3104538357","rol":"cliente","nombre":"YEFER","vendedorAsoc":null,"numerosCliente":["296"]},{"user":"daider_zuluaga","pass":"3104671362","rol":"cliente","nombre":"DAIDER ZULUAGA","vendedorAsoc":null,"numerosCliente":["632"]},{"user":"jorge_ivan","pass":"3104722548","rol":"cliente","nombre":"JORGE IVAN","vendedorAsoc":null,"numerosCliente":["832"]},{"user":"daniel","pass":"3104725837","rol":"cliente","nombre":"DANIEL","vendedorAsoc":null,"numerosCliente":["529"]},{"user":"juanes_gomez","pass":"3104743874","rol":"cliente","nombre":"JUANES GOMEZ","vendedorAsoc":null,"numerosCliente":["614"]},{"user":"nicolas_duque","pass":"3104765329","rol":"cliente","nombre":"NICOLAS DUQUE","vendedorAsoc":null,"numerosCliente":["390"]},{"user":"dianita_natura","pass":"3104801129","rol":"cliente","nombre":"DIANITA NATURA","vendedorAsoc":null,"numerosCliente":["398"]},{"user":"paula_mejia","pass":"3104964836","rol":"cliente","nombre":"PAULA MEJIA","vendedorAsoc":null,"numerosCliente":["734"]},{"user":"miguel_angel","pass":"3104965529","rol":"cliente","nombre":"MIGUEL ANGEL","vendedorAsoc":null,"numerosCliente":["765"]},{"user":"fany","pass":"3104975706","rol":"cliente","nombre":"FANY","vendedorAsoc":null,"numerosCliente":["000"]},{"user":"octavio_alonsito","pass":"3104986079","rol":"cliente","nombre":"OCTAVIO ALONSITO","vendedorAsoc":null,"numerosCliente":["641"]},{"user":"kika","pass":"3104991851","rol":"cliente","nombre":"KIKA","vendedorAsoc":null,"numerosCliente":["783"]},{"user":"vidal","pass":"3105015245","rol":"cliente","nombre":"VIDAL","vendedorAsoc":null,"numerosCliente":["051"]},{"user":"viviana_transito","pass":"3105057705","rol":"cliente","nombre":"VIVIANA TRANSITO","vendedorAsoc":null,"numerosCliente":["191"]},{"user":"marsela_gana","pass":"3105101371","rol":"cliente","nombre":"MARSELA GANA AURORITA","vendedorAsoc":null,"numerosCliente":["771","821"]},{"user":"sandra_zuluaga","pass":"3105176051","rol":"cliente","nombre":"SANDRA ZULUAGA","vendedorAsoc":null,"numerosCliente":["940"]},{"user":"tavo_el","pass":"3105383144","rol":"cliente","nombre":"TAVO EL CURA","vendedorAsoc":null,"numerosCliente":["480"]},{"user":"diana_cristina","pass":"3105403510","rol":"cliente","nombre":"DIANA CRISTINA","vendedorAsoc":null,"numerosCliente":["726"]},{"user":"wilmar_gusano","pass":"3105534399","rol":"cliente","nombre":"WILMAR GUSANO","vendedorAsoc":null,"numerosCliente":["655"]},{"user":"raul","pass":"3105535911","rol":"cliente","nombre":"RAUL","vendedorAsoc":null,"numerosCliente":["192"]},{"user":"mellizo_mula","pass":"3105967964","rol":"cliente","nombre":"MELLIZO MULA VERDE","vendedorAsoc":null,"numerosCliente":["181"]},{"user":"dona_mery","pass":"3105973113","rol":"cliente","nombre":"DOÑA MERY AREPAS DE CHOCOLO","vendedorAsoc":null,"numerosCliente":["253"]},{"user":"liliana_arroyave","pass":"3106406302","rol":"cliente","nombre":"LILIANA ARROYAVE DAVID CABALLERO","vendedorAsoc":null,"numerosCliente":["131"]},{"user":"andres_patino","pass":"3106822819","rol":"cliente","nombre":"ANDRES PATIÑO","vendedorAsoc":null,"numerosCliente":["440"]},{"user":"walter_carmona","pass":"3106936604","rol":"cliente","nombre":"WALTER CARMONA","vendedorAsoc":null,"numerosCliente":["462"]},{"user":"javier_mono","pass":"3107062405","rol":"cliente","nombre":"JAVIER MONO","vendedorAsoc":null,"numerosCliente":["264"]},{"user":"camilo_compraventa","pass":"3107200546","rol":"cliente","nombre":"CAMILO COMPRAVENTA HOSPITAL","vendedorAsoc":null,"numerosCliente":["203"]},{"user":"carlos_crosfit","pass":"3107320338","rol":"cliente","nombre":"CARLOS CROSFIT","vendedorAsoc":null,"numerosCliente":["268"]},{"user":"eduardo_pastor","pass":"3107346514","rol":"cliente","nombre":"EDUARDO PASTOR","vendedorAsoc":null,"numerosCliente":["029","290","897"]},{"user":"rodrigo_gomez","pass":"3107741634","rol":"cliente","nombre":"RODRIGO GOMEZ JORDAN","vendedorAsoc":null,"numerosCliente":["074","691","867"]},{"user":"familia_giraldo","pass":"3107802019","rol":"cliente","nombre":"FAMILIA GIRALDO SUAREZ","vendedorAsoc":null,"numerosCliente":["059"]},{"user":"tina_recluta","pass":"3107966474","rol":"cliente","nombre":"TINA RECLUTA","vendedorAsoc":null,"numerosCliente":["327","357","755"]},{"user":"arley_zuluaga","pass":"3108003914","rol":"cliente","nombre":"ARLEY ZULUAGA HIJO NANDITO","vendedorAsoc":null,"numerosCliente":["102"]},{"user":"carlos_gomez","pass":"3108136174","rol":"cliente","nombre":"CARLOS GOMEZ Y GABRIEL SOTO","vendedorAsoc":null,"numerosCliente":["748"]},{"user":"fabiola_y","pass":"3108245811","rol":"cliente","nombre":"FABIOLA Y STELLA","vendedorAsoc":null,"numerosCliente":["472"]},{"user":"lucely","pass":"3108261245","rol":"cliente","nombre":"LUCELY","vendedorAsoc":null,"numerosCliente":["125"]},{"user":"luz_elena","pass":"3108359282","rol":"cliente","nombre":"LUZ ELENA ESPECIALES","vendedorAsoc":null,"numerosCliente":["639"]},{"user":"norbey_ramirez","pass":"3108410748","rol":"cliente","nombre":"NORBEY RAMIREZ CUÑAO GLORIA","vendedorAsoc":null,"numerosCliente":["864"]},{"user":"yolanda","pass":"3108442793","rol":"cliente","nombre":"YOLANDA","vendedorAsoc":null,"numerosCliente":["890"]},{"user":"dona_blanca","pass":"3108600857","rol":"cliente","nombre":"DOÑA BLANCA","vendedorAsoc":null,"numerosCliente":["974"]},{"user":"don_edwin","pass":"3108814446","rol":"cliente","nombre":"DON EDWIN ESPECIALES","vendedorAsoc":null,"numerosCliente":["792"]},{"user":"javier_duque","pass":"3108874933","rol":"cliente","nombre":"JAVIER DUQUE","vendedorAsoc":null,"numerosCliente":["675"]},{"user":"cristian_salazar","pass":"3108970762","rol":"cliente","nombre":"CRISTIAN SALAZAR","vendedorAsoc":null,"numerosCliente":["251"]},{"user":"jhon_arcila","pass":"3112276244","rol":"cliente","nombre":"JHON ARCILA","vendedorAsoc":null,"numerosCliente":["148"]},{"user":"maria_gorety","pass":"3112477466","rol":"cliente","nombre":"MARIA GORETY","vendedorAsoc":null,"numerosCliente":["929"]},{"user":"felix_hijo","pass":"3112882141","rol":"cliente","nombre":"FÉLIX HIJO DE MARINA","vendedorAsoc":null,"numerosCliente":["713"]},{"user":"ander_zuluaga","pass":"3113008358","rol":"cliente","nombre":"ANDER ZULUAGA","vendedorAsoc":null,"numerosCliente":["928","963"]},{"user":"diego_alejandro","pass":"3113008894","rol":"cliente","nombre":"DIEGO ALEJANDRO","vendedorAsoc":null,"numerosCliente":["880"]},{"user":"walter_el","pass":"3113047458","rol":"cliente","nombre":"WALTER EL TORNERO","vendedorAsoc":null,"numerosCliente":["500","526"]},{"user":"luz_eny","pass":"3113149298","rol":"cliente","nombre":"LUZ ENY NARISES","vendedorAsoc":null,"numerosCliente":["305"]},{"user":"lilia_gomez","pass":"3113166352","rol":"cliente","nombre":"LILIA GOMEZ","vendedorAsoc":null,"numerosCliente":["255"]},{"user":"bibiana_aristizabal","pass":"3113225888","rol":"cliente","nombre":"BIBIANA ARISTIZABAL CUERVO","vendedorAsoc":null,"numerosCliente":["361","879"]},{"user":"enrique_granada","pass":"3113298959","rol":"cliente","nombre":"ENRIQUE GRANADA B","vendedorAsoc":null,"numerosCliente":["998"]},{"user":"pablo","pass":"3113323048","rol":"cliente","nombre":"PABLO","vendedorAsoc":null,"numerosCliente":["717","813"]},{"user":"yolanda_esposa","pass":"3113346318","rol":"cliente","nombre":"YOLANDA ESPOSA DE NESTOR","vendedorAsoc":null,"numerosCliente":["064"]},{"user":"wilson_atheortua","pass":"3113370791","rol":"cliente","nombre":"WILSON ATHEORTUA PEÑOL","vendedorAsoc":null,"numerosCliente":["034","197"]},{"user":"chivero_macrobio","pass":"3113384909","rol":"cliente","nombre":"CHIVERO MACROBIO","vendedorAsoc":null,"numerosCliente":["404"]},{"user":"cesar_ramirez","pass":"3113390999","rol":"cliente","nombre":"CESAR RAMIREZ","vendedorAsoc":null,"numerosCliente":["820"]},{"user":"carlitos_bus","pass":"3113526992","rol":"cliente","nombre":"CARLITOS BUS GOMEZ H","vendedorAsoc":null,"numerosCliente":["179"]},{"user":"fernando_la","pass":"3113568589","rol":"cliente","nombre":"FERNANDO LA CHAPA","vendedorAsoc":null,"numerosCliente":["279"]},{"user":"alexis_giraldo","pass":"3113738320","rol":"cliente","nombre":"ALEXIS GIRALDO","vendedorAsoc":null,"numerosCliente":["028"]},{"user":"jhonatan_hermano","pass":"3113740704","rol":"cliente","nombre":"JHONATAN HERMANO DIAMANTE","vendedorAsoc":null,"numerosCliente":["971"]},{"user":"jose_ivan","pass":"3113742102","rol":"cliente","nombre":"JOSE IVAN GARCIA","vendedorAsoc":null,"numerosCliente":["134"]},{"user":"paula_andrea","pass":"3113743841","rol":"cliente","nombre":"PAULA ANDREA MUÑOZ B","vendedorAsoc":null,"numerosCliente":["116"]},{"user":"dona_carmensaberto","pass":"3113776051","rol":"cliente","nombre":"DOÑA CARMENSA-BERTO COLINO","vendedorAsoc":null,"numerosCliente":["163"]},{"user":"alejandro_cunao","pass":"3113846601","rol":"cliente","nombre":"ALEJANDRO CUNAO DANIELITO HINO","vendedorAsoc":null,"numerosCliente":["406"]},{"user":"maye_hija","pass":"3113938008","rol":"cliente","nombre":"MAYE HIJA DE FANY","vendedorAsoc":null,"numerosCliente":["914"]},{"user":"jairo_alonso","pass":"3114104461","rol":"cliente","nombre":"JAIRO ALONSO DUQUE","vendedorAsoc":null,"numerosCliente":["746"]},{"user":"alberto_tetero","pass":"3114175811","rol":"cliente","nombre":"ALBERTO TETERO","vendedorAsoc":null,"numerosCliente":["055"]},{"user":"andres_kika","pass":"3114336123","rol":"cliente","nombre":"ANDRES KIKA","vendedorAsoc":null,"numerosCliente":["003","533"]},{"user":"juan_conejo","pass":"3114452804","rol":"cliente","nombre":"JUAN CONEJO","vendedorAsoc":null,"numerosCliente":["439","860"]},{"user":"luis_carlos","pass":"3114534875","rol":"cliente","nombre":"LUIS CARLOS BORRACHO","vendedorAsoc":null,"numerosCliente":["861"]},{"user":"edgar_mecanchia","pass":"3114709141","rol":"cliente","nombre":"EDGAR MECANCHIA","vendedorAsoc":null,"numerosCliente":["026","714"]},{"user":"mary_bogota","pass":"3114781231","rol":"cliente","nombre":"MARY BOGOTA","vendedorAsoc":null,"numerosCliente":["950"]},{"user":"alberto_el","pass":"3115465148","rol":"cliente","nombre":"ALBERTO EL PEÑOL","vendedorAsoc":null,"numerosCliente":["547"]},{"user":"rubiela_tia","pass":"3115712053","rol":"cliente","nombre":"RUBIELA TIA KIKA B","vendedorAsoc":null,"numerosCliente":["294"]},{"user":"manuela","pass":"3115800822","rol":"cliente","nombre":"MANUELA","vendedorAsoc":null,"numerosCliente":["537"]},{"user":"luisito_hermano","pass":"3115903806","rol":"cliente","nombre":"LUISITO HERMANO YORDYX 2","vendedorAsoc":null,"numerosCliente":["101","898"]},{"user":"oscar_giraldo","pass":"3115904353","rol":"cliente","nombre":"OSCAR GIRALDO","vendedorAsoc":null,"numerosCliente":["263"]},{"user":"carlos_mario","pass":"3116025298","rol":"cliente","nombre":"CARLOS MARIO HENAO","vendedorAsoc":null,"numerosCliente":["150"]},{"user":"ester_ramirez","pass":"3116040037","rol":"cliente","nombre":"ESTER RAMIREZ","vendedorAsoc":null,"numerosCliente":["088","573"]},{"user":"coche","pass":"3116043032","rol":"cliente","nombre":"COCHE","vendedorAsoc":null,"numerosCliente":["036"]},{"user":"aleja_hija","pass":"3116096188","rol":"cliente","nombre":"ALEJA HIJA DE DON GUSTAVO","vendedorAsoc":null,"numerosCliente":["084"]},{"user":"marleny","pass":"3116213932","rol":"cliente","nombre":"MARLENY","vendedorAsoc":null,"numerosCliente":["317"]},{"user":"juan_carlos","pass":"3116215101","rol":"cliente","nombre":"JUAN CARLOS HIJO DOÑA LUCIA","vendedorAsoc":null,"numerosCliente":["498"]},{"user":"efrain_valencia","pass":"3116418881","rol":"cliente","nombre":"EFRAIN VALENCIA","vendedorAsoc":null,"numerosCliente":["684"]},{"user":"andres_gomez","pass":"3116427593","rol":"cliente","nombre":"ANDRES GOMEZ","vendedorAsoc":null,"numerosCliente":["482"]},{"user":"danilo_y","pass":"3116513691","rol":"cliente","nombre":"DANILO Y LORENA SEBALLOS","vendedorAsoc":null,"numerosCliente":["471"]},{"user":"dolly","pass":"3116639802","rol":"cliente","nombre":"DOLLY","vendedorAsoc":null,"numerosCliente":["625"]},{"user":"linda_nicoli","pass":"3117021049","rol":"cliente","nombre":"LINDA NICOLI HIJA DE PAULA","vendedorAsoc":null,"numerosCliente":["862"]},{"user":"chilapo_micro","pass":"3117063796","rol":"cliente","nombre":"CHILAPO MICRO MARINILLA","vendedorAsoc":null,"numerosCliente":["010"]},{"user":"gloria_b","pass":"3117184574","rol":"cliente","nombre":"GLORIA B","vendedorAsoc":null,"numerosCliente":["365"]},{"user":"hersayis_cunao","pass":"3117209737","rol":"cliente","nombre":"HERSAYIS CUÑAO BORRACHO","vendedorAsoc":null,"numerosCliente":["719"]},{"user":"alfonso_bonilla","pass":"3117269680","rol":"cliente","nombre":"ALFONSO BONILLA VOLQUETA","vendedorAsoc":null,"numerosCliente":["320"]},{"user":"ana_vanegas","pass":"3117356926","rol":"cliente","nombre":"ANA VANEGAS","vendedorAsoc":null,"numerosCliente":["219"]},{"user":"leny_esposa","pass":"3117532994","rol":"cliente","nombre":"LENY ESPOSA DE LUIS","vendedorAsoc":null,"numerosCliente":["123","332"]},{"user":"duver_gomez","pass":"3117741158","rol":"cliente","nombre":"DUVER GOMEZ MAZDA ROJO","vendedorAsoc":null,"numerosCliente":["152"]},{"user":"nelson_martinez","pass":"3117823230","rol":"cliente","nombre":"NELSON MARTINEZ","vendedorAsoc":null,"numerosCliente":["254","273"]},{"user":"jhon_jaime","pass":"3117856820","rol":"cliente","nombre":"JHON JAIME BOMBEROS","vendedorAsoc":null,"numerosCliente":["873"]},{"user":"alexander_castano","pass":"3117862011","rol":"cliente","nombre":"ALEXANDER CASTAÑO","vendedorAsoc":null,"numerosCliente":["878"]},{"user":"bibiana_oquendo","pass":"3117938967","rol":"cliente","nombre":"BIBIANA OQUENDO RIONEGRO","vendedorAsoc":null,"numerosCliente":["609"]},{"user":"armando_angarita","pass":"3118207911","rol":"cliente","nombre":"ARMANDO ANGARITA","vendedorAsoc":null,"numerosCliente":["793"]},{"user":"miguel_angel2","pass":"3118298747","rol":"cliente","nombre":"MIGUEL ANGEL HENAO","vendedorAsoc":null,"numerosCliente":["759"]},{"user":"yordi","pass":"3122012624","rol":"cliente","nombre":"YORDI","vendedorAsoc":null,"numerosCliente":["162","304"]},{"user":"efrain","pass":"3122048235","rol":"cliente","nombre":"EFRAIN","vendedorAsoc":null,"numerosCliente":["354"]},{"user":"carlos_munoz","pass":"3122199148","rol":"cliente","nombre":"CARLOS MUÑOZ","vendedorAsoc":null,"numerosCliente":["495"]},{"user":"mary_gonzales","pass":"3122222575","rol":"cliente","nombre":"MARY GONZALES","vendedorAsoc":null,"numerosCliente":["560"]},{"user":"jorge_espinosa","pass":"3122250677","rol":"cliente","nombre":"JORGE ESPINOSA","vendedorAsoc":null,"numerosCliente":["828"]},{"user":"juan_carlos2","pass":"3122495904","rol":"cliente","nombre":"JUAN CARLOS EL GORDO","vendedorAsoc":null,"numerosCliente":["353","355"]},{"user":"anyi_agudelo","pass":"3122606035","rol":"cliente","nombre":"ANYI AGUDELO","vendedorAsoc":null,"numerosCliente":["912"]},{"user":"caro_leon","pass":"3122621026","rol":"cliente","nombre":"CARO LEON PARSERO","vendedorAsoc":null,"numerosCliente":["586"]},{"user":"jhovany_gavino","pass":"3122626302","rol":"cliente","nombre":"JHOVANY GAVINO","vendedorAsoc":null,"numerosCliente":["057"]},{"user":"beronica_gallego","pass":"3122770394","rol":"cliente","nombre":"BERONICA GALLEGO","vendedorAsoc":null,"numerosCliente":["743"]},{"user":"andres_legumbrero","pass":"3122782120","rol":"cliente","nombre":"ANDRES LEGUMBRERO","vendedorAsoc":null,"numerosCliente":["147"]},{"user":"ana_isabel","pass":"3122812603","rol":"cliente","nombre":"ANA ISABEL B","vendedorAsoc":null,"numerosCliente":["311"]},{"user":"rocio_gomez","pass":"3123562642","rol":"cliente","nombre":"ROCIO GOMEZ","vendedorAsoc":null,"numerosCliente":["369"]},{"user":"natalia_andrea","pass":"3123910684","rol":"cliente","nombre":"NATALIA ANDREA","vendedorAsoc":null,"numerosCliente":["786"]},{"user":"gusano_mecanico","pass":"3124284963","rol":"cliente","nombre":"GUSANO MECANICO","vendedorAsoc":null,"numerosCliente":["124"]},{"user":"dora_quintero","pass":"3124705111","rol":"cliente","nombre":"DORA QUINTERO","vendedorAsoc":null,"numerosCliente":["606"]},{"user":"dona_lucia","pass":"3124835389","rol":"cliente","nombre":"DOÑA LUCIA MAMA DE JUAN C","vendedorAsoc":null,"numerosCliente":["711"]},{"user":"cristian","pass":"3124883608","rol":"cliente","nombre":"CRISTIAN","vendedorAsoc":null,"numerosCliente":["022"]},{"user":"arley_zuluaga2","pass":"3125242276","rol":"cliente","nombre":"ARLEY ZULUAGA HIJ0 DE NANDITO","vendedorAsoc":null,"numerosCliente":["570","987"]},{"user":"adrian_el","pass":"3125832068","rol":"cliente","nombre":"ADRIAN EL CALVO","vendedorAsoc":null,"numerosCliente":["528"]},{"user":"diego_gaviria","pass":"3126256993","rol":"cliente","nombre":"DIEGO GAVIRIA","vendedorAsoc":null,"numerosCliente":["698"]},{"user":"andres_duque","pass":"3126294615","rol":"cliente","nombre":"ANDRES DUQUE","vendedorAsoc":null,"numerosCliente":["178"]},{"user":"angela_ramirez","pass":"3126445858","rol":"cliente","nombre":"ANGELA RAMIREZ","vendedorAsoc":null,"numerosCliente":["532","577","678"]},{"user":"amparo_duque","pass":"3126659133","rol":"cliente","nombre":"AMPARO DUQUE SILVANA DUQUE","vendedorAsoc":null,"numerosCliente":["507"]},{"user":"jhon_fredy","pass":"3126728624","rol":"cliente","nombre":"JHON FREDY MEJIA","vendedorAsoc":null,"numerosCliente":["225"]},{"user":"monica_perez","pass":"3126879595","rol":"cliente","nombre":"MONICA PEREZ","vendedorAsoc":null,"numerosCliente":["184","619"]},{"user":"alvaro_jimenez","pass":"3127122395","rol":"cliente","nombre":"ALVARO JIMENEZ","vendedorAsoc":null,"numerosCliente":["250"]},{"user":"danielito_camion","pass":"3127132923","rol":"cliente","nombre":"DANIELITO CAMION HINO","vendedorAsoc":null,"numerosCliente":["177","272"]},{"user":"cristian_zapata","pass":"3127219393","rol":"cliente","nombre":"CRISTIAN ZAPATA","vendedorAsoc":null,"numerosCliente":["794"]},{"user":"dora_grajales","pass":"3127220600","rol":"cliente","nombre":"DORA GRAJALES","vendedorAsoc":null,"numerosCliente":["119"]},{"user":"nelson_la","pass":"3127282112","rol":"cliente","nombre":"NELSON LA MOSCA","vendedorAsoc":null,"numerosCliente":["781"]},{"user":"costeno_electrico","pass":"3127445575","rol":"cliente","nombre":"COSTEÑO ELECTRICO","vendedorAsoc":null,"numerosCliente":["449"]},{"user":"marcela_giraldo","pass":"3127647243","rol":"cliente","nombre":"MARCELA GIRALDO","vendedorAsoc":null,"numerosCliente":["138"]},{"user":"edwin_marin","pass":"3127669272","rol":"cliente","nombre":"EDWIN MARIN","vendedorAsoc":null,"numerosCliente":["721"]},{"user":"rodrigo_mejia","pass":"3127762718","rol":"cliente","nombre":"RODRIGO MEJIA HER PECHIRICO","vendedorAsoc":null,"numerosCliente":["081"]},{"user":"juan_carlos3","pass":"3127799743","rol":"cliente","nombre":"JUAN CARLOS FISCAL VOLQUETAS","vendedorAsoc":null,"numerosCliente":["593"]},{"user":"luz_magnolia","pass":"3127800494","rol":"cliente","nombre":"LUZ MAGNOLIA EL JORDAN","vendedorAsoc":null,"numerosCliente":["610"]},{"user":"danilo_valencia","pass":"3127801804","rol":"cliente","nombre":"DANILO VALENCIA","vendedorAsoc":null,"numerosCliente":["933"]},{"user":"doctor_enrique","pass":"3127841045","rol":"cliente","nombre":"DOCTOR ENRIQUE","vendedorAsoc":null,"numerosCliente":["789"]},{"user":"diego_hoyos","pass":"3127864380","rol":"cliente","nombre":"DIEGO HOYOS","vendedorAsoc":null,"numerosCliente":["567"]},{"user":"blanca_zuluaga","pass":"3127888389","rol":"cliente","nombre":"BLANCA ZULUAGA","vendedorAsoc":null,"numerosCliente":["993"]},{"user":"adriana_taller","pass":"3127889178","rol":"cliente","nombre":"ADRIANA TALLER WALTER","vendedorAsoc":null,"numerosCliente":["951"]},{"user":"evelin_giraldo","pass":"3127983270","rol":"cliente","nombre":"EVELIN GIRALDO","vendedorAsoc":null,"numerosCliente":["986"]},{"user":"duvan_giraldo","pass":"3127985978","rol":"cliente","nombre":"DUVAN GIRALDO","vendedorAsoc":null,"numerosCliente":["033","642"]},{"user":"claudia_moralez","pass":"3128038582","rol":"cliente","nombre":"CLAUDIA MORALEZ","vendedorAsoc":null,"numerosCliente":["044","874","999"]},{"user":"gildardo_arracachero","pass":"3128067846","rol":"cliente","nombre":"GILDARDO ARRACACHERO","vendedorAsoc":null,"numerosCliente":["297","761"]},{"user":"adriana","pass":"3128069132","rol":"cliente","nombre":"ADRIANA","vendedorAsoc":null,"numerosCliente":["115"]},{"user":"betty","pass":"3128129315","rol":"cliente","nombre":"BETTY","vendedorAsoc":null,"numerosCliente":["240"]},{"user":"robinson_valencia","pass":"3128177469","rol":"cliente","nombre":"ROBINSON VALENCIA","vendedorAsoc":null,"numerosCliente":["474"]},{"user":"erika_guarin","pass":"3128232133","rol":"cliente","nombre":"ERIKA GUARIN","vendedorAsoc":null,"numerosCliente":["077"]},{"user":"nataly_santiesteban","pass":"3128235334","rol":"cliente","nombre":"NATALY SANTIESTEBAN","vendedorAsoc":null,"numerosCliente":["868"]},{"user":"aldubier","pass":"3128270764","rol":"cliente","nombre":"ALDUBIER","vendedorAsoc":null,"numerosCliente":["154","514"]},{"user":"jhon_jairo","pass":"3128272713","rol":"cliente","nombre":"JHON JAIRO GATO CARNICERO","vendedorAsoc":null,"numerosCliente":["231"]},{"user":"albeiro_concordia","pass":"3128312800","rol":"cliente","nombre":"ALBEIRO CONCORDIA","vendedorAsoc":null,"numerosCliente":["218"]},{"user":"yesenia_jimenez","pass":"3128330700","rol":"cliente","nombre":"YESENIA JIMENEZ","vendedorAsoc":null,"numerosCliente":["716"]},{"user":"jaimito_bus","pass":"3128336332","rol":"cliente","nombre":"JAIMITO BUS","vendedorAsoc":null,"numerosCliente":["458"]},{"user":"leidy_contreras","pass":"3128553726","rol":"cliente","nombre":"LEIDY CONTRERAS","vendedorAsoc":null,"numerosCliente":["705","982"]},{"user":"jorge_goro","pass":"3128683774","rol":"cliente","nombre":"JORGE GORO","vendedorAsoc":null,"numerosCliente":["157"]},{"user":"daniela_moreno","pass":"3128820321","rol":"cliente","nombre":"DANIELA MORENO","vendedorAsoc":null,"numerosCliente":["720"]},{"user":"walter_policia","pass":"3128988425","rol":"cliente","nombre":"WALTER POLICIA CUÑADO DE DIAMANTE","vendedorAsoc":null,"numerosCliente":["078"]},{"user":"tia_de","pass":"3133764278","rol":"cliente","nombre":"TIA DE SUSY IBAGUE","vendedorAsoc":null,"numerosCliente":["052"]},{"user":"gonzalo_pena","pass":"3134141215","rol":"cliente","nombre":"GONZALO PEÑA","vendedorAsoc":null,"numerosCliente":["032"]},{"user":"esvin","pass":"3134661945","rol":"cliente","nombre":"ESVIN","vendedorAsoc":null,"numerosCliente":["830"]},{"user":"luis_carlos2","pass":"3134700102","rol":"cliente","nombre":"LUIS CARLOS HIJO DAMIAN","vendedorAsoc":null,"numerosCliente":["513"]},{"user":"jhon_hijo","pass":"3134787708","rol":"cliente","nombre":"JHON HIJO DEL AREPERO","vendedorAsoc":null,"numerosCliente":["175","356"]},{"user":"luz_marina","pass":"3135425720","rol":"cliente","nombre":"LUZ MARINA MARULANDA FLOR","vendedorAsoc":null,"numerosCliente":["490"]},{"user":"nicolas_botero","pass":"3135429967","rol":"cliente","nombre":"NICOLAS BOTERO PROFE JORDAN","vendedorAsoc":null,"numerosCliente":["299"]},{"user":"stiven_robancio","pass":"3135453805","rol":"cliente","nombre":"STIVEN ROBANCIO","vendedorAsoc":null,"numerosCliente":["892"]},{"user":"jhaneth_montes","pass":"3135560287","rol":"cliente","nombre":"JHANETH MONTES","vendedorAsoc":null,"numerosCliente":["904"]},{"user":"aracely_zuluaga","pass":"3135676263","rol":"cliente","nombre":"ARACELY ZULUAGA","vendedorAsoc":null,"numerosCliente":["291"]},{"user":"fernando_zuluaga","pass":"3135713003","rol":"cliente","nombre":"FERNANDO ZULUAGA","vendedorAsoc":null,"numerosCliente":["661"]},{"user":"fernando_vanegas","pass":"3135772342","rol":"cliente","nombre":"FERNANDO VANEGAS","vendedorAsoc":null,"numerosCliente":["227"]},{"user":"yuli_posso","pass":"3135787070","rol":"cliente","nombre":"YULI POSSO","vendedorAsoc":null,"numerosCliente":["167"]},{"user":"jaime_chorizo","pass":"3135916441","rol":"cliente","nombre":"JAIME CHORIZO GRUA SANTU","vendedorAsoc":null,"numerosCliente":["469"]},{"user":"jesus_zuluaga","pass":"3135923851","rol":"cliente","nombre":"JESUS ZULUAGA","vendedorAsoc":null,"numerosCliente":["407"]},{"user":"kevin_serna","pass":"3135961278","rol":"cliente","nombre":"KEVIN SERNA","vendedorAsoc":null,"numerosCliente":["927"]},{"user":"omarr_zuluaga","pass":"3136104358","rol":"cliente","nombre":"OMARR ZULUAGA","vendedorAsoc":null,"numerosCliente":["261"]},{"user":"diana_miladis","pass":"3136217697","rol":"cliente","nombre":"DIANA MILADIS MONTES","vendedorAsoc":null,"numerosCliente":["931"]},{"user":"oracio_grillo","pass":"3136599266","rol":"cliente","nombre":"ORACIO GRILLO","vendedorAsoc":null,"numerosCliente":["634"]},{"user":"cesar_botero","pass":"3136608105","rol":"cliente","nombre":"CESAR BOTERO","vendedorAsoc":null,"numerosCliente":["670","790"]},{"user":"gloria_stella","pass":"3136643571","rol":"cliente","nombre":"GLORIA STELLA","vendedorAsoc":null,"numerosCliente":["430"]},{"user":"tatiana_ramirez","pass":"3136831502","rol":"cliente","nombre":"TATIANA RAMIREZ","vendedorAsoc":null,"numerosCliente":["600"]},{"user":"arbey_micro","pass":"3137316793","rol":"cliente","nombre":"ARBEY MICRO","vendedorAsoc":null,"numerosCliente":["112"]},{"user":"yudy_gomez","pass":"3137323203","rol":"cliente","nombre":"YUDY GOMEZ HERMANA DE MARY","vendedorAsoc":null,"numerosCliente":["096"]},{"user":"duque","pass":"3137391653","rol":"cliente","nombre":"DUQUE","vendedorAsoc":null,"numerosCliente":["066"]},{"user":"nury_berrio","pass":"3137394389","rol":"cliente","nombre":"NURY BERRIO","vendedorAsoc":null,"numerosCliente":["676"]},{"user":"elkin_r92","pass":"3137407121","rol":"cliente","nombre":"ELKIN R9","vendedorAsoc":null,"numerosCliente":["575"]},{"user":"seidy_montes","pass":"3137557154","rol":"cliente","nombre":"SEIDY MONTES","vendedorAsoc":null,"numerosCliente":["893"]},{"user":"valentina_sobrina","pass":"3137577077","rol":"cliente","nombre":"VALENTINA SOBRINA GANA","vendedorAsoc":null,"numerosCliente":["042"]},{"user":"jesus_ramirez","pass":"3137584278","rol":"cliente","nombre":"JESUS RAMIREZ","vendedorAsoc":null,"numerosCliente":["306"]},{"user":"gloria_aristizabal","pass":"3137600213","rol":"cliente","nombre":"GLORIA ARISTIZABAL B143","vendedorAsoc":null,"numerosCliente":["143"]},{"user":"cole_perro","pass":"3137617163","rol":"cliente","nombre":"COLE PERRO JORDAN","vendedorAsoc":null,"numerosCliente":["548"]},{"user":"guillermo_naranjo","pass":"3137653169","rol":"cliente","nombre":"GUILLERMO NARANJO EL CURITA","vendedorAsoc":null,"numerosCliente":["710"]},{"user":"cristian_barbero","pass":"3137654372","rol":"cliente","nombre":"CRISTIAN BARBERO","vendedorAsoc":null,"numerosCliente":["235"]},{"user":"mellizo_condorito","pass":"3137825920","rol":"cliente","nombre":"MELLIZO CONDORITO LUIZ CARLOS","vendedorAsoc":null,"numerosCliente":["158"]},{"user":"carlos_marin","pass":"3137971699","rol":"cliente","nombre":"CARLOS MARIN","vendedorAsoc":null,"numerosCliente":["485"]},{"user":"alcalde_buseta","pass":"3137974694","rol":"cliente","nombre":"ALCALDE BUSETA","vendedorAsoc":null,"numerosCliente":["483"]},{"user":"maximiliano_giraldo","pass":"3137989425","rol":"cliente","nombre":"MAXIMILIANO GIRALDO","vendedorAsoc":null,"numerosCliente":["342"]},{"user":"cristian_sanchez","pass":"3138030888","rol":"cliente","nombre":"CRISTIAN SANCHEZ","vendedorAsoc":null,"numerosCliente":["135"]},{"user":"daniel_giraldo","pass":"3142202887","rol":"cliente","nombre":"DANIEL GIRALDO","vendedorAsoc":null,"numerosCliente":["887"]},{"user":"adolfo_salazar","pass":"3142471572","rol":"cliente","nombre":"ADOLFO SALAZAR","vendedorAsoc":null,"numerosCliente":["750"]},{"user":"enalda_pena","pass":"3143242445","rol":"cliente","nombre":"ENALDA PEÑA","vendedorAsoc":null,"numerosCliente":["275"]},{"user":"policia_martines","pass":"3143419066","rol":"cliente","nombre":"POLICIA MARTINES","vendedorAsoc":null,"numerosCliente":["377"]},{"user":"cacao_cunao","pass":"3143470038","rol":"cliente","nombre":"CACAO CUÑAO NICO","vendedorAsoc":null,"numerosCliente":["643"]},{"user":"johan_ducuara","pass":"3143513130","rol":"cliente","nombre":"JOHAN DUCUARA","vendedorAsoc":null,"numerosCliente":["942"]},{"user":"cristian_duque","pass":"3143671818","rol":"cliente","nombre":"CRISTIAN DUQUE MUEBLERIA","vendedorAsoc":null,"numerosCliente":["259","722"]},{"user":"ivan_zuluaga","pass":"3144412723","rol":"cliente","nombre":"IVAN ZULUAGA","vendedorAsoc":null,"numerosCliente":["379"]},{"user":"jhon_giraldo","pass":"3144851719","rol":"cliente","nombre":"JHON GIRALDO HERMAANO NANCY","vendedorAsoc":null,"numerosCliente":["693"]},{"user":"luz_dary2","pass":"3144899047","rol":"cliente","nombre":"LUZ DARY","vendedorAsoc":null,"numerosCliente":["438"]},{"user":"johana_jimenez","pass":"3145039682","rol":"cliente","nombre":"JOHANA JIMENEZ","vendedorAsoc":null,"numerosCliente":["186"]},{"user":"norvey_garcia","pass":"3145075224","rol":"cliente","nombre":"NORVEY GARCIA PRIMO EL COLINO","vendedorAsoc":null,"numerosCliente":["988"]},{"user":"adiela_peluqueria","pass":"3145406053","rol":"cliente","nombre":"ADIELA PELUQUERIA","vendedorAsoc":null,"numerosCliente":["812"]},{"user":"morelia_duque","pass":"3145770615","rol":"cliente","nombre":"MORELIA DUQUE","vendedorAsoc":null,"numerosCliente":["058"]},{"user":"fransisco_taborda","pass":"3146000352","rol":"cliente","nombre":"FRANSISCO TABORDA","vendedorAsoc":null,"numerosCliente":["816"]},{"user":"jose_taxi","pass":"3146036223","rol":"cliente","nombre":"JOSE TAXI YULIANA CASTAÑO","vendedorAsoc":null,"numerosCliente":["093"]},{"user":"nidia_el","pass":"3146168989","rol":"cliente","nombre":"NIDIA EL JORDAN","vendedorAsoc":null,"numerosCliente":["277"]},{"user":"alfredo_ramirez","pass":"3146401337","rol":"cliente","nombre":"ALFREDO RAMIREZ CAMION","vendedorAsoc":null,"numerosCliente":["968"]},{"user":"gabriel","pass":"3146482301","rol":"cliente","nombre":"GABRIEL","vendedorAsoc":null,"numerosCliente":["142","241"]},{"user":"leni","pass":"3146525090","rol":"cliente","nombre":"LENI","vendedorAsoc":null,"numerosCliente":["436","543"]},{"user":"diego_martinez","pass":"3146531028","rol":"cliente","nombre":"DIEGO MARTINEZ","vendedorAsoc":null,"numerosCliente":["330"]},{"user":"don_albeiro","pass":"3146597821","rol":"cliente","nombre":"DON ALBEIRO JORDAN","vendedorAsoc":null,"numerosCliente":["592"]},{"user":"wiliam","pass":"3146650127","rol":"cliente","nombre":"WILIAM","vendedorAsoc":null,"numerosCliente":["374"]},{"user":"diego2","pass":"3146805884","rol":"cliente","nombre":"DIEGO","vendedorAsoc":null,"numerosCliente":["098"]},{"user":"claudia_ocampo","pass":"3147056119","rol":"cliente","nombre":"CLAUDIA OCAMPO","vendedorAsoc":null,"numerosCliente":["118"]},{"user":"wilson_gallego","pass":"3147114991","rol":"cliente","nombre":"WILSON GALLEGO","vendedorAsoc":null,"numerosCliente":["542"]},{"user":"marcela_gomez","pass":"3147162469","rol":"cliente","nombre":"MARCELA GOMEZ","vendedorAsoc":null,"numerosCliente":["222"]},{"user":"panecho_yerno","pass":"3147169518","rol":"cliente","nombre":"PANECHO YERNO","vendedorAsoc":null,"numerosCliente":["350"]},{"user":"suanita","pass":"3147262309","rol":"cliente","nombre":"SUANITA","vendedorAsoc":null,"numerosCliente":["247","976"]},{"user":"grillo_bultiador","pass":"3147331763","rol":"cliente","nombre":"GRILLO BULTIADOR","vendedorAsoc":null,"numerosCliente":["559"]},{"user":"luz_albany","pass":"3147333325","rol":"cliente","nombre":"LUZ ALBANY","vendedorAsoc":null,"numerosCliente":["382"]},{"user":"vargas_silva","pass":"3147343017","rol":"cliente","nombre":"VARGAS SILVA GIOVANI ALEXANDER","vendedorAsoc":null,"numerosCliente":["386"]},{"user":"andres_atehortua","pass":"3147538134","rol":"cliente","nombre":"ANDRES ATEHORTUA","vendedorAsoc":null,"numerosCliente":["199","744"]},{"user":"ramiro_antonio","pass":"3147625907","rol":"cliente","nombre":"RAMIRO ANTONIO URIBE","vendedorAsoc":null,"numerosCliente":["965"]},{"user":"cesar_zuluaga","pass":"3147654524","rol":"cliente","nombre":"CESAR ZULUAGA","vendedorAsoc":null,"numerosCliente":["161"]},{"user":"wilian_aristizabal","pass":"3147687703","rol":"cliente","nombre":"WILIAN ARISTIZABAL TAXI","vendedorAsoc":null,"numerosCliente":["288"]},{"user":"carlos_andres","pass":"3147706694","rol":"cliente","nombre":"CARLOS ANDRES","vendedorAsoc":null,"numerosCliente":["497"]},{"user":"doris_guarne","pass":"3147731342","rol":"cliente","nombre":"DORIS GUARNE DANIELITO","vendedorAsoc":null,"numerosCliente":["629"]},{"user":"aura","pass":"3147822687","rol":"cliente","nombre":"AURA","vendedorAsoc":null,"numerosCliente":["174","187"]},{"user":"jhoany_yerno","pass":"3147925687","rol":"cliente","nombre":"JHOANY YERNO BAILAITA","vendedorAsoc":null,"numerosCliente":["309"]},{"user":"juan_vides","pass":"3147932066","rol":"cliente","nombre":"JUAN VIDES","vendedorAsoc":null,"numerosCliente":["450"]},{"user":"rodrigo_mesa","pass":"3147950534","rol":"cliente","nombre":"RODRIGO MESA","vendedorAsoc":null,"numerosCliente":["612"]},{"user":"alexandra_davila","pass":"3147963218","rol":"cliente","nombre":"ALEXANDRA DAVILA B","vendedorAsoc":null,"numerosCliente":["736"]},{"user":"luz_dary3","pass":"3147983284","rol":"cliente","nombre":"LUZ DARY","vendedorAsoc":null,"numerosCliente":["903"]},{"user":"fernando_penolero","pass":"3147983871","rol":"cliente","nombre":"FERNANDO PEÑOLERO","vendedorAsoc":null,"numerosCliente":["159"]},{"user":"tatiana_serna","pass":"3148020125","rol":"cliente","nombre":"TATIANA SERNA","vendedorAsoc":null,"numerosCliente":["635"]},{"user":"sonia_villa","pass":"3148063990","rol":"cliente","nombre":"SONIA VILLA","vendedorAsoc":null,"numerosCliente":["583"]},{"user":"aldrea_olguin","pass":"3148130990","rol":"cliente","nombre":"ALDREA OLGUIN","vendedorAsoc":null,"numerosCliente":["293"]},{"user":"ledy_beatriz","pass":"3148132266","rol":"cliente","nombre":"LEDY BEATRIZ SUAREZ","vendedorAsoc":null,"numerosCliente":["831"]},{"user":"rosalba_quintero","pass":"3148141149","rol":"cliente","nombre":"ROSALBA QUINTERO","vendedorAsoc":null,"numerosCliente":["837"]},{"user":"diego_granada","pass":"3148472948","rol":"cliente","nombre":"DIEGO GRANADA","vendedorAsoc":null,"numerosCliente":["900"]},{"user":"sandra_claro","pass":"3148538928","rol":"cliente","nombre":"SANDRA CLARO","vendedorAsoc":null,"numerosCliente":["564"]},{"user":"emiro_antonio","pass":"3148595040","rol":"cliente","nombre":"EMIRO ANTONIO PEREZ ORTEGA","vendedorAsoc":null,"numerosCliente":["426"]},{"user":"faver_montoya","pass":"3148644380","rol":"cliente","nombre":"FAVER MONTOYA","vendedorAsoc":null,"numerosCliente":["298"]},{"user":"nora_vidal","pass":"3148689504","rol":"cliente","nombre":"NORA VIDAL","vendedorAsoc":null,"numerosCliente":["136"]},{"user":"yury_gallego","pass":"3148711049","rol":"cliente","nombre":"YURY GALLEGO","vendedorAsoc":null,"numerosCliente":["491"]},{"user":"yurany_giraldo","pass":"3148717148","rol":"cliente","nombre":"YURANY GIRALDO","vendedorAsoc":null,"numerosCliente":["872"]},{"user":"gomina","pass":"3148864275","rol":"cliente","nombre":"GOMINA","vendedorAsoc":null,"numerosCliente":["682"]},{"user":"carlos_castrillon","pass":"3148892573","rol":"cliente","nombre":"CARLOS CASTRILLON","vendedorAsoc":null,"numerosCliente":["205","229","373","460"]},{"user":"david_caballero","pass":"3148922197","rol":"cliente","nombre":"DAVID CABALLERO","vendedorAsoc":null,"numerosCliente":["139","840"]},{"user":"raton_aserrio","pass":"3148948671","rol":"cliente","nombre":"RATON ASERRIO","vendedorAsoc":null,"numerosCliente":["994"]},{"user":"stiven_mompri","pass":"3152373682","rol":"cliente","nombre":"STIVEN MOMPRI","vendedorAsoc":null,"numerosCliente":["692"]},{"user":"acenet","pass":"3152551484","rol":"cliente","nombre":"ACENET","vendedorAsoc":null,"numerosCliente":["728"]},{"user":"martha_susy","pass":"3152893220","rol":"cliente","nombre":"MARTHA SUSY","vendedorAsoc":null,"numerosCliente":["422"]},{"user":"jhon_jairo2","pass":"3153165554","rol":"cliente","nombre":"JHON JAIRO CARBONERO","vendedorAsoc":null,"numerosCliente":["245"]},{"user":"oscar_giraldo2","pass":"3153424329","rol":"cliente","nombre":"OSCAR GIRALDO","vendedorAsoc":null,"numerosCliente":["040"]},{"user":"camilo_gomez","pass":"3154926629","rol":"cliente","nombre":"CAMILO GOMEZ","vendedorAsoc":null,"numerosCliente":["851"]},{"user":"carlos_buitrago","pass":"3158904797","rol":"cliente","nombre":"CARLOS BUITRAGO","vendedorAsoc":null,"numerosCliente":["206"]},{"user":"ever_ramon","pass":"3160446421","rol":"cliente","nombre":"EVER RAMON","vendedorAsoc":null,"numerosCliente":["236"]},{"user":"duvan_serna","pass":"3160496421","rol":"cliente","nombre":"DUVAN SERNA","vendedorAsoc":null,"numerosCliente":["980"]},{"user":"fany2","pass":"3163355809","rol":"cliente","nombre":"FANY (","vendedorAsoc":null,"numerosCliente":["310"]},{"user":"deisy","pass":"3163434643","rol":"cliente","nombre":"DEISY","vendedorAsoc":null,"numerosCliente":["117"]},{"user":"jose_guancha","pass":"3163784889","rol":"cliente","nombre":"JOSE GUANCHA MORENO","vendedorAsoc":null,"numerosCliente":["652"]},{"user":"jairo_el","pass":"3166697123","rol":"cliente","nombre":"JAIRO EL CHOCO","vendedorAsoc":null,"numerosCliente":["906"]},{"user":"andrian_pineda","pass":"3168699152","rol":"cliente","nombre":"ANDRIAN PINEDA","vendedorAsoc":null,"numerosCliente":["571"]},{"user":"tania_vargas","pass":"3174627128","rol":"cliente","nombre":"TANIA VARGAS","vendedorAsoc":null,"numerosCliente":["083"]},{"user":"luisa_buseta","pass":"3175089878","rol":"cliente","nombre":"LUISA BUSETA","vendedorAsoc":null,"numerosCliente":["249"]},{"user":"adolfo_tio","pass":"3175105314","rol":"cliente","nombre":"ADOLFO TIO NANCY","vendedorAsoc":null,"numerosCliente":["016"]},{"user":"wilian_zuluaga","pass":"3175731017","rol":"cliente","nombre":"WILIAN ZULUAGA","vendedorAsoc":null,"numerosCliente":["397","444"]},{"user":"stefania_restrepo","pass":"3178421181","rol":"cliente","nombre":"STEFANIA RESTREPO","vendedorAsoc":null,"numerosCliente":["035","576","772"]},{"user":"isabel_cristina","pass":"3182528389","rol":"cliente","nombre":"ISABEL CRISTINA HER PECHIRICO","vendedorAsoc":null,"numerosCliente":["870"]},{"user":"luz_elena2","pass":"3182543196","rol":"cliente","nombre":"LUZ ELENA GOMEZ","vendedorAsoc":null,"numerosCliente":["053"]},{"user":"daniel_gonzales","pass":"3183455531","rol":"cliente","nombre":"DANIEL GONZALES","vendedorAsoc":null,"numerosCliente":["871"]},{"user":"jhon_jairo3","pass":"3184181437","rol":"cliente","nombre":"JHON JAIRO GARCIA","vendedorAsoc":null,"numerosCliente":["334"]},{"user":"dario_moneda","pass":"3184880632","rol":"cliente","nombre":"DARIO MONEDA","vendedorAsoc":null,"numerosCliente":["590"]},{"user":"albeiro_aristizabal","pass":"3185166511","rol":"cliente","nombre":"ALBEIRO ARISTIZABAL","vendedorAsoc":null,"numerosCliente":["595"]},{"user":"deisy_valencia","pass":"3186437467","rol":"cliente","nombre":"DEISY VALENCIA","vendedorAsoc":null,"numerosCliente":["194"]},{"user":"harol_galvis","pass":"3187540536","rol":"cliente","nombre":"HAROL GALVIS","vendedorAsoc":null,"numerosCliente":["525","659"]},{"user":"daniel_duque","pass":"3187781730","rol":"cliente","nombre":"DANIEL DUQUE","vendedorAsoc":null,"numerosCliente":["193"]},{"user":"alberto_giraldo","pass":"3192152321","rol":"cliente","nombre":"ALBERTO GIRALDO","vendedorAsoc":null,"numerosCliente":["857"]},{"user":"claudia","pass":"3192779773","rol":"cliente","nombre":"CLAUDIA","vendedorAsoc":null,"numerosCliente":["681","689"]},{"user":"julio_bucaramanga","pass":"3194109838","rol":"cliente","nombre":"JULIO BUCARAMANGA","vendedorAsoc":null,"numerosCliente":["512"]},{"user":"sonia","pass":"3194222798","rol":"cliente","nombre":"SONIA","vendedorAsoc":null,"numerosCliente":["531"]},{"user":"mariana_zuluaga","pass":"3194943836","rol":"cliente","nombre":"MARIANA ZULUAGA","vendedorAsoc":null,"numerosCliente":["805"]},{"user":"marta_soto","pass":"3196070581","rol":"cliente","nombre":"MARTA SOTO","vendedorAsoc":null,"numerosCliente":["961"]},{"user":"marta_ligia","pass":"3196534674","rol":"cliente","nombre":"MARTA LIGIA","vendedorAsoc":null,"numerosCliente":["653"]},{"user":"milena_celulares","pass":"3202127703","rol":"cliente","nombre":"MILENA CELULARES","vendedorAsoc":null,"numerosCliente":["015","054","109","132","964"]},{"user":"santiago","pass":"3202574807","rol":"cliente","nombre":"SANTIAGO","vendedorAsoc":null,"numerosCliente":["183"]},{"user":"santiago2","pass":"3202574809","rol":"cliente","nombre":"SANTIAGO","vendedorAsoc":null,"numerosCliente":["018","421"]},{"user":"andres_la","pass":"3202582763","rol":"cliente","nombre":"ANDRES LA ECONOMIA","vendedorAsoc":null,"numerosCliente":["103"]},{"user":"cristian_mejia","pass":"3202693448","rol":"cliente","nombre":"CRISTIAN MEJIA","vendedorAsoc":null,"numerosCliente":["484"]},{"user":"dona_flor","pass":"3202859487","rol":"cliente","nombre":"DOÑA FLOR","vendedorAsoc":null,"numerosCliente":["062"]},{"user":"walter_cunao","pass":"3202937417","rol":"cliente","nombre":"WALTER CUÑAO DE LA ÑAPA","vendedorAsoc":null,"numerosCliente":["315"]},{"user":"cristina_hija","pass":"3203501404","rol":"cliente","nombre":"CRISTINA HIJA DE COLINO","vendedorAsoc":null,"numerosCliente":["803","850"]},{"user":"wilmar_antonio","pass":"3203718212","rol":"cliente","nombre":"WILMAR ANTONIO","vendedorAsoc":null,"numerosCliente":["891"]},{"user":"alfonso","pass":"3203767018","rol":"cliente","nombre":"ALFONSO","vendedorAsoc":null,"numerosCliente":["266"]},{"user":"chivero_el","pass":"3203776154","rol":"cliente","nombre":"CHIVERO EL SORRO","vendedorAsoc":null,"numerosCliente":["504"]},{"user":"angela","pass":"3204092542","rol":"cliente","nombre":"ANGELA","vendedorAsoc":null,"numerosCliente":["621"]},{"user":"milena_garcia","pass":"3204532632","rol":"cliente","nombre":"MILENA GARCIA","vendedorAsoc":null,"numerosCliente":["019"]},{"user":"maria_rosalba","pass":"3204551953","rol":"cliente","nombre":"MARÍA ROSALBA","vendedorAsoc":null,"numerosCliente":["809"]},{"user":"fabiola_gomez","pass":"3204930971","rol":"cliente","nombre":"FABIOLA GOMEZ","vendedorAsoc":null,"numerosCliente":["021"]},{"user":"jorge_luis","pass":"3205160126","rol":"cliente","nombre":"JORGE LUIS CASTAÑO","vendedorAsoc":null,"numerosCliente":["405"]},{"user":"aurelio_jimenez","pass":"3205237883","rol":"cliente","nombre":"AURELIO JIMENEZ","vendedorAsoc":null,"numerosCliente":["544"]},{"user":"bibiana_chiribica","pass":"3205339248","rol":"cliente","nombre":"BIBIANA CHIRIBICA JORDAN","vendedorAsoc":null,"numerosCliente":["838"]},{"user":"jairo_luz","pass":"3205349948","rol":"cliente","nombre":"JAIRO LUZ ELENA","vendedorAsoc":null,"numerosCliente":["114"]},{"user":"tatiana_yepes","pass":"3205467944","rol":"cliente","nombre":"TATIANA YEPES","vendedorAsoc":null,"numerosCliente":["502"]},{"user":"yolima","pass":"3205642268","rol":"cliente","nombre":"YOLIMA","vendedorAsoc":null,"numerosCliente":["401"]},{"user":"olga_quintero","pass":"3205730064","rol":"cliente","nombre":"OLGA QUINTERO","vendedorAsoc":null,"numerosCliente":["539"]},{"user":"sandra_pena","pass":"3205879904","rol":"cliente","nombre":"SANDRA PEÑA","vendedorAsoc":null,"numerosCliente":["615"]},{"user":"alejandra_hija","pass":"3206137804","rol":"cliente","nombre":"ALEJANDRA HIJA PIPETO","vendedorAsoc":null,"numerosCliente":["432"]},{"user":"german_ospina","pass":"3206310068","rol":"cliente","nombre":"GERMAN OSPINA","vendedorAsoc":null,"numerosCliente":["856"]},{"user":"santiago_zuluaga","pass":"3206329105","rol":"cliente","nombre":"SANTIAGO ZULUAGA","vendedorAsoc":null,"numerosCliente":["958"]},{"user":"pua","pass":"3206477789","rol":"cliente","nombre":"PUA","vendedorAsoc":null,"numerosCliente":["133"]},{"user":"yulieth_hija","pass":"3206493917","rol":"cliente","nombre":"YULIETH HIJA DE JAIMITO BUS","vendedorAsoc":null,"numerosCliente":["196"]},{"user":"daniela2","pass":"3206589719","rol":"cliente","nombre":"DANIELA","vendedorAsoc":null,"numerosCliente":["617"]},{"user":"wilson_giraldo","pass":"3206659508","rol":"cliente","nombre":"WILSON GIRALDO","vendedorAsoc":null,"numerosCliente":["917"]},{"user":"duvan_bascula","pass":"3206686904","rol":"cliente","nombre":"DUVAN BASCULA","vendedorAsoc":null,"numerosCliente":["896"]},{"user":"libia","pass":"3206776344","rol":"cliente","nombre":"LIBIA","vendedorAsoc":null,"numerosCliente":["403"]},{"user":"camilo_hijo","pass":"3206907348","rol":"cliente","nombre":"CAMILO HIJO DE DAMIAN","vendedorAsoc":null,"numerosCliente":["585"]},{"user":"dora_restaurante","pass":"3206931590","rol":"cliente","nombre":"DORA RESTAURANTE","vendedorAsoc":null,"numerosCliente":["146"]},{"user":"david_andres","pass":"3207105770","rol":"cliente","nombre":"DAVID ANDRES","vendedorAsoc":null,"numerosCliente":["657"]},{"user":"natalia_carolina","pass":"3207438139","rol":"cliente","nombre":"NATALIA CAROLINA GIRALDO","vendedorAsoc":null,"numerosCliente":["414"]},{"user":"kelly_martha","pass":"3207443058","rol":"cliente","nombre":"KELLY MARTHA GABRIELA","vendedorAsoc":null,"numerosCliente":["640","989"]},{"user":"ricardo_santamaria","pass":"3207555045","rol":"cliente","nombre":"RICARDO SANTAMARIA","vendedorAsoc":null,"numerosCliente":["975"]},{"user":"andres_castano","pass":"3207563674","rol":"cliente","nombre":"ANDRES CASTAÑO","vendedorAsoc":null,"numerosCliente":["601"]},{"user":"esteban_barbero","pass":"3207588005","rol":"cliente","nombre":"ESTEBAN BARBERO","vendedorAsoc":null,"numerosCliente":["658"]},{"user":"oscar_duque","pass":"3207666338","rol":"cliente","nombre":"OSCAR DUQUE","vendedorAsoc":null,"numerosCliente":["855"]},{"user":"ferney_pirulo","pass":"3207692466","rol":"cliente","nombre":"FERNEY PIRULO","vendedorAsoc":null,"numerosCliente":["768"]},{"user":"lucely_zapata","pass":"3207735132","rol":"cliente","nombre":"LUCELY ZAPATA JORDAN","vendedorAsoc":null,"numerosCliente":["145"]},{"user":"juan_carlos4","pass":"3207865411","rol":"cliente","nombre":"JUAN CARLOS BRILLAMETAL SCR","vendedorAsoc":null,"numerosCliente":["650"]},{"user":"jhonatan_barbero","pass":"3207916212","rol":"cliente","nombre":"JHONATAN BARBERO","vendedorAsoc":null,"numerosCliente":["009"]},{"user":"hijo_de","pass":"3207923454","rol":"cliente","nombre":"HIJO DE DOÑA FLOR","vendedorAsoc":null,"numerosCliente":["079"]},{"user":"piolo","pass":"3208616308","rol":"cliente","nombre":"PIOLO","vendedorAsoc":null,"numerosCliente":["423"]},{"user":"elkin_primo","pass":"3208856274","rol":"cliente","nombre":"ELKIN PRIMO","vendedorAsoc":null,"numerosCliente":["787"]},{"user":"argiro_zuluaga","pass":"3209138534","rol":"cliente","nombre":"ARGIRO ZULUAGA","vendedorAsoc":null,"numerosCliente":["962"]},{"user":"lucero_copete","pass":"3212236970","rol":"cliente","nombre":"LUCERO COPETE","vendedorAsoc":null,"numerosCliente":["727"]},{"user":"mirian_cardona","pass":"3212362956","rol":"cliente","nombre":"MIRIAN CARDONA","vendedorAsoc":null,"numerosCliente":["097"]},{"user":"david_giraldo","pass":"3212591104","rol":"cliente","nombre":"DAVID GIRALDO HERMANO NANCY","vendedorAsoc":null,"numerosCliente":["151"]},{"user":"raul2","pass":"3212724418","rol":"cliente","nombre":"RAUL","vendedorAsoc":null,"numerosCliente":["091","847"]},{"user":"edwin_torres","pass":"3213260819","rol":"cliente","nombre":"EDWIN TORRES","vendedorAsoc":null,"numerosCliente":["665"]},{"user":"alba_yaneth","pass":"3213407482","rol":"cliente","nombre":"ALBA YANETH","vendedorAsoc":null,"numerosCliente":["668"]},{"user":"miguel_b","pass":"3213610069","rol":"cliente","nombre":"MIGUEL B","vendedorAsoc":null,"numerosCliente":["070","433"]},{"user":"laura","pass":"3213692317","rol":"cliente","nombre":"LAURA","vendedorAsoc":null,"numerosCliente":["997"]},{"user":"andres_gallo","pass":"3213722105","rol":"cliente","nombre":"ANDRES GALLO BOGOTA","vendedorAsoc":null,"numerosCliente":["141","932"]},{"user":"henry_panaderia","pass":"3213842512","rol":"cliente","nombre":"HENRY PANADERIA","vendedorAsoc":null,"numerosCliente":["269"]},{"user":"yonatan_gomez","pass":"3213907212","rol":"cliente","nombre":"YONATAN GOMEZ B","vendedorAsoc":null,"numerosCliente":["170"]},{"user":"alirio","pass":"3214421022","rol":"cliente","nombre":"ALIRIO","vendedorAsoc":null,"numerosCliente":["589"]},{"user":"julio","pass":"3214636825","rol":"cliente","nombre":"JULIO","vendedorAsoc":null,"numerosCliente":["973"]},{"user":"viany","pass":"3215029004","rol":"cliente","nombre":"VIANY","vendedorAsoc":null,"numerosCliente":["224"]},{"user":"dario_motos","pass":"3215210808","rol":"cliente","nombre":"DARIO MOTOS","vendedorAsoc":null,"numerosCliente":["039"]},{"user":"amalia_cartagena","pass":"3215255035","rol":"cliente","nombre":"AMALIA CARTAGENA","vendedorAsoc":null,"numerosCliente":["336"]},{"user":"edison_carmona","pass":"3215382501","rol":"cliente","nombre":"EDISON CARMONA","vendedorAsoc":null,"numerosCliente":["960"]},{"user":"nelson_papa","pass":"3215759759","rol":"cliente","nombre":"NELSON PAPA KAREN","vendedorAsoc":null,"numerosCliente":["110"]},{"user":"marina_zuluaga","pass":"3215881398","rol":"cliente","nombre":"MARINA ZULUAGA MONICA","vendedorAsoc":null,"numerosCliente":["067"]},{"user":"juan_jose2","pass":"3215980854","rol":"cliente","nombre":"JUAN JOSE","vendedorAsoc":null,"numerosCliente":["594"]},{"user":"juan_jose3","pass":"3215980864","rol":"cliente","nombre":"JUAN JOSE","vendedorAsoc":null,"numerosCliente":["580","930"]},{"user":"beatriz_atehortua","pass":"3216213640","rol":"cliente","nombre":"BEATRIZ ATEHORTUA","vendedorAsoc":null,"numerosCliente":["285"]},{"user":"yoimar_bus","pass":"3216248270","rol":"cliente","nombre":"YOIMAR BUS GOMEZ HERNANDEZ","vendedorAsoc":null,"numerosCliente":["195"]},{"user":"socorro_morales","pass":"3216466546","rol":"cliente","nombre":"SOCORRO MORALES SUEGRA","vendedorAsoc":null,"numerosCliente":["388"]},{"user":"esposo_claudia","pass":"3216586422","rol":"cliente","nombre":"ESPOSO CLAUDIA","vendedorAsoc":null,"numerosCliente":["712","934","981"]},{"user":"adriana_garcia","pass":"3216653278","rol":"cliente","nombre":"ADRIANA GARCIA","vendedorAsoc":null,"numerosCliente":["729"]},{"user":"carlos_andres2","pass":"3216818075","rol":"cliente","nombre":"CARLOS ANDRES LAM","vendedorAsoc":null,"numerosCliente":["140"]},{"user":"nelly_totumo","pass":"3217367651","rol":"cliente","nombre":"NELLY TOTUMO","vendedorAsoc":null,"numerosCliente":["200","226","419","853"]},{"user":"norvey_volquetas","pass":"3217393109","rol":"cliente","nombre":"NORVEY VOLQUETAS","vendedorAsoc":null,"numerosCliente":["190"]},{"user":"luiza_fernanda","pass":"3217436060","rol":"cliente","nombre":"LUIZA FERNANDA CIJIN OJO","vendedorAsoc":null,"numerosCliente":["977"]},{"user":"andres_radiadores","pass":"3217479183","rol":"cliente","nombre":"ANDRES RADIADORES","vendedorAsoc":null,"numerosCliente":["072"]},{"user":"robinson_berrio","pass":"3217722263","rol":"cliente","nombre":"ROBINSON BERRIO","vendedorAsoc":null,"numerosCliente":["949"]},{"user":"daniel_valencia","pass":"3217747335","rol":"cliente","nombre":"DANIEL VALENCIA","vendedorAsoc":null,"numerosCliente":["228"]},{"user":"doris_hermana","pass":"3217747953","rol":"cliente","nombre":"DORIS HERMANA DE ALEX","vendedorAsoc":null,"numerosCliente":["024","628","935"]},{"user":"marta_coelly","pass":"3217820922","rol":"cliente","nombre":"MARTA COELLY MUÑOZ","vendedorAsoc":null,"numerosCliente":["780"]},{"user":"nikol_gallego","pass":"3217933582","rol":"cliente","nombre":"NIKOL GALLEGO","vendedorAsoc":null,"numerosCliente":["806"]},{"user":"natalia2","pass":"3218097825","rol":"cliente","nombre":"NATALIA","vendedorAsoc":null,"numerosCliente":["791"]},{"user":"natalia3","pass":"3218097827","rol":"cliente","nombre":"NATALIA","vendedorAsoc":null,"numerosCliente":["234"]},{"user":"jairo_chury","pass":"3218338972","rol":"cliente","nombre":"JAIRO CHURY","vendedorAsoc":null,"numerosCliente":["499"]},{"user":"deisy_jimenez","pass":"3218393054","rol":"cliente","nombre":"DEISY JIMENEZ","vendedorAsoc":null,"numerosCliente":["443"]},{"user":"maria_belen","pass":"3218753146","rol":"cliente","nombre":"MARIA BELEN GONZALES","vendedorAsoc":null,"numerosCliente":["095","957"]},{"user":"berto_hoyos","pass":"3218802778","rol":"cliente","nombre":"BERTO HOYOS","vendedorAsoc":null,"numerosCliente":["588"]},{"user":"sindy_sobrina","pass":"3222300863","rol":"cliente","nombre":"SINDY SOBRINA DE LUCIDO","vendedorAsoc":null,"numerosCliente":["202"]},{"user":"yeimy","pass":"3222328533","rol":"cliente","nombre":"YEIMY","vendedorAsoc":null,"numerosCliente":["082"]},{"user":"daniela_garcia","pass":"3222612971","rol":"cliente","nombre":"DANIELA GARCIA","vendedorAsoc":null,"numerosCliente":["654"]},{"user":"diego_familiar","pass":"3225170823","rol":"cliente","nombre":"DIEGO FAMILIAR DE LORENA CENTRO COMERCIAL","vendedorAsoc":null,"numerosCliente":["778"]},{"user":"dona_fanny","pass":"3225343710","rol":"cliente","nombre":"DOÑA FANNY","vendedorAsoc":null,"numerosCliente":["455"]},{"user":"jose_torres","pass":"3225468235","rol":"cliente","nombre":"JOSE TORRES","vendedorAsoc":null,"numerosCliente":["937"]},{"user":"urbey_estrada","pass":"3225605688","rol":"cliente","nombre":"URBEY ESTRADA","vendedorAsoc":null,"numerosCliente":["554"]},{"user":"claudia_hija","pass":"3225724292","rol":"cliente","nombre":"CLAUDIA HIJA DAMIAN","vendedorAsoc":null,"numerosCliente":["060","108"]},{"user":"fercho","pass":"3225781650","rol":"cliente","nombre":"FERCHO","vendedorAsoc":null,"numerosCliente":["047"]},{"user":"edison_marulanda","pass":"3225933427","rol":"cliente","nombre":"EDISON MARULANDA PRIMO Y","vendedorAsoc":null,"numerosCliente":["730"]},{"user":"daniel2","pass":"3226110513","rol":"cliente","nombre":"DANIEL","vendedorAsoc":null,"numerosCliente":["106"]},{"user":"viviana_lopez","pass":"3226114289","rol":"cliente","nombre":"VIVIANA LOPEZ","vendedorAsoc":null,"numerosCliente":["364"]},{"user":"piedad_loaiza","pass":"3226352347","rol":"cliente","nombre":"PIEDAD LOAIZA","vendedorAsoc":null,"numerosCliente":["907"]},{"user":"alejandra_esposa","pass":"3226436863","rol":"cliente","nombre":"ALEJANDRA ESPOSA MALEZA","vendedorAsoc":null,"numerosCliente":["844"]},{"user":"jesus_cargia","pass":"3226649948","rol":"cliente","nombre":"JESUS CARGIA","vendedorAsoc":null,"numerosCliente":["303","646"]},{"user":"sergio_gomez","pass":"3226777087","rol":"cliente","nombre":"SERGIO GOMEZ CACAO","vendedorAsoc":null,"numerosCliente":["346"]},{"user":"mirian_suarez","pass":"3226797846","rol":"cliente","nombre":"MIRIAN SUAREZ","vendedorAsoc":null,"numerosCliente":["925"]},{"user":"favian_dominar","pass":"3226872996","rol":"cliente","nombre":"FAVIAN DOMINAR VISTA HERMOSA","vendedorAsoc":null,"numerosCliente":["945"]},{"user":"favio_cali","pass":"3226956984","rol":"cliente","nombre":"FAVIO CALI","vendedorAsoc":null,"numerosCliente":["214","230"]},{"user":"milady2","pass":"3227528465","rol":"cliente","nombre":"MILADY","vendedorAsoc":null,"numerosCliente":["767"]},{"user":"carlos_mario2","pass":"3227634865","rol":"cliente","nombre":"CARLOS MARIO A","vendedorAsoc":null,"numerosCliente":["182"]},{"user":"gloria_cecilia","pass":"3227969413","rol":"cliente","nombre":"GLORIA CECILIA ZULUAGA","vendedorAsoc":null,"numerosCliente":["800"]},{"user":"henry_suarez","pass":"3228095771","rol":"cliente","nombre":"HENRY SUAREZ","vendedorAsoc":null,"numerosCliente":["417"]},{"user":"yaneidy","pass":"3228249060","rol":"cliente","nombre":"YANEIDY","vendedorAsoc":null,"numerosCliente":["552","795"]},{"user":"transito_esneider","pass":"3228934952","rol":"cliente","nombre":"TRANSITO ESNEIDER HIJA","vendedorAsoc":null,"numerosCliente":["516"]},{"user":"david_caballero2","pass":"3232337502","rol":"cliente","nombre":"DAVID CABALLERO","vendedorAsoc":null,"numerosCliente":["408"]},{"user":"jose_wilson","pass":"3232988346","rol":"cliente","nombre":"JOSE WILSON BLANDON","vendedorAsoc":null,"numerosCliente":["463"]},{"user":"richard_ocampo","pass":"3233165137","rol":"cliente","nombre":"RICHARD OCAMPO","vendedorAsoc":null,"numerosCliente":["395","735"]},{"user":"jhony_arango","pass":"3233165181","rol":"cliente","nombre":"JHONY ARANGO","vendedorAsoc":null,"numerosCliente":["396"]},{"user":"juan_guillermo2","pass":"3233256759","rol":"cliente","nombre":"JUAN GUILLERMO","vendedorAsoc":null,"numerosCliente":["375","664"]},{"user":"porron_aldemar","pass":"3233300310","rol":"cliente","nombre":"PORRON ALDEMAR EL JORDAN","vendedorAsoc":null,"numerosCliente":["413"]},{"user":"maleza_el","pass":"3233542137","rol":"cliente","nombre":"MALEZA EL JORDAN","vendedorAsoc":null,"numerosCliente":["094"]},{"user":"sandra_gallego","pass":"3233660659","rol":"cliente","nombre":"SANDRA GALLEGO","vendedorAsoc":null,"numerosCliente":["478"]},{"user":"chilguete_marinilla","pass":"3233998171","rol":"cliente","nombre":"CHILGUETE MARINILLA","vendedorAsoc":null,"numerosCliente":["242"]},{"user":"valeria_ana","pass":"3234215483","rol":"cliente","nombre":"VALERIA ANA","vendedorAsoc":null,"numerosCliente":["023"]},{"user":"dona_eugenia","pass":"3234334821","rol":"cliente","nombre":"DOÑA EUGENIA","vendedorAsoc":null,"numerosCliente":["217"]},{"user":"milena_nuera","pass":"3234606160","rol":"cliente","nombre":"MILENA NUERA NINA","vendedorAsoc":null,"numerosCliente":["581"]},{"user":"diana_zuluaga","pass":"3234658130","rol":"cliente","nombre":"DIANA ZULUAGA PAC","vendedorAsoc":null,"numerosCliente":["954"]},{"user":"luz_dary4","pass":"3234662906","rol":"cliente","nombre":"LUZ DARY OCAMPO","vendedorAsoc":null,"numerosCliente":["295","324"]},{"user":"cristian_salazar2","pass":"3234720250","rol":"cliente","nombre":"CRISTIAN SALAZAR","vendedorAsoc":null,"numerosCliente":["825"]},{"user":"mauricio_la","pass":"3234956544","rol":"cliente","nombre":"MAURICIO LA PISCA","vendedorAsoc":null,"numerosCliente":["314"]},{"user":"grillo_parqueadero","pass":"3235126533","rol":"cliente","nombre":"GRILLO PARQUEADERO","vendedorAsoc":null,"numerosCliente":["916"]},{"user":"uribe","pass":"3235958732","rol":"cliente","nombre":"URIBE","vendedorAsoc":null,"numerosCliente":["344"]},{"user":"julian_drogueria","pass":"3242739638","rol":"cliente","nombre":"JULIAN DROGUERIA","vendedorAsoc":null,"numerosCliente":["985"]},{"user":"erika_profe","pass":"3243169930","rol":"cliente","nombre":"ERIKA PROFE","vendedorAsoc":null,"numerosCliente":["281"]},{"user":"diana_calanchos","pass":"3243404265","rol":"cliente","nombre":"DIANA CALANCHOS","vendedorAsoc":null,"numerosCliente":["732"]},{"user":"vicki_mejia","pass":"3243728190","rol":"cliente","nombre":"VICKI MEJIA","vendedorAsoc":null,"numerosCliente":["648"]},{"user":"zuleima_gallego","pass":"3245110242","rol":"cliente","nombre":"ZULEIMA GALLEGO","vendedorAsoc":null,"numerosCliente":["367"]},{"user":"yorbenis_fernandez","pass":"3245624747","rol":"cliente","nombre":"YORBENIS FERNANDEZ","vendedorAsoc":null,"numerosCliente":["348"]},{"user":"esneider","pass":"3245867676","rol":"cliente","nombre":"ESNEIDER","vendedorAsoc":null,"numerosCliente":["569"]},{"user":"ulfredo_hermano","pass":"3246238515","rol":"cliente","nombre":"ULFREDO HERMANO LENY","vendedorAsoc":null,"numerosCliente":["926"]},{"user":"chivero_tachuela","pass":"3246265380","rol":"cliente","nombre":"CHIVERO TACHUELA EL BOBO","vendedorAsoc":null,"numerosCliente":["801"]},{"user":"juan_yarce","pass":"3246827645","rol":"cliente","nombre":"JUAN YARCE","vendedorAsoc":null,"numerosCliente":["011"]},{"user":"juan_gomez","pass":"3502456366","rol":"cliente","nombre":"JUAN GOMEZ","vendedorAsoc":null,"numerosCliente":["667"]},{"user":"richi_la","pass":"3502789334","rol":"cliente","nombre":"RICHI LA GALLINA JORDAN","vendedorAsoc":null,"numerosCliente":["211"]},{"user":"andres_morales","pass":"3505405920","rol":"cliente","nombre":"ANDRES MORALES","vendedorAsoc":null,"numerosCliente":["393"]},{"user":"ana_garcia","pass":"3506223562","rol":"cliente","nombre":"ANA GARCIA","vendedorAsoc":null,"numerosCliente":["970"]},{"user":"edgar_zuluaga","pass":"3506439352","rol":"cliente","nombre":"EDGAR ZULUAGA","vendedorAsoc":null,"numerosCliente":["215"]},{"user":"andres_electrico","pass":"3506466736","rol":"cliente","nombre":"ANDRES ELECTRICO VECINO","vendedorAsoc":null,"numerosCliente":["394"]},{"user":"darwin_kelly","pass":"3506930566","rol":"cliente","nombre":"DARWIN KELLY B","vendedorAsoc":null,"numerosCliente":["679"]},{"user":"ricardo_andres","pass":"3507535254","rol":"cliente","nombre":"RICARDO ANDRES URIBE","vendedorAsoc":null,"numerosCliente":["068"]},{"user":"leidy_mejia","pass":"3508825659","rol":"cliente","nombre":"LEIDY MEJIA","vendedorAsoc":null,"numerosCliente":["587"]},{"user":"selmira_duque","pass":"4077135632","rol":"cliente","nombre":"SELMIRA DUQUE USA","vendedorAsoc":null,"numerosCliente":["063"]},{"user":"camilo_henao","pass":"8342675723","rol":"cliente","nombre":"CAMILO HENAO MEXICO","vendedorAsoc":null,"numerosCliente":["763"]}];
+
+function getUsuarios() {
+  const extras = JSON.parse(localStorage.getItem('rifa_usuarios_extras') || '[]');
+  const edits = JSON.parse(localStorage.getItem('rifa_usuarios_edits') || '{}');
+  const deleted = new Set(JSON.parse(localStorage.getItem('rifa_usuarios_deleted') || '[]'));
+  const base = USUARIOS_BASE
+    .filter(u => !deleted.has(u.user))
+    .map(u => edits[u.user] ? {...u, ...edits[u.user]} : {...u});
+  return [...base, ...extras.filter(u => !deleted.has(u.user))];
+}
+function saveUsuarios(lista) {
+  const baseMap = {};
+  USUARIOS_BASE.forEach(u => baseMap[u.user] = u);
+  const listaUsers = new Set(lista.map(u => u.user));
+  const deleted = USUARIOS_BASE.map(u => u.user).filter(u => !listaUsers.has(u));
+  const edits = {};
+  lista.forEach(u => {
+    const base = baseMap[u.user];
+    if (base) {
+      const diff = {};
+      ['user','pass','nombre','rol','vendedorAsoc','numerosCliente'].forEach(k => {
+        if (JSON.stringify(u[k]) !== JSON.stringify(base[k])) diff[k] = u[k];
+      });
+      if (Object.keys(diff).length > 0) edits[u.user] = diff;
+    }
+  });
+  const extras = lista.filter(u => !baseMap[u.user]);
+  localStorage.setItem('rifa_usuarios_deleted', JSON.stringify(deleted));
+  localStorage.setItem('rifa_usuarios_edits', JSON.stringify(edits));
+  localStorage.setItem('rifa_usuarios_extras', JSON.stringify(extras));
+}
+let currentUser = null;
+
+function doLogin() {
+  const u = document.getElementById('login-user').value.trim();
+  const p = document.getElementById('login-pass').value.trim();
+  const usuarios = getUsuarios();
+  const found = usuarios.find(x => x.user === u && x.pass === p);
+  if (!found) {
+    document.getElementById('login-error').style.display = 'block';
+    return;
+  }
+  document.getElementById('login-error').style.display = 'none';
+  currentUser = found;
+  iniciarApp();
+}
+
+function quickLogin(u, p) {
+  document.getElementById('login-user').value = u;
+  document.getElementById('login-pass').value = p;
+  doLogin();
+}
+
+function doLogout() {
+  currentUser = null;
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('app-screen').style.display = 'none';
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-pass').value = '';
+}
+
+function iniciarApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app-screen').style.display = 'block';
+
+  // Header
+  const badge = document.getElementById('header-role-badge');
+  const rolLabels = { admin: '🛡️ Admin', vendedor: '🧾 Vendedor', cliente: '🎟️ Cliente' };
+  const rolClasses = { admin: 'role-admin', vendedor: 'role-vendedor', cliente: 'role-cliente' };
+  badge.textContent = rolLabels[currentUser.rol];
+  badge.className = 'badge-role ' + rolClasses[currentUser.rol];
+  document.getElementById('header-username').textContent = currentUser.nombre;
+
+  // Construir tabs según rol
+  buildTabs();
+
+  // Poblar select de vendedores (cobrar)
+  const sel = document.getElementById('sel-vendedor');
+  sel.innerHTML = '<option value="">-- Seleccionar vendedor --</option>';
+
+  if (currentUser.rol === 'admin') {
+    Object.keys(VENDEDORES).sort().forEach(v => {
+      const o = document.createElement('option'); o.value = v; o.textContent = v; sel.appendChild(o);
+    });
+  } else if (currentUser.rol === 'vendedor' && currentUser.vendedorAsoc) {
+    // Vendedor sólo ve su propio nombre
+    const o = document.createElement('option'); o.value = currentUser.vendedorAsoc; o.textContent = currentUser.vendedorAsoc; sel.appendChild(o);
+    sel.value = currentUser.vendedorAsoc;
+    sel.disabled = true;
+    onVendedorChange();
+  }
+
+  // Poblar select de vendedor en formulario de nuevo usuario
+  const nvSel = document.getElementById('new-vendedor-sel');
+  nvSel.innerHTML = '';
+  Object.keys(VENDEDORES).sort().forEach(v => {
+    const o = document.createElement('option'); o.value = v; o.textContent = v; nvSel.appendChild(o);
+  });
+
+  // Listeners
+  document.getElementById('new-rol').onchange = function() {
+    document.getElementById('new-vendedor-wrap').style.display = this.value === 'vendedor' ? 'block' : 'none';
+    document.getElementById('new-numeros-wrap').style.display = this.value === 'cliente' ? 'block' : 'none';
+  };
+
+  // Renderizar contenido inicial según rol
+  if (currentUser.rol === 'cliente') {
+    renderClienteEstado();
+  } else if (currentUser.rol === 'vendedor') {
+    renderVendedores();
+    renderMisClientes();
+  } else {
+    renderVendedores();
+    renderMapa();
+    renderResumen();
+    renderUsuarios();
+  }
+
+  // Activar primer tab
+  const firstTab = document.querySelector('#main-tabs .tab');
+  if (firstTab) firstTab.click();
+}
+
+function buildTabs() {
+  const tabs = document.getElementById('main-tabs');
+  tabs.innerHTML = '';
+
+  const tabsConfig = {
+    admin: [
+      { id: 'cobrar',    label: 'Cobrar' },
+      { id: 'vendedores',label: 'Vendedores' },
+      { id: 'numeros',   label: 'Mapa' },
+      { id: 'resumen',   label: 'Resumen' },
+      { id: 'usuarios',  label: '⚙️ Usuarios' },
+      { id: 'saldos',    label: '💰 Saldos' },
+    ],
+    vendedor: [
+      { id: 'cobrar',       label: 'Cobrar' },
+      { id: 'vendedores',   label: 'Mi historial' },
+      { id: 'mis-clientes', label: 'Mis compradores' },
+    ],
+    cliente: [
+      { id: 'mi-estado', label: '🎟️ Mi estado' },
+    ],
+  };
+
+  (tabsConfig[currentUser.rol] || []).forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'tab';
+    btn.textContent = t.label;
+    btn.onclick = () => showTab(t.id, btn);
+    tabs.appendChild(btn);
+  });
+}
+
+// ═══════════════════════════════════════════════
+// VISTA CLIENTE
+// ═══════════════════════════════════════════════
+function renderClienteEstado() {
+  const nums = currentUser.numerosCliente || [];
+  const bienvenida = document.getElementById('cliente-bienvenida');
+  bienvenida.innerHTML = `Hola <strong>${currentUser.nombre}</strong> 👋 — Aquí puedes consultar el estado de tus números de rifa.`;
+
+  if (nums.length === 0) {
+    document.getElementById('cliente-contenido').innerHTML =
+      '<div class="card"><div class="empty">No tienes números asignados aún.</div></div>';
+    return;
+  }
+
+  // Buscar a qué vendedor pertenecen los números
+  let vendedorDeNums = {};
+  nums.forEach(n => {
+    Object.entries(VENDEDORES).forEach(([v, arr]) => {
+      if (arr.includes(n)) vendedorDeNums[n] = v;
+    });
+  });
+
+  let totalPagado = 0;
+  let totalDeuda = nums.reduce((s, n) => s + getSaldoBase(n), 0);
+
+  let html = '';
+  nums.forEach(n => {
+    const v = vendedorDeNums[n];
+    const deuda = calcularDeudaPorNumero(v, n);
+    const pagado = getSaldoBase(n) - deuda;
+    totalPagado += pagado;
+    const pct = Math.round(pagado / (12 * CUOTA) * 100);
+    const estado = deuda === 0 ? 'Al día ✓' : pagado <= 0 ? 'Sin pagos' : 'Pago parcial';
+    const color = deuda === 0 ? 'var(--green)' : deuda === 12 * CUOTA ? 'var(--red)' : 'var(--amber)';
+
+    html += `<div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <span style="font-size:16px;font-weight:700;">
+  Número <span style="font-family:monospace;">${n}</span>
+
+  ${currentUser.rol === 'admin' ? 
+    `<button onclick="cambiarTotalNumero('${n}')" 
+      style="margin-left:8px;font-size:11px;cursor:pointer;">
+      ⚙️
+    </button>` 
+  : ''}
+</span>
+      </div>
+      <div class="grid2" style="margin-bottom:10px;">
+        <div class="metric"><div class="metric-label">Pagado</div><div class="metric-value" style="font-size:14px;color:var(--green);">${fmt(pagado)}</div></div>
+        <div class="metric"><div class="metric-label">Pendiente</div><div class="metric-value" style="font-size:14px;color:var(--red);">${fmt(deuda)}</div></div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div style="text-align:right;font-size:11px;color:var(--text2);margin-top:4px;">${pct}% pagado</div>
+    </div>`;
+  });
+
+  // Resumen total del cliente
+  const pctTotal = Math.round(totalPagado / totalDeuda * 100);
+  html = `<div class="card" style="margin-bottom:12px;">
+    <div style="font-size:13px;font-weight:600;margin-bottom:10px;">Resumen total — ${nums.length} número${nums.length > 1 ? 's' : ''}</div>
+    <div class="grid2">
+      <div class="metric"><div class="metric-label">Total pagado</div><div class="metric-value" style="font-size:14px;color:var(--green);">${fmt(totalPagado)}</div></div>
+      <div class="metric"><div class="metric-label">Total pendiente</div><div class="metric-value" style="font-size:14px;color:var(--red);">${fmt(totalDeuda - totalPagado)}</div></div>
+    </div>
+    <div class="progress-bar" style="margin-top:10px;"><div class="progress-fill" style="width:${pctTotal}%"></div></div>
+    <div style="text-align:right;font-size:11px;color:var(--text2);margin-top:4px;">${pctTotal}% recaudado del total</div>
+  </div>` + html;
+
+  document.getElementById('cliente-contenido').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════
+// VISTA VENDEDOR: MIS COMPRADORES
+// ═══════════════════════════════════════════════
+function renderMisClientes() {
+  if (currentUser.rol !== 'vendedor') return;
+  const vendedorAsoc = currentUser.vendedorAsoc;
+  const numerosVendedor = VENDEDORES[vendedorAsoc] || [];
+  const usuarios = getUsuarios();
+
+  // Clientes que tienen números de este vendedor
+  const clientes = usuarios.filter(u => u.rol === 'cliente' && (u.numerosCliente || []).some(n => numerosVendedor.includes(n)));
+
+  let html = `<div style="font-size:13px;font-weight:600;margin-bottom:14px;">Compradores con tus números</div>`;
+
+  if (clientes.length === 0) {
+    html += '<div class="empty">Ningún cliente tiene números asignados a ti.</div>';
+  } else {
+    clientes.forEach(c => {
+      const misNums = (c.numerosCliente || []).filter(n => numerosVendedor.includes(n));
+      let deudaTotal = 0;
+      misNums.forEach(n => { deudaTotal += calcularDeudaPorNumero(vendedorAsoc, n); });
+      html += `<div class="row">
+        <div>
+          <div style="font-weight:600;">${c.nombre}</div>
+          <div class="muted" style="font-size:11px;">Números: ${misNums.join(', ')}</div>
+        </div>
+        <span style="font-weight:600;color:${deudaTotal > 0 ? 'var(--red)' : 'var(--green)'};">
+          ${deudaTotal > 0 ? 'Debe ' + fmt(deudaTotal) : 'Al día ✓'}
+        </span>
+      </div>`;
+    });
+  }
+
+  document.getElementById('mis-clientes-contenido').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════
+// GESTIÓN DE USUARIOS (solo admin)
+// ═══════════════════════════════════════════════
+function renderUsuarios() {
+  const lista = getUsuarios();
+  const rolIcon = { admin: '🛡️', vendedor: '🧾', cliente: '🎟️' };
+  const rolLabel = { admin: 'Admin', vendedor: 'Vendedor', cliente: 'Cliente' };
+  const q = (document.getElementById('search-usuarios')?.value || '').toLowerCase();
+  const filtered = q ? lista.filter(u => 
+    u.nombre.toLowerCase().includes(q) || u.user.toLowerCase().includes(q) ||
+    (u.pass && u.pass.toLowerCase().includes(q)) ||
+    (u.numerosCliente || []).join(',').includes(q)
+  ) : lista;
+  let html = `<div style="font-size:11px;color:var(--text2);margin-bottom:8px;">${filtered.length} usuario${filtered.length!==1?'s':''} ${q?'encontrados':'totales'}</div>`;
+  filtered.forEach((u, i) => {
+    const realIdx = lista.indexOf(u);
+    html += `<div class="row" style="align-items:flex-start;padding:10px 0;">
+      <div style="flex:1;">
+        <div style="font-weight:600;">${rolIcon[u.rol]} ${u.nombre} <span class="muted" style="font-size:11px;">(${u.user})</span></div>
+        <div class="muted" style="font-size:11px;margin-top:2px;">
+          ${rolLabel[u.rol]}
+          ${u.rol === 'vendedor' && u.vendedorAsoc ? ' · Vendedor: ' + u.vendedorAsoc : ''}
+          ${u.rol === 'cliente' && u.numerosCliente && u.numerosCliente.length > 0 ? ' · Núms: ' + u.numerosCliente.join(', ') : ''}
+          · 🔑 ${u.pass}
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <button class="btn" style="padding:4px 10px;font-size:11px;" onclick="editarUsuario(${realIdx})">✏️ Editar</button>
+        ${lista.length > 1 ? `<button class="btn btn-danger" style="padding:4px 10px;font-size:11px;" onclick="eliminarUsuario(${realIdx})">✕</button>` : ''}
+      </div>
+    </div>`;
+  });
+  document.getElementById('lista-usuarios').innerHTML = html;
+}
+
+function editarUsuario(i) {
+  const lista = getUsuarios();
+  const u = lista[i];
+  if (!u) return;
+  
+  // Modal de edición inline
+  const overlay = document.createElement('div');
+  overlay.id = 'edit-modal-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:500;display:flex;align-items:center;justify-content:center;padding:1rem;';
+  
+  overlay.innerHTML = `
+    <div style="background:var(--bg);border-radius:14px;padding:1.5rem;width:100%;max-width:420px;box-shadow:0 8px 40px rgba(0,0,0,0.2);">
+      <div style="font-size:15px;font-weight:700;margin-bottom:1rem;">✏️ Editar usuario</div>
+      <label style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:4px;margin-top:12px;">Nombre</label>
+      <input id="edit-nombre" type="text" style="width:100%;padding:9px 12px;border:0.5px solid var(--border2);border-radius:7px;font-size:14px;background:var(--bg);color:var(--text);outline:none;" value="${u.nombre}">
+      <label style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:4px;margin-top:12px;">Usuario (login)</label>
+      <input id="edit-user" type="text" style="width:100%;padding:9px 12px;border:0.5px solid var(--border2);border-radius:7px;font-size:14px;background:var(--bg);color:var(--text);outline:none;" value="${u.user}">
+      <label style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:4px;margin-top:12px;">Contraseña / Teléfono</label>
+      <input id="edit-pass" type="text" style="width:100%;padding:9px 12px;border:0.5px solid var(--border2);border-radius:7px;font-size:14px;background:var(--bg);color:var(--text);outline:none;" value="${u.pass}">
+      ${u.rol === 'cliente' ? `
+      <label style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:4px;margin-top:12px;">Números (separados por coma)</label>
+      <input id="edit-numeros" type="text" style="width:100%;padding:9px 12px;border:0.5px solid var(--border2);border-radius:7px;font-size:14px;background:var(--bg);color:var(--text);outline:none;" value="${(u.numerosCliente||[]).join(', ')}">
+      ` : ''}
+      <div style="display:flex;gap:8px;margin-top:1.2rem;">
+        <button onclick="guardarEdicionUsuario(${i})" style="flex:1;padding:10px;background:var(--text);color:var(--bg);border:none;border-radius:7px;font-size:14px;font-weight:600;cursor:pointer;">Guardar</button>
+        <button onclick="document.getElementById('edit-modal-overlay').remove()" style="padding:10px 16px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:7px;font-size:14px;cursor:pointer;">Cancelar</button>
+      </div>
+    </div>`;
+  
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+}
+
+function guardarEdicionUsuario(i) {
+  const lista = getUsuarios();
+  const u = lista[i];
+  if (!u) return;
+  
+  const nuevoNombre = document.getElementById('edit-nombre').value.trim();
+  const nuevoUser = document.getElementById('edit-user').value.trim();
+  const nuevoPass = document.getElementById('edit-pass').value.trim();
+  
+  if (!nuevoNombre || !nuevoUser || !nuevoPass) { toast('⚠️ Completa todos los campos'); return; }
+  
+  // Check user collision
+  const collision = lista.find((x, idx) => x.user === nuevoUser && idx !== i);
+  if (collision) { toast('⚠️ Ese usuario ya existe'); return; }
+  
+  u.nombre = nuevoNombre;
+  u.user = nuevoUser;
+  u.pass = nuevoPass;
+  
+  if (u.rol === 'cliente') {
+    const raw = document.getElementById('edit-numeros')?.value || '';
+    u.numerosCliente = raw.split(',').map(s => s.trim().padStart(3,'0')).filter(Boolean);
+  }
+  
+  saveUsuarios(lista);
+  document.getElementById('edit-modal-overlay')?.remove();
+  renderUsuarios();
+  toast('✓ Usuario actualizado');
+}
+
+function agregarUsuario() {
+  const user = document.getElementById('new-user').value.trim();
+  const pass = document.getElementById('new-pass').value.trim();
+  const rol = document.getElementById('new-rol').value;
+  const nombre = user;
+
+  if (!user || !pass) { toast('⚠️ Completa usuario y contraseña'); return; }
+
+  const lista = getUsuarios();
+  if (lista.find(u => u.user === user)) { toast('⚠️ Ese usuario ya existe'); return; }
+
+  const nuevo = { user, pass, rol, nombre, vendedorAsoc: null, numerosCliente: [] };
+
+  if (rol === 'vendedor') {
+    nuevo.vendedorAsoc = document.getElementById('new-vendedor-sel').value;
+  }
+  if (rol === 'cliente') {
+    const raw = document.getElementById('new-numeros').value;
+    nuevo.numerosCliente = raw.split(',').map(s => s.trim().padStart(3,'0')).filter(Boolean);
+  }
+
+  lista.push(nuevo);
+  saveUsuarios(lista);
+  renderUsuarios();
+  document.getElementById('new-user').value = '';
+  document.getElementById('new-pass').value = '';
+  toast('✓ Usuario agregado');
+}
+
+function eliminarUsuario(i) {
+  if (!confirm('¿Eliminar este usuario?')) return;
+  const lista = getUsuarios();
+  lista.splice(i, 1);
+  saveUsuarios(lista);
+  renderUsuarios();
+  toast('Usuario eliminado');
+}
+
+// ═══════════════════════════════════════════════
+// UTILIDADES
+// ═══════════════════════════════════════════════
+function save() { localStorage.setItem('rifa_pagos', JSON.stringify(pagos)); }
+function fmt(n) { return '$' + Math.round(n).toLocaleString('es-CO'); }
+function parseCOP(s) { return parseInt((s||'0').replace(/\D/g,'')) || 0; }
+
+function toast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2200);
+  setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-function calcV(v){
-  const nums = VENDEDORES[v]||[];
-  const total = nums.length * 12 * CUOTA;
-  const pagado = (pagos[v]||[]).reduce((s,p)=>s+p.monto,0);
-  return { total, pagado, pendiente: total-pagado, nums: nums.length };
+function calcV(v) {
+  const nums = VENDEDORES[v] || [];
+  const total = nums.reduce((s, num) => s + getSaldoBase(num), 0);
+  const pagado = (pagos[v] || []).reduce((s, p) => s + p.monto, 0);
+  return { total, pagado, pendiente: Math.max(0, total - pagado), nums: nums.length };
 }
 
-function showTab(t, el){
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
-  if(el) el.classList.add('active');
-  document.getElementById('tab-'+t).classList.add('active');
-  if(t==='vendedores') renderVendedores();
-  if(t==='numeros') renderMapa();
-  if(t==='resumen') renderResumen();
+function showTab(t, el) {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(x => x.classList.remove('active'));
+  if (el) el.classList.add('active');
+  document.getElementById('tab-' + t).classList.add('active');
+
+  // Render según tab
+  if (t === 'vendedores') {
+    if (currentUser.rol === 'vendedor') {
+      // Para vendedor, el tab vendedores muestra su propio detalle
+      renderVendedores();
+      // Abrir directo su detalle
+      setTimeout(() => {
+        if (currentUser.vendedorAsoc) verDetalle(currentUser.vendedorAsoc);
+      }, 50);
+    } else {
+      renderVendedores();
+    }
+  }
+  if (t === 'numeros') renderMapa();
+  if (t === 'resumen') renderResumen();
+  if (t === 'usuarios') renderUsuarios();
+  if (t === 'mi-estado') renderClienteEstado();
+  if (t === 'mis-clientes') renderMisClientes();
+  if (t === 'saldos') renderSaldos();
 }
 
-function onVendedorChange(){
+// ═══════════════════════════════════════════════
+// COBRAR
+// ═══════════════════════════════════════════════
+function onVendedorChange() {
   const v = document.getElementById('sel-vendedor').value;
   selectedMeses = [];
   valoresPorNumero = {};
   metodoPorNumero = {};
-  if(!v){
-    document.getElementById('info-vendedor').style.display='none';
-    document.getElementById('card-meses').style.display='none';
-    document.getElementById('historial-cobrar').innerHTML='';
+  if (!v) {
+    document.getElementById('info-vendedor').style.display = 'none';
+    document.getElementById('card-meses').style.display = 'none';
+    document.getElementById('historial-cobrar').innerHTML = '';
     return;
   }
-  const {total,pagado,pendiente,nums} = calcV(v);
+  const {total, pagado, pendiente, nums} = calcV(v);
   document.getElementById('v-nums').textContent = nums;
   document.getElementById('v-abo').textContent = fmt(pagado);
   document.getElementById('v-pend').textContent = fmt(pendiente);
-  const pct = total>0 ? Math.round(pagado/total*100) : 0;
-  document.getElementById('v-prog').style.width = pct+'%';
-  document.getElementById('info-vendedor').style.display='block';
-  document.getElementById('card-meses').style.display='block';
+  const pct = total > 0 ? Math.round(pagado / total * 100) : 0;
+  document.getElementById('v-prog').style.width = pct + '%';
+  document.getElementById('info-vendedor').style.display = 'block';
+  document.getElementById('card-meses').style.display = 'block';
   renderMeses(v);
   renderHistorialCobrar(v);
 }
 
-function renderMeses(v){
-  const pagosMes = new Set((pagos[v]||[]).flatMap(p=>p.meses));
+function renderMeses(v) {
+  const pagosMes = new Set((pagos[v] || []).flatMap(p => p.meses));
   let html = '<div style="display:flex;flex-wrap:wrap;margin-bottom:4px;">';
-  MESES.forEach((m,i)=>{
+  MESES.forEach((m, i) => {
     const paid = pagosMes.has(i);
     const sel = selectedMeses.includes(i);
     html += `<span class="month-chip${sel?' selected':''}${paid?' paid':''}" onclick="toggleMes(${i})">${paid?'✓ ':''}${m}</span>`;
@@ -264,28 +879,29 @@ function renderMeses(v){
   document.getElementById('meses-container').innerHTML = html;
   const show = selectedMeses.length > 0;
   document.getElementById('bloque-modo-pago').style.display = show ? 'block' : 'none';
-  if(show) renderNumerosPago(v);
+  if (show) renderNumerosPago(v);
   updateResumen(v);
 }
 
-function toggleMes(i){
+function toggleMes(i) {
   const v = document.getElementById('sel-vendedor').value;
-  const pagosMes = new Set((pagos[v]||[]).flatMap(p=>p.meses));
-  if(pagosMes.has(i)) return;
+  const pagosMes = new Set((pagos[v] || []).flatMap(p => p.meses));
+  if (pagosMes.has(i)) return;
   const idx = selectedMeses.indexOf(i);
-  if(idx>=0) selectedMeses.splice(idx,1); else selectedMeses.push(i);
+  if (idx >= 0) selectedMeses.splice(idx, 1); else selectedMeses.push(i);
   renderMeses(v);
 }
 
-function renderNumerosPago(v){
-  const nums = VENDEDORES[v]||[];
+function renderNumerosPago(v) {
+  const nums = VENDEDORES[v] || [];
   const n = selectedMeses.length;
+
+  // Inicializar valores
   nums.forEach(num => {
-    if(valoresPorNumero[num] === undefined) valoresPorNumero[num] = CUOTA * n;
-    if(!metodoPorNumero[num]) metodoPorNumero[num] = 'efectivo';
+    if (valoresPorNumero[num] === undefined) valoresPorNumero[num] = CUOTA * n;
+    if (!metodoPorNumero[num]) metodoPorNumero[num] = 'efectivo';
   });
 
-  // Botones rápidos globales
   let html = `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
     <button class="btn" style="font-size:11px;padding:5px 10px;" onclick="setTodos('efectivo',${CUOTA*n})">💵 Todos efectivo</button>
     <button class="btn" style="font-size:11px;padding:5px 10px;" onclick="setTodos('consignacion',${CUOTA*n})">🏦 Todos consignación</button>
@@ -293,295 +909,234 @@ function renderNumerosPago(v){
   </div>`;
 
   html += `<div style="display:flex;flex-direction:column;gap:8px;">`;
+
   nums.forEach(num => {
+
+    // 🔥 CLAVE: ocultar si ya está pago totalmente
+    if (numeroPagadoTotal(v, num)) return;
+
     const metodo = metodoPorNumero[num] || 'efectivo';
-    const val = valoresPorNumero[num] !== undefined ? valoresPorNumero[num] : CUOTA*n;
+    const val = valoresPorNumero[num] ?? CUOTA * n;
     const noPaga = metodo === 'nopaga';
-    const isEfectivo = metodo === 'efectivo';
-    const isConsig = metodo === 'consignacion';
 
-    const cardBg = noPaga ? 'var(--red-bg)' : 'var(--bg2)';
-    const cardBorder = noPaga ? 'var(--red)' : isEfectivo ? 'var(--green)' : 'var(--blue)';
+    const btnStyle = (m) => `
+      cursor:pointer;
+      font-size:11px;
+      padding:4px 9px;
+      border-radius:5px;
+      border:0.5px solid;
+      transition:all 0.1s;
+      font-weight:${metodo===m?'700':'400'};
+      background:${metodo===m?(m==='efectivo'?'var(--green-bg)':m==='consignacion'?'var(--blue-bg)':'var(--red-bg)'):'var(--bg)'};
+      color:${metodo===m?(m==='efectivo'?'var(--green)':m==='consignacion'?'var(--blue)':'var(--red)'):'var(--text2)'};
+      border-color:${metodo===m?(m==='efectivo'?'var(--green)':m==='consignacion'?'var(--blue)':'var(--red)'):'var(--border2)'};
+    `;
 
-    html += `<div id="card-num-${num}" style="background:${cardBg};border:1px solid ${cardBorder};border-radius:var(--radius-sm);padding:10px 12px;transition:all 0.15s;">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
-        <!-- Número -->
-        <div style="font-size:13px;font-weight:700;min-width:48px;color:${noPaga?'var(--red)':'var(--text)'};">Nº ${num}</div>
+    html += `
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg2);border-radius:7px;">
+      
+      <span style="font-size:13px;font-weight:700;min-width:38px;font-family:monospace;">
+        ${num}
 
-        <!-- Método 3 botones -->
-        <div style="display:flex;gap:4px;flex:1;min-width:180px;">
-          <button onclick="setNumMetodo('${num}','efectivo')"
-            style="flex:1;padding:5px 6px;font-size:11px;font-weight:600;border-radius:5px;border:1px solid ${isEfectivo?'var(--green)':'var(--border)'};background:${isEfectivo?'var(--green-bg)':'var(--bg)'};color:${isEfectivo?'var(--green)':'var(--text2)'};cursor:pointer;transition:all .12s;">
-            💵 Efectivo
-          </button>
-          <button onclick="setNumMetodo('${num}','consignacion')"
-            style="flex:1;padding:5px 6px;font-size:11px;font-weight:600;border-radius:5px;border:1px solid ${isConsig?'var(--blue)':'var(--border)'};background:${isConsig?'var(--blue-bg)':'var(--bg)'};color:${isConsig?'var(--blue)':'var(--text2)'};cursor:pointer;transition:all .12s;">
-            🏦 Consig.
-          </button>
-          <button onclick="setNumMetodo('${num}','nopaga')"
-            style="flex:1;padding:5px 6px;font-size:11px;font-weight:600;border-radius:5px;border:1px solid ${noPaga?'var(--red)':'var(--border)'};background:${noPaga?'var(--red-bg)':'var(--bg)'};color:${noPaga?'var(--red)':'var(--text2)'};cursor:pointer;transition:all .12s;">
-            ✕ No paga
-          </button>
-        </div>
+        ${currentUser.rol === 'admin' ? 
+          `<span onclick="cambiarTotalNumero('${num}')" 
+            style="margin-left:6px;cursor:pointer;font-size:11px;">
+            ⚙️
+          </span>` 
+        : ''}
+      </span>
 
-        <!-- Valor -->
-        <div style="display:flex;align-items:center;gap:4px;min-width:110px;background:var(--bg);border:0.5px solid ${noPaga?'var(--red)':'var(--border2)'};border-radius:5px;padding:5px 8px;${noPaga?'opacity:0.5;pointer-events:none;':''}">
-          <span style="font-size:12px;color:var(--text2);">$</span>
-          <input type="text" inputmode="numeric" id="inp-${num}"
-            value="${!noPaga && val > 0 ? val.toLocaleString('es-CO') : ''}"
-            placeholder="0"
-            style="border:none;background:transparent;font-size:13px;font-weight:600;width:80px;padding:0;outline:none;color:var(--text);"
-            oninput="onNumValChange(this,'${num}')"
-            onfocus="this.select()"
-            ${noPaga?'disabled':''}>
-        </div>
+      <div style="display:flex;gap:4px;flex:1;flex-wrap:wrap;">
+        <button style="${btnStyle('efectivo')}" onclick="setNumMetodo('${num}','efectivo')">💵 Efectivo</button>
+        <button style="${btnStyle('consignacion')}" onclick="setNumMetodo('${num}','consignacion')">🏦 Consig.</button>
+        <button style="${btnStyle('nopaga')}" onclick="setNumMetodo('${num}','nopaga')">✕ No paga</button>
       </div>
+
+      <div style="display:flex;align-items:center;gap:4px;min-width:110px;background:var(--bg);border:0.5px solid ${noPaga?'var(--red)':'var(--border2)'};border-radius:5px;padding:5px 8px;">
+        <span style="font-size:12px;color:var(--text2);">$</span>
+        <input type="text" inputmode="numeric" id="inp-${num}"
+          value="${!noPaga && val > 0 ? val.toLocaleString('es-CO') : ''}"
+          placeholder="0"
+          style="border:none;background:transparent;font-size:13px;font-weight:600;width:80px;padding:0;outline:none;color:var(--text);"
+          oninput="onNumValChange(this,'${num}')"
+          onfocus="this.select()">
+      </div>
+
     </div>`;
   });
-  html += '</div>';
+
+  html += `</div>`;
+
   document.getElementById('numeros-pago-container').innerHTML = html;
 }
 
-function setNumMetodo(num, metodo){
+function setNumMetodo(num, metodo) {
   const n = selectedMeses.length;
   metodoPorNumero[num] = metodo;
-  if(metodo === 'nopaga'){
+  if (metodo === 'nopaga') {
     valoresPorNumero[num] = 0;
-  } else if(valoresPorNumero[num] === 0 || valoresPorNumero[num] === undefined){
+  } else if (valoresPorNumero[num] === 0 || valoresPorNumero[num] === undefined) {
     valoresPorNumero[num] = CUOTA * n;
   }
-  // Re-render just this card efficiently
   const v = document.getElementById('sel-vendedor').value;
   renderNumerosPago(v);
   updateResumen(v);
 }
 
-function onNumValChange(el, num){
-  const raw = el.value.replace(/\D/g,'');
-  valoresPorNumero[num] = parseInt(raw)||0;
+function onNumValChange(el, num) {
+  const raw = el.value.replace(/\D/g, '');
+  valoresPorNumero[num] = parseInt(raw) || 0;
   updateResumen(document.getElementById('sel-vendedor').value);
 }
 
-function setTodos(metodo, val){
+function setTodos(metodo, val) {
   const v = document.getElementById('sel-vendedor').value;
-  const nums = VENDEDORES[v]||[];
-  nums.forEach(num => {
-    metodoPorNumero[num] = metodo;
-    valoresPorNumero[num] = val;
-  });
+  const nums = VENDEDORES[v] || [];
+  nums.forEach(num => { metodoPorNumero[num] = metodo; valoresPorNumero[num] = val; });
   renderNumerosPago(v);
   updateResumen(v);
 }
 
-function updateResumen(v){
-  const nums = VENDEDORES[v]||[];
+function updateResumen(v) {
+  const nums = VENDEDORES[v] || [];
   const n = selectedMeses.length;
   const show = n > 0;
   document.getElementById('resumen-cobro').style.display = show ? 'block' : 'none';
-  if(show){
+  if (show) {
     let totalEfectivo = 0, totalConsig = 0, noPagan = 0;
     nums.forEach(num => {
       const m = metodoPorNumero[num] || 'efectivo';
       const val = valoresPorNumero[num] || 0;
-      if(m === 'nopaga' || val === 0){ noPagan++; }
-      else if(m === 'efectivo'){ totalEfectivo += val; }
-      else if(m === 'consignacion'){ totalConsig += val; }
+      if (m === 'nopaga' || val === 0) { noPagan++; }
+      else if (m === 'efectivo') { totalEfectivo += val; }
+      else if (m === 'consignacion') { totalConsig += val; }
     });
     document.getElementById('r-nums').textContent = nums.length;
-    document.getElementById('r-meses').textContent = n + ' (' + selectedMeses.map(m=>MESES[m]).join(', ') + ')';
+    document.getElementById('r-meses').textContent = n + ' (' + selectedMeses.map(m => MESES[m]).join(', ') + ')';
     document.getElementById('r-efectivo').textContent = fmt(totalEfectivo);
     document.getElementById('r-consig').textContent = fmt(totalConsig);
-    document.getElementById('r-nopagan').textContent = noPagan + ' número' + (noPagan!==1?'s':'');
+    document.getElementById('r-nopagan').textContent = noPagan + ' número' + (noPagan !== 1 ? 's' : '');
     document.getElementById('r-nopagan').style.color = noPagan > 0 ? 'var(--red)' : 'var(--text2)';
     document.getElementById('r-total').textContent = fmt(totalEfectivo + totalConsig);
   }
 }
 
-function registrarPago(){
+function registrarPago() {
   const v = document.getElementById('sel-vendedor').value;
-  if(!v || selectedMeses.length===0) return;
-
+  if (!v || selectedMeses.length === 0) return;
   const nums = VENDEDORES[v] || [];
   const monto = nums.reduce((s, num) => s + (valoresPorNumero[num] || 0), 0);
-
-  if(monto === 0){
-    toast('⚠️ El total a recibir es $0');
-    return;
-  }
-
-  if(!pagos[v]) pagos[v] = [];
-
+  if (monto === 0) { toast('⚠️ El total a recibir es $0'); return; }
+  if (!pagos[v]) pagos[v] = [];
   pagos[v].push({
-    meses: [...selectedMeses].sort((a,b) => a - b),
+    meses: [...selectedMeses].sort((a, b) => a - b),
     monto,
     valoresPorNumero: { ...valoresPorNumero },
     metodoPorNumero: { ...metodoPorNumero },
     fecha: new Date().toLocaleDateString('es-CO')
   });
-
   save();
-
   selectedMeses = [];
   valoresPorNumero = {};
   metodoPorNumero = {};
-
   toast('✓ Pago registrado: ' + fmt(monto));
   onVendedorChange();
 }
 
-
-function renderHistorialCobrar(v){
+function renderHistorialCobrar(v) {
   const ps = pagos[v] || [];
-
-  if(ps.length === 0){
-    document.getElementById('historial-cobrar').innerHTML = '';
-    return;
-  }
-
+  if (ps.length === 0) { document.getElementById('historial-cobrar').innerHTML = ''; return; }
   let html = '<div class="card"><div style="font-size:13px;font-weight:600;margin-bottom:10px;">Historial de pagos</div>';
-
   ps.forEach((p, i) => {
     const mesesStr = p.meses.map(m => MESES[m]).join(', ');
-
     let detalleMetodo = '';
-
-    if(p.metodoPorNumero){
-      detalleMetodo = Object.entries(p.metodoPorNumero)
-        .map(([num, metodo]) => {
-          let icono = '';
-          let texto = '';
-
-          if(metodo === 'efectivo'){
-            icono = '💵';
-            texto = 'Efectivo';
-          } 
-          else if(metodo === 'consignacion'){
-            icono = '🏦';
-            texto = 'Consignación';
-          } 
-          else {
-            icono = '✕';
-            texto = 'No paga';
-          }
-
-          return `${num}: ${icono} ${texto}
-<button 
-  onclick="borrarNumeroPago('${v}', ${i}, '${num}')"
-  style="
-    margin-left:6px;
-    border:none;
-    background:transparent;
-    color:var(--red);
-    cursor:pointer;
-    font-size:11px;
-    font-weight:600;
-  "
->
-✕
-</button>`;
-        })
-        .join(' · ');
+    if (p.metodoPorNumero) {
+      detalleMetodo = Object.entries(p.metodoPorNumero).map(([num, metodo]) => {
+        const icono = metodo === 'efectivo' ? '💵' : metodo === 'consignacion' ? '🏦' : '✕';
+        const texto = metodo === 'efectivo' ? 'Efectivo' : metodo === 'consignacion' ? 'Consignación' : 'No paga';
+        const canDelete = currentUser.rol === 'admin';
+        return `${num}: ${icono} ${texto}${canDelete ? `<button onclick="borrarNumeroPago('${v}',${i},'${num}')" style="margin-left:6px;border:none;background:transparent;color:var(--red);cursor:pointer;font-size:11px;font-weight:600;">✕</button>` : ''}`;
+      }).join(' · ');
     }
-
-    html += `
-      <div class="row">
-        <div style="flex:1;">
-          <div style="font-weight:500;">${mesesStr}</div>
-
-          <div class="muted" style="font-size:11px;">
-            ${p.fecha}
-          </div>
-
-          <div class="muted" style="font-size:11px;margin-top:4px;line-height:1.5;">
-            ${detalleMetodo}
-          </div>
-        </div>
-
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-weight:600;">${fmt(p.monto)}</span>
-
-          <button 
-            class="btn btn-danger"
-            style="padding:4px 10px;font-size:11px;"
-            onclick="borrarPago('${v}', ${i})"
-          >
-            ✕
-          </button>
-        </div>
+    html += `<div class="row">
+      <div style="flex:1;">
+        <div style="font-weight:500;">${mesesStr}</div>
+        <div class="muted" style="font-size:11px;">${p.fecha}</div>
+        <div class="muted" style="font-size:11px;margin-top:4px;line-height:1.5;">${detalleMetodo}</div>
       </div>
-    `;
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-weight:600;">${fmt(p.monto)}</span>
+        ${currentUser.rol === 'admin' ? `<button class="btn btn-danger" style="padding:4px 10px;font-size:11px;" onclick="borrarPago('${v}',${i})">✕</button>` : ''}
+      </div>
+    </div>`;
   });
-
   html += '</div>';
-
   document.getElementById('historial-cobrar').innerHTML = html;
 }
 
-function borrarPago(v,i){
-  if(!confirm('¿Borrar este pago?')) return;
-  pagos[v].splice(i,1);
-  if(pagos[v].length===0) delete pagos[v];
+function borrarPago(v, i) {
+  if (currentUser.rol !== 'admin') { toast('⚠️ Solo el administrador puede borrar pagos'); return; }
+  if (!confirm('¿Borrar este pago?')) return;
+  pagos[v].splice(i, 1);
+  if (pagos[v].length === 0) delete pagos[v];
   save();
   onVendedorChange();
   toast('Pago eliminado');
 }
-function borrarNumeroPago(v, indexPago, num){
-  if(!confirm(`¿Eliminar pago del número ${num}?`)) return;
 
-  if(!pagos[v] || !pagos[v][indexPago]) return;
-
+function borrarNumeroPago(v, indexPago, num) {
+  if (currentUser.rol !== 'admin') { toast('⚠️ Solo el administrador puede borrar pagos'); return; }
+  if (!confirm(`¿Eliminar pago del número ${num}?`)) return;
+  if (!pagos[v] || !pagos[v][indexPago]) return;
   const pago = pagos[v][indexPago];
-
   const valorAnterior = pago.valoresPorNumero?.[num] || 0;
-
-  // Restar del total
   pago.monto = Math.max(0, (pago.monto || 0) - valorAnterior);
-
-  // Marcar como no paga
-  if(!pago.metodoPorNumero) pago.metodoPorNumero = {};
+  if (!pago.metodoPorNumero) pago.metodoPorNumero = {};
   pago.metodoPorNumero[num] = 'nopaga';
-
-  if(!pago.valoresPorNumero) pago.valoresPorNumero = {};
+  if (!pago.valoresPorNumero) pago.valoresPorNumero = {};
   pago.valoresPorNumero[num] = 0;
-
-  // Si todo quedó en 0, eliminar el registro completo
-  const totalRestante = Object.values(pago.valoresPorNumero)
-    .reduce((s, v) => s + (v || 0), 0);
-
-  if(totalRestante === 0){
+  const totalRestante = Object.values(pago.valoresPorNumero).reduce((s, v) => s + (v || 0), 0);
+  if (totalRestante === 0) {
     pagos[v].splice(indexPago, 1);
-
-    if(pagos[v].length === 0){
-      delete pagos[v];
-    }
+    if (pagos[v].length === 0) delete pagos[v];
   }
-
   save();
   onVendedorChange();
   toast(`Pago del número ${num} eliminado`);
 }
-function calcularDeudaPorNumero(v, num){
-  const totalNumero = 12 * CUOTA;
-  let pagadoNumero = 0;
 
+function calcularDeudaPorNumero(v, num) {
+  const saldoBase = getSaldoBase(num);
+  let pagadoNumero = 0;
   (pagos[v] || []).forEach(p => {
-    if(p.valoresPorNumero && p.valoresPorNumero[num]){
+    if (p.valoresPorNumero && p.valoresPorNumero[num]) {
       pagadoNumero += p.valoresPorNumero[num] || 0;
     }
   });
-
-  return Math.max(0, totalNumero - pagadoNumero);
+  return Math.max(0, saldoBase - pagadoNumero);
+}
+function numeroPagadoTotal(v, num) {
+  return calcularDeudaPorNumero(v, num) === 0;
 }
 
-function renderVendedores(){
-  const q = (document.getElementById('search-v').value||'').toLowerCase();
-  const vs = Object.keys(VENDEDORES).filter(v=>v.toLowerCase().includes(q)).sort();
+// ═══════════════════════════════════════════════
+// VENDEDORES
+// ═══════════════════════════════════════════════
+function renderVendedores() {
+  const q = (document.getElementById('search-v').value || '').toLowerCase();
+  let vs = Object.keys(VENDEDORES).filter(v => v.toLowerCase().includes(q)).sort();
+
+  // Si es vendedor, sólo ve su propio row
+  if (currentUser.rol === 'vendedor' && currentUser.vendedorAsoc) {
+    vs = vs.filter(v => v === currentUser.vendedorAsoc);
+  }
+
   let html = '';
-  vs.forEach(v=>{
-    const {total,pagado,pendiente,nums} = calcV(v);
-    const pct = total>0?Math.round(pagado/total*100):0;
-    const badge = pct===0?'badge-red':pct>=100?'badge-green':'badge-amber';
-    const label = pct===0?'Sin pagos':pct>=100?'Al día':pct+'%';
+  vs.forEach(v => {
+    const {total, pagado, pendiente, nums} = calcV(v);
+    const pct = total > 0 ? Math.round(pagado / total * 100) : 0;
+    const badge = pct === 0 ? 'badge-red' : pct >= 100 ? 'badge-green' : 'badge-amber';
+    const label = pct === 0 ? 'Sin pagos' : pct >= 100 ? 'Al día' : pct + '%';
     html += `<div class="vendedor-row" onclick="verDetalle('${v}')">
       <span><strong>${v}</strong> <span class="muted" style="font-size:11px;margin-left:6px;">${nums} núm.</span></span>
       <span style="display:flex;align-items:center;gap:8px;">
@@ -592,15 +1147,15 @@ function renderVendedores(){
     </div>`;
   });
   document.getElementById('lista-vendedores').innerHTML = html || '<div class="empty">Sin resultados</div>';
-  document.getElementById('detalle-vendedor').style.display='none';
+  document.getElementById('detalle-vendedor').style.display = 'none';
 }
 
-function verDetalle(v){
-  const nums = VENDEDORES[v]||[];
-  const {total,pagado,pendiente} = calcV(v);
-  const pct = total>0?Math.round(pagado/total*100):0;
-  const ps = pagos[v]||[];
-  const pagosMes = new Set(ps.flatMap(p=>p.meses));
+function verDetalle(v) {
+  const nums = VENDEDORES[v] || [];
+  const {total, pagado, pendiente} = calcV(v);
+  const pct = total > 0 ? Math.round(pagado / total * 100) : 0;
+  const ps = pagos[v] || [];
+  const pagosMes = new Set(ps.flatMap(p => p.meses));
   let html = `<div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
       <span style="font-size:16px;font-weight:700;">${v}</span>
@@ -614,198 +1169,103 @@ function verDetalle(v){
     <div class="progress-bar" style="margin-bottom:12px;"><div class="progress-fill" style="width:${pct}%"></div></div>
     <div style="font-size:12px;color:var(--text2);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Meses pagados</div>
     <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;">`;
-  MESES.forEach((m,i)=>{
+  MESES.forEach((m, i) => {
     const ok = pagosMes.has(i);
-    html+=`<span style="font-size:11px;padding:3px 9px;border-radius:99px;border:0.5px solid ${ok?'var(--green)':'var(--border)'};background:${ok?'var(--green-bg)':'transparent'};color:${ok?'var(--green)':'var(--text2)'};">${ok?'✓ ':''}${m}</span>`;
+    html += `<span style="font-size:11px;padding:3px 9px;border-radius:99px;border:0.5px solid ${ok?'var(--green)':'var(--border)'};background:${ok?'var(--green-bg)':'transparent'};color:${ok?'var(--green)':'var(--text2)'};">${ok?'✓ ':''}${m}</span>`;
   });
   html += `</div>
     <div style="font-size:12px;color:var(--text2);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Números asignados (${nums.length})</div>
     <div class="num-grid">`;
   nums.forEach(n => {
-  const deuda = calcularDeudaPorNumero(v, n);
-
-  html += `
-    <div style="
-      display:inline-block;
-      margin:4px;
-      padding:8px 10px;
-      border:0.5px solid var(--border);
-      border-radius:7px;
-      background:var(--bg2);
-      min-width:110px;
-    ">
-      <div style="
-        font-size:13px;
-        font-weight:700;
-        margin-bottom:4px;
-      ">
-        Nº ${n}
-      </div>
-
-      <div style="
-        font-size:11px;
-        color:${deuda > 0 ? 'var(--red)' : 'var(--green)'};
-        font-weight:600;
-      ">
-        ${deuda > 0 ? 'Debe: ' + fmt(deuda) : 'Al día ✓'}
-      </div>
-    </div>
-  `;
-});
-  html += '</div>';
-  if(ps.length>0){
-  html += '<hr class="divider"><div style="font-size:12px;color:var(--text2);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Historial de pagos</div>';
-
-  ps.forEach(p=>{
-
-    const detalleMetodo = p.metodoPorNumero
-      ? Object.entries(p.metodoPorNumero)
-          .map(([num, metodo]) => {
-            const icono = metodo === 'efectivo'
-              ? '💵'
-              : metodo === 'consignacion'
-              ? '🏦'
-              : '✕';
-
-            const texto = metodo === 'efectivo'
-              ? 'Efectivo'
-              : metodo === 'consignacion'
-              ? 'Consignación'
-              : 'No paga';
-
-            return `${num}: ${icono} ${texto}`;
-          })
-          .join(' · ')
-      : '';
-
-    html += `
-      <div class="row" style="align-items:flex-start;">
-        <div style="flex:1;">
-          <div style="font-weight:500;">
-            ${p.meses.map(m=>MESES[m]).join(', ')}
-          </div>
-
-          <div class="muted" style="font-size:11px;">
-            ${p.fecha}
-          </div>
-
-          <div class="muted" style="font-size:11px;margin-top:4px;line-height:1.5;">
-            ${detalleMetodo}
-          </div>
-        </div>
-
-        <span style="font-weight:600;">
-          ${fmt(p.monto)}
-        </span>
-      </div>
-    `;
+    const deuda = calcularDeudaPorNumero(v, n);
+    html += `<div style="display:inline-block;margin:4px;padding:8px 10px;border:0.5px solid var(--border);border-radius:7px;background:var(--bg2);min-width:110px;">
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Nº ${n}</div>
+      <div style="font-size:11px;color:${deuda > 0 ? 'var(--red)' : 'var(--green)'};font-weight:600;">${deuda > 0 ? 'Debe: ' + fmt(deuda) : 'Al día ✓'}</div>
+    </div>`;
   });
-}
+  html += '</div>';
+  if (ps.length > 0) {
+    html += '<hr class="divider"><div style="font-size:12px;color:var(--text2);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Historial de pagos</div>';
+    ps.forEach(p => {
+      const detalleMetodo = p.metodoPorNumero
+        ? Object.entries(p.metodoPorNumero).map(([num, metodo]) => {
+            const icono = metodo === 'efectivo' ? '💵' : metodo === 'consignacion' ? '🏦' : '✕';
+            const texto = metodo === 'efectivo' ? 'Efectivo' : metodo === 'consignacion' ? 'Consignación' : 'No paga';
+            return `${num}: ${icono} ${texto}`;
+          }).join(' · ')
+        : '';
+      html += `<div class="row" style="align-items:flex-start;">
+        <div style="flex:1;">
+          <div style="font-weight:500;">${p.meses.map(m => MESES[m]).join(', ')}</div>
+          <div class="muted" style="font-size:11px;">${p.fecha}</div>
+          <div class="muted" style="font-size:11px;margin-top:4px;line-height:1.5;">${detalleMetodo}</div>
+        </div>
+        <span style="font-weight:600;">${fmt(p.monto)}</span>
+      </div>`;
+    });
+  }
   html += '</div>';
   document.getElementById('detalle-vendedor').innerHTML = html;
-  document.getElementById('detalle-vendedor').style.display='block';
-  document.getElementById('detalle-vendedor').scrollIntoView({behavior:'smooth'});
+  document.getElementById('detalle-vendedor').style.display = 'block';
+  document.getElementById('detalle-vendedor').scrollIntoView({ behavior: 'smooth' });
 }
 
-function renderMapa(){
+// ═══════════════════════════════════════════════
+// MAPA
+// ═══════════════════════════════════════════════
+function renderMapa() {
   const asignados = new Set(Object.values(VENDEDORES).flat());
-
   let html = '';
-
-  let cAsignados = 0;
-  let cLibres = 0;
-  let cParcial = 0;
-  let cCancelado = 0;
-
-  for(let i = 0; i < 1000; i++){
-    const n = String(i).padStart(3,'0');
-
-    let bg = '#D3D1C7';
-    let title = 'Libre';
-
-    if(asignados.has(n)){
+  let cAsignados = 0, cLibres = 0, cParcial = 0, cCancelado = 0;
+  for (let i = 0; i < 1000; i++) {
+    const n = String(i).padStart(3, '0');
+    let bg = '#D3D1C7', title = 'Libre';
+    if (asignados.has(n)) {
       cAsignados++;
-
       let totalPagadoNumero = 0;
-
       Object.entries(pagos).forEach(([v, ps]) => {
         (ps || []).forEach(p => {
-          if(p.valoresPorNumero && p.valoresPorNumero[n]){
-            totalPagadoNumero += p.valoresPorNumero[n] || 0;
-          }
+          if (p.valoresPorNumero && p.valoresPorNumero[n]) totalPagadoNumero += p.valoresPorNumero[n] || 0;
         });
       });
-
-      const totalCompleto = 12 * CUOTA;
-
-      if(totalPagadoNumero <= 0){
-        bg = '#FAEEDA';
-        title = 'Asignado';
-      }
-      else if(totalPagadoNumero < totalCompleto){
-        bg = '#D9ECFF';
-        title = 'Pago parcial';
-        cParcial++;
-      }
-      else{
-        bg = '#C0DD97';
-        title = 'Cancelado total';
-        cCancelado++;
-      }
-    }
-    else{
-      cLibres++;
-    }
-
-    html += `
-  <span
-    title="${n} — ${title}"
-    style="
-      display:inline-block;
-      width:28px;
-      height:20px;
-      background:${bg};
-      border-radius:3px;
-      font-size:8px;
-      line-height:20px;
-      text-align:center;
-      color:#555;
-      cursor:default;
-    "
-  >
-    ${n}
-  </span>
-`;
+      const totalCompleto = getSaldoBase(n);
+      if (totalPagadoNumero <= 0) { bg = '#FAEEDA'; title = 'Asignado'; }
+      else if (totalPagadoNumero < totalCompleto) { bg = '#D9ECFF'; title = 'Pago parcial'; cParcial++; }
+      else { bg = '#C0DD97'; title = 'Cancelado total'; cCancelado++; }
+    } else { cLibres++; }
+    html += `<span title="${n} — ${title}" style="display:inline-block;width:28px;height:20px;background:${bg};border-radius:3px;font-size:8px;line-height:20px;text-align:center;color:#555;cursor:default;">${n}</span>`;
   }
-
   document.getElementById('mapa-numeros').innerHTML = html;
-
   document.getElementById('map-a').textContent = cAsignados;
   document.getElementById('map-l').textContent = cLibres;
   document.getElementById('map-p').textContent = cParcial + cCancelado;
 }
-function renderResumen(){
+
+// ═══════════════════════════════════════════════
+// RESUMEN
+// ═══════════════════════════════════════════════
+function renderResumen() {
   const vs = Object.keys(VENDEDORES).sort();
-  let totalDeuda=0, totalPagado=0;
-  vs.forEach(v=>{ const c=calcV(v); totalDeuda+=c.total; totalPagado+=c.pagado; });
-  const pct = totalDeuda>0?Math.round(totalPagado/totalDeuda*100):0;
+  let totalDeuda = 0, totalPagado = 0;
+  vs.forEach(v => { const c = calcV(v); totalDeuda += c.total; totalPagado += c.pagado; }); // totalDeuda = deuda esperada hasta mes 3
+  const pct = totalDeuda > 0 ? Math.round(totalPagado / totalDeuda * 100) : 0;
   document.getElementById('resumen-global').innerHTML = `
-    <div style="font-size:13px;font-weight:600;margin-bottom:12px;">Resumen general</div>
+    <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Resumen general</div><div style="font-size:11px;color:var(--text2);margin-bottom:12px;">Estado al mes ${MESES_CORRIDOS} de 12 — ${MESES.slice(0,MESES_CORRIDOS).join(", ")}</div>
     <div class="grid3">
       <div class="metric"><div class="metric-label">Vendedores</div><div class="metric-value">${vs.length}</div></div>
       <div class="metric"><div class="metric-label">Total recaudado</div><div class="metric-value" style="font-size:13px;color:var(--green);">${fmt(totalPagado)}</div></div>
-      <div class="metric"><div class="metric-label">Total pendiente</div><div class="metric-value" style="font-size:13px;color:var(--red);">${fmt(totalDeuda-totalPagado)}</div></div>
+      <div class="metric"><div class="metric-label">Total pendiente</div><div class="metric-value" style="font-size:13px;color:var(--red);">${fmt(totalDeuda - totalPagado)}</div></div>
     </div>
     <div class="progress-bar" style="margin-top:10px;"><div class="progress-fill" style="width:${pct}%"></div></div>
     <div style="text-align:right;font-size:11px;color:var(--text2);margin-top:4px;">${pct}% recaudado del total</div>`;
 
   let html = '';
-  vs.forEach(v=>{
-    const {total,pagado,pendiente,nums} = calcV(v);
-    const pctV = total>0?Math.round(pagado/total*100):0;
-    const badge = pctV===0?'badge-red':pctV>=100?'badge-green':'badge-amber';
-    const label = pctV===0?'Sin pagos':pctV>=100?'Al día':pctV+'%';
-    html+=`<div class="row">
+  vs.forEach(v => {
+    const {total, pagado, pendiente, nums} = calcV(v);
+    const pctV = total > 0 ? Math.round(pagado / total * 100) : 0;
+    const badge = pctV === 0 ? 'badge-red' : pctV >= 100 ? 'badge-green' : 'badge-amber';
+    const label = pctV === 0 ? 'Sin pagos' : pctV >= 100 ? 'Al día' : pctV + '%';
+    html += `<div class="row">
       <span><strong>${v}</strong> <span class="muted" style="font-size:11px;">${nums} núm.</span></span>
       <span style="display:flex;align-items:center;gap:8px;"><span style="font-size:12px;">${fmt(pagado)} / ${fmt(total)}</span><span class="badge ${badge}">${label}</span></span>
     </div>`;
@@ -813,8 +1273,9 @@ function renderResumen(){
   document.getElementById('resumen-tabla').innerHTML = html;
 }
 
-function confirmarBorrar(){
-  if(confirm('¿Seguro que quieres borrar TODOS los pagos registrados? Esta acción no se puede deshacer.')){
+function confirmarBorrar() {
+  if (currentUser.rol !== 'admin') { toast('⚠️ Solo el administrador puede hacer esto'); return; }
+  if (confirm('¿Seguro que quieres borrar TODOS los pagos registrados? Esta acción no se puede deshacer.')) {
     pagos = {};
     save();
     toast('Todos los pagos fueron eliminados');
@@ -822,15 +1283,164 @@ function confirmarBorrar(){
   }
 }
 
-(function init(){
-  const sel = document.getElementById('sel-vendedor');
-  Object.keys(VENDEDORES).sort().forEach(v=>{
-    const o = document.createElement('option');
-    o.value=v; o.textContent=v; sel.appendChild(o);
+// ═══════════════════════════════════════════════
+// EDICIÓN DE SALDOS (solo admin)
+// ═══════════════════════════════════════════════
+
+// Mapa rápido numero -> cliente (construido una vez)
+let _numClienteMap = null;
+function getNumClienteMap() {
+  if (_numClienteMap) return _numClienteMap;
+  _numClienteMap = {};
+  getUsuarios().filter(u => u.rol === 'cliente').forEach(u => {
+    (u.numerosCliente || []).forEach(n => { _numClienteMap[n] = u.nombre; });
   });
-  renderVendedores();
-  renderMapa();
-})();
+  // Also map vendedor names
+  Object.entries(VENDEDORES).forEach(([v, nums]) => {
+    nums.forEach(n => { if (!_numClienteMap[n]) _numClienteMap[n] = v; });
+  });
+  return _numClienteMap;
+}
+
+function renderSaldos() {
+  const q = (document.getElementById('saldo-search')?.value || '').trim().toLowerCase();
+  const map = getNumClienteMap();
+  
+  // Build list of all 1000 numbers
+  let nums = [];
+  for (let i = 0; i < 1000; i++) {
+    const n = String(i).padStart(3,'0');
+    nums.push(n);
+  }
+  
+  // Filter
+  if (q) {
+    nums = nums.filter(n => {
+      const cliente = (map[n] || '').toLowerCase();
+      return n.includes(q) || cliente.includes(q);
+    });
+  } else {
+    // Show only overridden + first 50 when no filter
+    const overridden = nums.filter(n => saldosOverride.hasOwnProperty(n));
+    const rest = nums.filter(n => !saldosOverride.hasOwnProperty(n)).slice(0, 50);
+    nums = [...overridden, ...rest];
+  }
+  
+  const total = q ? nums.length : 1000;
+  let html = `<div style="font-size:11px;color:var(--text2);margin-bottom:10px;">
+    ${saldosOverride && Object.keys(saldosOverride).length > 0 
+      ? `<span style="color:var(--amber);font-weight:600;">${Object.keys(saldosOverride).length} número${Object.keys(saldosOverride).length!==1?'s':''} con saldo modificado</span> · ` 
+      : ''}
+    ${q ? `${nums.length} resultados` : `Mostrando ${nums.length} de 1000 — usa el buscador para ver todos`}
+  </div>`;
+  
+  nums.forEach(n => {
+    const cliente = map[n] || '—';
+    const saldoActual = getSaldoBase(n);
+    const saldoCSV = SALDOS_CSV[n] ?? '—';
+    const modificado = saldosOverride.hasOwnProperty(n);
+    
+    html += `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border);">
+      <span style="font-family:monospace;font-size:13px;font-weight:700;min-width:36px;">${n}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${cliente}</div>
+        ${modificado ? `<div style="font-size:10px;color:var(--amber);">CSV original: ${fmt(saldoCSV)} · Modificado ↑</div>` : ''}
+      </div>
+      <span style="font-size:13px;font-weight:700;color:${saldoActual===0?'var(--green)':'var(--red)'};">${fmt(saldoActual)}</span>
+      <button class="btn" style="padding:4px 10px;font-size:11px;white-space:nowrap;" onclick="editarSaldo('${n}')">✏️ Editar</button>
+      ${modificado ? `<button class="btn btn-danger" style="padding:4px 8px;font-size:11px;" title="Restaurar valor del CSV" onclick="restaurarSaldo('${n}')">↺</button>` : ''}
+    </div>`;
+  });
+  
+  document.getElementById('saldos-lista').innerHTML = html;
+}
+
+function editarSaldo(num) {
+  const map = getNumClienteMap();
+  const cliente = map[num] || 'Sin asignar';
+  const actual = getSaldoBase(num);
+  const csvVal = SALDOS_CSV[num] ?? 'N/A';
+  
+  const overlay = document.createElement('div');
+  overlay.id = 'saldo-modal-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:500;display:flex;align-items:center;justify-content:center;padding:1rem;';
+  overlay.innerHTML = `
+    <div style="background:var(--bg);border-radius:14px;padding:1.5rem;width:100%;max-width:380px;box-shadow:0 8px 40px rgba(0,0,0,0.2);">
+      <div style="font-size:15px;font-weight:700;margin-bottom:4px;">💰 Editar saldo — Nº ${num}</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:4px;">${cliente}</div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:1.2rem;">Valor CSV original: <strong>${fmt(csvVal)}</strong></div>
+      <label style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:6px;">Nuevo saldo pendiente</label>
+      <div style="display:flex;align-items:center;gap:6px;border:0.5px solid var(--border2);border-radius:7px;padding:8px 12px;">
+        <span style="font-size:14px;color:var(--text2);">$</span>
+        <input id="saldo-nuevo-val" type="text" inputmode="numeric"
+          value="${actual.toLocaleString('es-CO')}"
+          style="border:none;background:transparent;font-size:16px;font-weight:700;width:100%;outline:none;color:var(--text);"
+          onfocus="this.select()"
+          oninput="this.value=this.value.replace(/[^\d]/g,'')">
+      </div>
+      <div style="display:flex;gap:8px;margin-top:1.2rem;">
+        <button onclick="guardarSaldo('${num}')" style="flex:1;padding:10px;background:var(--text);color:var(--bg);border:none;border-radius:7px;font-size:14px;font-weight:600;cursor:pointer;">Guardar</button>
+        <button onclick="document.getElementById('saldo-modal-overlay').remove()" style="padding:10px 16px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:7px;font-size:14px;cursor:pointer;">Cancelar</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  setTimeout(() => document.getElementById('saldo-nuevo-val')?.focus(), 100);
+}
+
+function guardarSaldo(num) {
+  const raw = document.getElementById('saldo-nuevo-val')?.value || '';
+  const valor = parseInt(raw.replace(/\D/g,''));
+  if (isNaN(valor) || valor < 0) { toast('⚠️ Valor inválido'); return; }
+  saldosOverride[num] = valor;
+  saveSaldosOverride();
+  document.getElementById('saldo-modal-overlay')?.remove();
+  renderSaldos();
+  toast(`✓ Saldo Nº ${num} actualizado: ${fmt(valor)}`);
+}
+
+function restaurarSaldo(num) {
+  if (!confirm(`¿Restaurar el saldo del número ${num} al valor original del CSV?`)) return;
+  delete saldosOverride[num];
+  saveSaldosOverride();
+  renderSaldos();
+  toast(`↺ Nº ${num} restaurado al valor del CSV`);
+}
+
+function resetearOverrides() {
+  if (Object.keys(saldosOverride).length === 0) { toast('No hay saldos modificados'); return; }
+  if (!confirm('¿Restaurar TODOS los saldos al valor original del CSV?')) return;
+  saldosOverride = {};
+  saveSaldosOverride();
+  renderSaldos();
+  toast('↺ Todos los saldos restaurados');
+}
+
+function cambiarTotalNumero(num) {
+  if (currentUser.rol !== 'admin') {
+    toast('⚠️ Solo el administrador puede hacer esto');
+    return;
+  }
+
+  let nuevo = prompt(
+    `Nuevo valor total para el número ${num}`,
+    totalPersonalizado[num] || (12 * CUOTA)
+  );
+
+  if (nuevo === null) return;
+
+  nuevo = parseInt(nuevo.toString().replace(/\D/g, ''));
+
+  if (!nuevo || nuevo <= 0) {
+    toast('⚠️ Valor inválido');
+    return;
+  }
+
+  totalPersonalizado[num] = nuevo;
+  saveTotales();
+
+  toast(`✓ Nuevo total: ${fmt(nuevo)}`);
+}
 </script>
 </body>
 </html>
